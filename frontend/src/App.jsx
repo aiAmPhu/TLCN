@@ -5,7 +5,7 @@ import UserList from "./components/UserList";
 
 function App() {
     const [users, setUsers] = useState([]);
-    const [isEditing, setIsEditing] = useState(false);
+    const [isFormVisible, setIsFormVisible] = useState(false); // Trạng thái hiển thị Form
     const [userToEdit, setUserToEdit] = useState(null);
 
     useEffect(() => {
@@ -22,16 +22,42 @@ function App() {
         fetchUsers();
     }, []);
 
+    const handleAddClick = () => {
+        setUserToEdit(null); // Không chỉnh sửa user nào (chế độ thêm mới)
+        setIsFormVisible(true); // Hiển thị Form
+    };
+
+    const handleEditClick = (user) => {
+        setUserToEdit(user); // Thiết lập user cần chỉnh sửa
+        setIsFormVisible(true); // Hiển thị Form
+    };
+
+    const handleFormClose = () => {
+        setIsFormVisible(false); // Ẩn Form khi đóng
+        setUserToEdit(null); // Reset user cần chỉnh sửa
+    };
+
     return (
         <div className="App">
             <h1>User Management</h1>
-            <UserForm
-                userId={userToEdit?._id}
+
+            {/* Chỉ hiển thị UserForm khi isFormVisible là true */}
+            {isFormVisible && (
+                <UserForm
+                    userId={userToEdit?._id}
+                    setUsers={setUsers}
+                    setIsEditing={setIsFormVisible}
+                    userToEdit={userToEdit}
+                    onClose={handleFormClose} // Đóng Form khi hoàn tất thêm/sửa
+                />
+            )}
+
+            <UserList
+                users={users}
                 setUsers={setUsers}
-                setIsEditing={setIsEditing}
-                userToEdit={userToEdit}
+                onAddClick={handleAddClick} // Thêm nút Add vào UserList
+                onEditClick={handleEditClick} // Chỉnh sửa User
             />
-            <UserList users={users} setUsers={setUsers} setIsEditing={setIsEditing} setUserToEdit={setUserToEdit} />
         </div>
     );
 }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const UserForm = ({ userId, setUsers, setIsEditing, userToEdit }) => {
+const UserForm = ({ userId, setUsers, setIsEditing, userToEdit, onClose }) => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -17,15 +17,13 @@ const UserForm = ({ userId, setUsers, setIsEditing, userToEdit }) => {
             setPassword("");
         }
     }, [userToEdit]);
-    // Kiểm tra nếu tất cả các trường dữ liệu bị xóa
-    const isFormEmpty = !name && !email && !password;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const newUser = { name, email, password };
 
         try {
-            if (userId && !isFormEmpty) {
+            if (userId) {
                 // Cập nhật user
                 await axios.put(`http://localhost:8080/api/users/update/${userId}`, newUser);
             } else {
@@ -33,24 +31,17 @@ const UserForm = ({ userId, setUsers, setIsEditing, userToEdit }) => {
                 await axios.post("http://localhost:8080/api/users/add", newUser);
             }
 
-            // Cập nhật danh sách người dùng sau khi thêm hoặc sửa
+            // Cập nhật danh sách user sau khi thêm/sửa
             const response = await axios.get("http://localhost:8080/api/users/getall");
             setUsers(response.data);
 
-            // Reset form và đóng chế độ chỉnh sửa
-            setName("");
-            setEmail("");
-            setPassword("");
-            setIsEditing(false);
+            // Đóng Form
+            onClose();
         } catch (error) {
             console.error("Error submitting form", error);
         }
     };
-    useEffect(() => {
-        if (isFormEmpty) {
-            setIsEditing(false);
-        }
-    }, [isFormEmpty, setIsEditing]);
+
     return (
         <form onSubmit={handleSubmit} className="space-y-4 p-4 border border-gray-300 rounded shadow-md">
             <input
@@ -77,9 +68,18 @@ const UserForm = ({ userId, setUsers, setIsEditing, userToEdit }) => {
                 required
                 className="w-full p-2 border border-gray-300 rounded"
             />
-            <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">
-                {userId ? "Update User" : "Add User"}
-            </button>
+            <div className="flex justify-between">
+                <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+                    {userId ? "Update User" : "Add User"}
+                </button>
+                <button
+                    type="button"
+                    onClick={onClose}
+                    className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600"
+                >
+                    Cancel
+                </button>
+            </div>
         </form>
     );
 };
