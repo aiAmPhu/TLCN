@@ -9,7 +9,10 @@ function App() {
             <div className="flex">
                 {/* Sidebar */}
                 <div className="w-1/6 h-screen bg-gray-800 text-white p-4">
-                    <h2 className="text-xl font-bold mb-4">Admin Panel</h2>
+                    <h2 className="text-xl font-bold mb-4 text-center">
+                        <span>Admin</span>
+                        <span className="text-yellow-500">Panel</span>
+                    </h2>
                     <ul>
                         <li>
                             <Link to="/user" className="flex items-center p-2 hover:bg-gray-700 rounded">

@@ -28,6 +28,15 @@ export const updateUser = async (req, res) => {
         const { id } = req.params;
         const { name, email, password } = req.body;
 
+        // Kiểm tra xem email có trùng với bất kỳ người dùng nào ngoài người dùng hiện tại không
+        const existingUser = await User.findOne({ email });
+
+        if (existingUser && existingUser._id.toString() !== id) {
+            // Nếu email đã tồn tại và không phải là của người dùng hiện tại
+            return res.status(400).json({ message: "Email already exists" });
+        }
+
+        // Cập nhật thông tin người dùng
         const updatedUser = await User.findByIdAndUpdate(
             id,
             { name, email, password },
