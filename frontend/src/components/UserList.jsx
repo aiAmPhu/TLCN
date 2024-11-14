@@ -2,10 +2,13 @@
 import React, { useState } from "react";
 import axios from "axios";
 import InfoModal from "../Modals/InfoModal";
+import UserFormModal from "../Modals/UserFormModal";
 
 const UserList = ({ users, setUsers, onAddClick, onEditClick }) => {
     const [selectedUser, setSelectedUser] = useState(null);
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [userToEdit, setUserToEdit] = useState(null);
+    const [isEditing, setIsEditing] = useState(false);
     const handleDelete = async (id) => {
         try {
             await axios.delete(`http://localhost:8080/api/users/delete/${id}`);
@@ -21,6 +24,18 @@ const UserList = ({ users, setUsers, onAddClick, onEditClick }) => {
         setSelectedUser(user);
     };
 
+    const handleEdit = (user) => {
+        setUserToEdit(user);
+        setIsEditing(true);
+        setIsModalOpen(true); // Mở modal chỉnh sửa
+    };
+
+    const handleAddUser = () => {
+        setUserToEdit(null); // Đặt userToEdit là null cho form thêm mới
+        setIsEditing(false); // Đặt chế độ là thêm mới
+        setIsModalOpen(true); // Mở modal thêm mới
+    };
+
     const handleCloseModal = () => {
         setSelectedUser(null); // Đóng modal
     };
@@ -30,7 +45,10 @@ const UserList = ({ users, setUsers, onAddClick, onEditClick }) => {
             <h2 className="text-xl font-semibold mb-4">User List</h2>
 
             {/* Nút Add */}
-            <button onClick={onAddClick} className="bg-green-500 text-white py-1 px-3 rounded hover:bg-green-600 mb-4">
+            <button
+                onClick={handleAddUser}
+                className="bg-green-500 text-white py-1 px-3 rounded hover:bg-green-600 mb-4"
+            >
                 Add User
             </button>
 
@@ -43,7 +61,7 @@ const UserList = ({ users, setUsers, onAddClick, onEditClick }) => {
                         {user.name} ({user.email})
                         <div className="flex ml-auto">
                             <button
-                                onClick={() => onEditClick(user)}
+                                onClick={() => handleEdit(user)}
                                 className="bg-yellow-500 text-white py-1 px-3 rounded hover:bg-yellow-600 mr-2"
                             >
                                 Edit
@@ -64,7 +82,15 @@ const UserList = ({ users, setUsers, onAddClick, onEditClick }) => {
                     </li>
                 ))}
             </ul>
-
+            {isModalOpen && (
+                <UserFormModal
+                    userId={userToEdit?._id}
+                    userToEdit={userToEdit}
+                    setUsers={setUsers}
+                    onClose={() => setIsModalOpen(false)} // Đóng modal
+                    isEditing={isEditing}
+                />
+            )}
             {/* Modal hiển thị chi tiết thông tin người dùng */}
             <InfoModal user={selectedUser} onClose={handleCloseModal} />
         </div>
