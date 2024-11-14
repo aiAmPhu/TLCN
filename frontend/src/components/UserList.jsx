@@ -59,7 +59,7 @@ const UserList = ({ users, setUsers }) => {
                         key={user._id}
                         className="flex justify-between items-center p-4 border border-gray-200 rounded shadow-sm"
                     >
-                        {user.name} ({user.email})
+                        {user.name} {/* ({user.email}) */}
                         <div className="flex ml-auto">
                             <button
                                 onClick={() => handleEdit(user)}
