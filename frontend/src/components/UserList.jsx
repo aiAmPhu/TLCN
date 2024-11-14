@@ -4,19 +4,21 @@ import axios from "axios";
 import InfoModal from "../Modals/InfoModal";
 import UserFormModal from "../Modals/UserFormModal";
 
-const UserList = ({ users, setUsers, onAddClick, onEditClick }) => {
+const UserList = ({ users, setUsers }) => {
     const [selectedUser, setSelectedUser] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [userToEdit, setUserToEdit] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
-    const handleDelete = async (id) => {
-        try {
-            await axios.delete(`http://localhost:8080/api/users/delete/${id}`);
-            // Cập nhật danh sách user sau khi xóa
-            const response = await axios.get("http://localhost:8080/api/users/getall");
-            setUsers(response.data);
-        } catch (error) {
-            console.error("Error deleting user", error);
+    const handleDelete = async (user) => {
+        const confirmDelete = window.confirm(`Are you sure you want to delete ${user.name}?`);
+        if (confirmDelete) {
+            try {
+                await axios.delete(`http://localhost:8080/api/users/delete/${user._id}`);
+                const response = await axios.get("http://localhost:8080/api/users/getall");
+                setUsers(response.data); // Cập nhật lại danh sách người dùng sau khi xóa
+            } catch (error) {
+                console.error("Error deleting user", error);
+            }
         }
     };
 
@@ -35,14 +37,13 @@ const UserList = ({ users, setUsers, onAddClick, onEditClick }) => {
         setIsEditing(false); // Đặt chế độ là thêm mới
         setIsModalOpen(true); // Mở modal thêm mới
     };
-
     const handleCloseModal = () => {
         setSelectedUser(null); // Đóng modal
     };
 
     return (
-        <div>
-            <h2 className="text-xl font-semibold mb-4">User List</h2>
+        <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
+            <h2 className="text-center text-2xl font-semibold mb-6">User List</h2>
 
             {/* Nút Add */}
             <button
@@ -67,7 +68,7 @@ const UserList = ({ users, setUsers, onAddClick, onEditClick }) => {
                                 Edit
                             </button>
                             <button
-                                onClick={() => handleDelete(user._id)}
+                                onClick={() => handleDelete(user)}
                                 className="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 mr-2"
                             >
                                 Delete
@@ -91,6 +92,7 @@ const UserList = ({ users, setUsers, onAddClick, onEditClick }) => {
                     isEditing={isEditing}
                 />
             )}
+
             {/* Modal hiển thị chi tiết thông tin người dùng */}
             <InfoModal user={selectedUser} onClose={handleCloseModal} />
         </div>
