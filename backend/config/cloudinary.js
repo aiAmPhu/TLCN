@@ -1,11 +1,11 @@
 // config/cloudinary.js
-const cloudinary = require("cloudinary").v2;
+import { v2 as cloudinary } from "cloudinary";
 
 // Cấu hình Cloudinary
 cloudinary.config({
-    cloud_name: "your-cloud-name", // Thay bằng tên Cloudinary của bạn
-    api_key: "your-api-key", // Thay bằng API Key
-    api_secret: "your-api-secret", // Thay bằng API Secret
+    cloud_name: "dlum0st9k", // tên Cloudinary
+    api_key: "587847345264168", // API Key
+    api_secret: "49U21eHC5eXgAtXJYYPgRT3ZtIA", // API Secret
 });
 
-module.exports = cloudinary;
+export default cloudinary;

@@ -21,6 +21,10 @@ const InfoModal = ({ user, onClose }) => {
                     <p>
                         <strong>Role:</strong> {user.role}
                     </p>
+                    <p>
+                        <strong>Picture:</strong>
+                        <img src={user.pic} className="ml-[100px] rounded-md" />
+                    </p>
                 </div>
                 <div className="mt-4 flex justify-end">
                     <button onClick={onClose} className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600">

@@ -11,17 +11,21 @@ const UserFormModal = ({ userId, userToEdit, setUsers, onClose, isEditing }) => 
     const [showPassword, setShowPassword] = useState(false);
     const [role, setRole] = useState("1");
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [image, setImage] = useState(null);
+    let [pic, setPic] = useState(null);
     useEffect(() => {
         if (userToEdit) {
             setName(userToEdit.name);
             setEmail(userToEdit.email);
             setPassword(userToEdit.password);
             setRole(userToEdit.role);
+            setPic(userToEdit.pic);
         } else {
             setName("");
             setEmail("");
             setPassword("");
             setRole("1");
+            setPic("");
         }
     }, [userToEdit]);
 
@@ -31,7 +35,14 @@ const UserFormModal = ({ userId, userToEdit, setUsers, onClose, isEditing }) => 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const newUser = { name, email, password, role };
+        const newUser = {
+            name,
+            email,
+            password,
+            role,
+            pic: "https://res.cloudinary.com/dlum0st9k/image/upload/v1731705123/pngwing.com_1_x0zbek.png",
+        };
+
         try {
             if (isEditing && userId) {
                 // Cập nhật user
@@ -47,13 +58,44 @@ const UserFormModal = ({ userId, userToEdit, setUsers, onClose, isEditing }) => 
             // Đóng modal sau khi submit
             onClose();
         } catch (error) {
-            // Hiển thị lỗi từ backend
             if (error.response && error.response.data) {
-                setError("Email đã được sử dụng."); // Hiển thị thông báo lỗi từ backend
+                // Kiểm tra mã lỗi trong dữ liệu phản hồi
+                const { errorCode, message } = error.response.data;
+
+                // Kiểm tra các mã lỗi khác nhau
+                if (error.status === 400) {
+                    setError(message || "Trùng email"); // Hiển thị thông báo lỗi "Trùng email" nếu mã lỗi là 400
+                } else if (error.status === 500) {
+                    setError("Vui lòng điền đầy đủ thông tin"); // Hiển thị thông báo lỗi nếu mã lỗi là 1
+                } else {
+                    setError("Đã xảy ra lỗi, vui lòng thử lại."); // Hiển thị thông báo lỗi chung
+                }
             } else {
-                setError("An error occurred, please try again."); // Nếu có lỗi khác
+                // Hiển thị lỗi mặc định nếu không có lỗi phản hồi từ backend
+                setError("Đã xảy ra lỗi, vui lòng thử lại nè.");
             }
         }
+    };
+
+    const handleUpload = async () => {
+        const formData = new FormData();
+        formData.append("image", image); // Gửi file trong formData
+
+        try {
+            const res = await axios.post("http://localhost:8080/api/upload", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+            setPic(res.data.imageUrl);
+            console.log("Image uploaded successfully:", res.data.imageUrl);
+        } catch (err) {
+            console.log("Error uploading image:", err);
+        }
+    };
+
+    const handleImageChange = async (e) => {
+        setImage(e.target.files[0]); // Lấy file từ input
     };
 
     return (
@@ -128,6 +170,22 @@ const UserFormModal = ({ userId, userToEdit, setUsers, onClose, isEditing }) => 
                             )}
                         </div>
                     </div>
+                    <div className="flex items-center">
+                        <input type="file" onChange={handleImageChange} accept="image/*" />
+                        <button
+                            type="button"
+                            onClick={handleUpload}
+                            className="bg-orange-300 text-black py-1 px-4 rounded hover:bg-orange-400 ml-auto"
+                        >
+                            Upload
+                        </button>
+                    </div>
+                    {pic && (
+                        <div>
+                            <img src={pic} className="ml-[100px]" />
+                        </div>
+                    )}
+
                     <div className="flex justify-between mt-4">
                         <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
                             {isEditing ? "Update User" : "Add User"}

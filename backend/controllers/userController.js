@@ -3,11 +3,20 @@ import User from "../models/user.js";
 // Thêm User mới
 export const addUser = async (req, res) => {
     try {
-        const { name, email, password, role } = req.body;
-        const user = new User({ name, email, password, role });
+        const { id } = req.params;
+        const { name, email, password, role, pic } = req.body;
+        // Kiểm tra xem email có trùng với bất kỳ người dùng nào ngoài người dùng hiện tại không
+        const existingUser = await User.findOne({ email });
+
+        if (existingUser && existingUser._id.toString() !== id) {
+            // Nếu email đã tồn tại và không phải là của người dùng hiện tại
+            return res.status(400).json({ message: "Email already exists" });
+        }
+        const user = new User({ name, email, password, role, pic });
         await user.save();
         res.status(201).json({ message: "User created successfully" });
     } catch (error) {
+        console.error("Error adding user:", error); // Log chi tiết lỗi
         res.status(500).json({ message: error.message });
     }
 };
@@ -26,7 +35,7 @@ export const getAllUsers = async (req, res) => {
 export const updateUser = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, email, password, role } = req.body;
+        const { name, email, password, role, pic } = req.body;
 
         // Kiểm tra xem email có trùng với bất kỳ người dùng nào ngoài người dùng hiện tại không
         const existingUser = await User.findOne({ email });
@@ -39,7 +48,7 @@ export const updateUser = async (req, res) => {
         // Cập nhật thông tin người dùng
         const updatedUser = await User.findByIdAndUpdate(
             id,
-            { name, email, password, role },
+            { name, email, password, role, pic },
             { new: true, runValidators: true }
         );
 
