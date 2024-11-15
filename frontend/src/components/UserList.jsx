@@ -12,6 +12,7 @@ const UserList = ({ users, setUsers }) => {
     const [role, setRole] = useState("all"); // Trạng thái lưu giá trị role
     const [filteredUsers, setFilteredUsers] = useState(users); // Trạng thái lưu người dùng đã lọc
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState(""); // Trạng thái lưu giá trị tìm kiếm
 
     // Hàm xử lý thay đổi role
     const handleRoleChange = (e) => {
@@ -57,8 +58,17 @@ const UserList = ({ users, setUsers }) => {
         setIsEditing(false); // Đặt chế độ là thêm mới
         setIsModalOpen(true); // Mở modal thêm mới
     };
+
     const handleCloseModal = () => {
         setSelectedUser(null); // Đóng modal
+    };
+
+    const handleSearchChange = (e) => {
+        const query = e.target.value.toLowerCase();
+        setSearchQuery(query);
+
+        const filtered = users.filter((user) => user.name.toLowerCase().includes(query));
+        setFilteredUsers(filtered);
     };
     useEffect(() => {
         setFilteredUsers(users); // Mỗi lần `users` thay đổi, cập nhật lại danh sách người dùng đã lọc
@@ -96,38 +106,51 @@ const UserList = ({ users, setUsers }) => {
                         <ChevronDownIcon className="w-5 h-5 text-gray-500 absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none" />
                     )}
                 </div>
+                {/* Thanh tìm kiếm */}
+                <div className="flex space-x-2 justify-end mb-4 w-9/12">
+                    <input
+                        type="text"
+                        value={searchQuery}
+                        onChange={handleSearchChange}
+                        placeholder="Search by name..."
+                        className="p-2 pr-8 border appearance-none border-gray-300 rounded"
+                    />
+                </div>
+            </div>
+            {/* Khung danh sách người dùng */}
+            <div className="max-h-[458px] overflow-y-auto border border-gray-300 rounded p-4">
+                <ul className="space-y-2">
+                    {filteredUsers.map((user) => (
+                        <li
+                            key={user._id}
+                            className="flex justify-between items-center p-4 border border-gray-200 rounded shadow-sm"
+                        >
+                            {user.name} {/* ({user.email}) */}
+                            <div className="flex ml-auto">
+                                <button
+                                    onClick={() => handleEdit(user)}
+                                    className="bg-yellow-500 text-white py-1 px-3 rounded hover:bg-yellow-600 mr-2"
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    onClick={() => handleDelete(user)}
+                                    className="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 mr-2"
+                                >
+                                    Delete
+                                </button>
+                                <button
+                                    onClick={() => handleMoreClick(user)}
+                                    className="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600"
+                                >
+                                    More
+                                </button>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
             </div>
 
-            <ul className="space-y-2">
-                {filteredUsers.map((user) => (
-                    <li
-                        key={user._id}
-                        className="flex justify-between items-center p-4 border border-gray-200 rounded shadow-sm"
-                    >
-                        {user.name} {/* ({user.email}) */}
-                        <div className="flex ml-auto">
-                            <button
-                                onClick={() => handleEdit(user)}
-                                className="bg-yellow-500 text-white py-1 px-3 rounded hover:bg-yellow-600 mr-2"
-                            >
-                                Edit
-                            </button>
-                            <button
-                                onClick={() => handleDelete(user)}
-                                className="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 mr-2"
-                            >
-                                Delete
-                            </button>
-                            <button
-                                onClick={() => handleMoreClick(user)}
-                                className="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600"
-                            >
-                                More
-                            </button>
-                        </div>
-                    </li>
-                ))}
-            </ul>
             {isModalOpen && (
                 <UserFormModal
                     userId={userToEdit?._id}

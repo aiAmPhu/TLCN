@@ -49,7 +49,7 @@ const UserFormModal = ({ userId, userToEdit, setUsers, onClose, isEditing }) => 
         } catch (error) {
             // Hiển thị lỗi từ backend
             if (error.response && error.response.data) {
-                setError(error.response.data.message); // Hiển thị thông báo lỗi từ backend
+                setError("Email đã được sử dụng."); // Hiển thị thông báo lỗi từ backend
             } else {
                 setError("An error occurred, please try again."); // Nếu có lỗi khác
             }
