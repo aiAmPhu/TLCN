@@ -3,8 +3,8 @@ import User from "../models/user.js";
 // Thêm User mới
 export const addUser = async (req, res) => {
     try {
-        const { name, email, password } = req.body;
-        const user = new User({ name, email, password });
+        const { name, email, password, role } = req.body;
+        const user = new User({ name, email, password, role });
         await user.save();
         res.status(201).json({ message: "User created successfully" });
     } catch (error) {
@@ -26,7 +26,7 @@ export const getAllUsers = async (req, res) => {
 export const updateUser = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, email, password } = req.body;
+        const { name, email, password, role } = req.body;
 
         // Kiểm tra xem email có trùng với bất kỳ người dùng nào ngoài người dùng hiện tại không
         const existingUser = await User.findOne({ email });
@@ -39,7 +39,7 @@ export const updateUser = async (req, res) => {
         // Cập nhật thông tin người dùng
         const updatedUser = await User.findByIdAndUpdate(
             id,
-            { name, email, password },
+            { name, email, password, role },
             { new: true, runValidators: true }
         );
 

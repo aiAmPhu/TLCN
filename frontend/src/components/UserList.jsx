@@ -1,14 +1,34 @@
 // UserList.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import InfoModal from "../Modals/InfoModal";
 import UserFormModal from "../Modals/UserFormModal";
-
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
 const UserList = ({ users, setUsers }) => {
     const [selectedUser, setSelectedUser] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [userToEdit, setUserToEdit] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
+    const [role, setRole] = useState("all"); // Trạng thái lưu giá trị role
+    const [filteredUsers, setFilteredUsers] = useState(users); // Trạng thái lưu người dùng đã lọc
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+    // Hàm xử lý thay đổi role
+    const handleRoleChange = (e) => {
+        const selectedRole = e.target.value;
+        setRole(selectedRole);
+
+        if (selectedRole === "all") {
+            setFilteredUsers(users); // Nếu role là 'all', hiển thị tất cả người dùng
+        } else {
+            setFilteredUsers(users.filter((user) => user.role === selectedRole)); // Lọc người dùng theo role
+        }
+    };
+
+    const toggleDropdown = () => {
+        setIsDropdownOpen(!isDropdownOpen); // Đổi trạng thái mở/đóng dropdown
+    };
+
     const handleDelete = async (user) => {
         const confirmDelete = window.confirm(`Are you sure you want to delete ${user.name}?`);
         if (confirmDelete) {
@@ -40,21 +60,46 @@ const UserList = ({ users, setUsers }) => {
     const handleCloseModal = () => {
         setSelectedUser(null); // Đóng modal
     };
-
+    useEffect(() => {
+        setFilteredUsers(users); // Mỗi lần `users` thay đổi, cập nhật lại danh sách người dùng đã lọc
+    }, [users]);
     return (
         <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
             <h2 className="text-center text-2xl font-semibold mb-6">User List</h2>
 
-            {/* Nút Add */}
-            <button
-                onClick={handleAddUser}
-                className="bg-green-500 text-white py-1 px-3 rounded hover:bg-green-600 mb-4"
-            >
-                Add User
-            </button>
+            <div className="flex space-x-2">
+                {/* Nút Add */}
+                <button
+                    onClick={handleAddUser}
+                    className="bg-green-500 text-white py-1 px-3 rounded hover:bg-green-600 mb-4"
+                >
+                    Add User
+                </button>
+
+                {/* Dropdown chọn role */}
+                <div className="mb-4 relative">
+                    <select
+                        id="role"
+                        value={role}
+                        onChange={handleRoleChange}
+                        onClick={toggleDropdown}
+                        className="p-2 pr-8 border appearance-none border-gray-300 rounded"
+                    >
+                        <option value="all">All Roles</option>
+                        <option value="admin">Admin</option>
+                        <option value="reviewer">Reviewer</option>
+                        <option value="user">User</option>
+                    </select>
+                    {isDropdownOpen ? (
+                        <ChevronUpIcon className="w-5 h-5 text-gray-500 absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none" />
+                    ) : (
+                        <ChevronDownIcon className="w-5 h-5 text-gray-500 absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none" />
+                    )}
+                </div>
+            </div>
 
             <ul className="space-y-2">
-                {users.map((user) => (
+                {filteredUsers.map((user) => (
                     <li
                         key={user._id}
                         className="flex justify-between items-center p-4 border border-gray-200 rounded shadow-sm"

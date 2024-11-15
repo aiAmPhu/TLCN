@@ -18,6 +18,9 @@ const InfoModal = ({ user, onClose }) => {
                     <p>
                         <strong>Password:</strong> {user.password}
                     </p>
+                    <p>
+                        <strong>Role:</strong> {user.role}
+                    </p>
                 </div>
                 <div className="mt-4 flex justify-end">
                     <button onClick={onClose} className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600">

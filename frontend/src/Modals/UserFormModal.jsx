@@ -1,27 +1,37 @@
 // UserFormModal.js
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { EyeIcon, EyeSlashIcon, ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
 
 const UserFormModal = ({ userId, userToEdit, setUsers, onClose, isEditing }) => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [role, setRole] = useState("1");
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     useEffect(() => {
         if (userToEdit) {
             setName(userToEdit.name);
             setEmail(userToEdit.email);
             setPassword(userToEdit.password);
+            setRole(userToEdit.role);
         } else {
             setName("");
             setEmail("");
             setPassword("");
+            setRole("1");
         }
     }, [userToEdit]);
 
+    const toggleDropdown = () => {
+        setIsDropdownOpen(!isDropdownOpen); // Đổi trạng thái mở/đóng dropdown
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const newUser = { name, email, password };
+        const newUser = { name, email, password, role };
         try {
             if (isEditing && userId) {
                 // Cập nhật user
@@ -78,14 +88,46 @@ const UserFormModal = ({ userId, userToEdit, setUsers, onClose, isEditing }) => 
                         required
                         className="w-full p-2 border border-gray-300 rounded"
                     />
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                        className="w-full p-2 border border-gray-300 rounded"
-                    />
+                    <div className="relative">
+                        <input
+                            type={showPassword ? "text" : "password"} // Điều chỉnh type để hiển thị/ẩn mật khẩu
+                            placeholder="Password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                            className="w-full p-2 border border-gray-300 rounded"
+                        />
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500"
+                        >
+                            {showPassword ? <EyeSlashIcon className="w-5 h-5" /> : <EyeIcon className="w-5 h-5" />}
+                        </button>
+                    </div>
+                    <div>
+                        <label htmlFor="role" className="block mb-2">
+                            Role
+                        </label>
+                        <div className="relative">
+                            <select
+                                id="role"
+                                value={role}
+                                onChange={(e) => setRole(e.target.value)}
+                                onClick={toggleDropdown}
+                                className="w-full p-2 border border-gray-300 rounded appearance-none pr-8"
+                            >
+                                <option value="admin">Admin</option>
+                                <option value="reviewer">Reviewer</option>
+                                <option value="user">User</option>
+                            </select>
+                            {isDropdownOpen ? (
+                                <ChevronUpIcon className="w-5 h-5 text-gray-500 absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none" />
+                            ) : (
+                                <ChevronDownIcon className="w-5 h-5 text-gray-500 absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none" />
+                            )}
+                        </div>
+                    </div>
                     <div className="flex justify-between mt-4">
                         <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
                             {isEditing ? "Update User" : "Add User"}
