@@ -23,7 +23,7 @@ const InfoModal = ({ user, onClose }) => {
                     </p>
                     <p>
                         <strong>Picture:</strong>
-                        <img src={user.pic} className="ml-[100px] rounded-md" />
+                        <img src={user.pic} className="ml-[100px] rounded-md" width="200" height="200" />
                     </p>
                 </div>
                 <div className="mt-4 flex justify-end">

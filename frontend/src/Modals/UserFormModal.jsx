@@ -34,13 +34,17 @@ const UserFormModal = ({ userId, userToEdit, setUsers, onClose, isEditing }) => 
     };
 
     const handleSubmit = async (e) => {
+        // Kiểm tra nếu pic là null, gán giá trị mặc định
+        if (!pic) {
+            setPic("https://res.cloudinary.com/dlum0st9k/image/upload/v1731705123/pngwing.com_1_x0zbek.png");
+        }
         e.preventDefault();
         const newUser = {
             name,
             email,
             password,
             role,
-            pic: "https://res.cloudinary.com/dlum0st9k/image/upload/v1731705123/pngwing.com_1_x0zbek.png",
+            pic: pic || "https://res.cloudinary.com/dlum0st9k/image/upload/v1731705123/pngwing.com_1_x0zbek.png", // Sử dụng giá trị mớ
         };
 
         try {
@@ -182,7 +186,7 @@ const UserFormModal = ({ userId, userToEdit, setUsers, onClose, isEditing }) => 
                     </div>
                     {pic && (
                         <div>
-                            <img src={pic} className="ml-[100px]" />
+                            <img src={pic} className="ml-[100px]" width="200" height="200" />
                         </div>
                     )}
 
