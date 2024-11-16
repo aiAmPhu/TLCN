@@ -24,7 +24,7 @@ const UserFormModal = ({ userId, userToEdit, setUsers, onClose, isEditing }) => 
             setName("");
             setEmail("");
             setPassword("");
-            setRole("1");
+            setRole("admin");
             setPic("");
         }
     }, [userToEdit]);

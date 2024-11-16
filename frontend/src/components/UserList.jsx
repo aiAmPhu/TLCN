@@ -14,6 +14,7 @@ const UserList = ({ users, setUsers }) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState(""); // Trạng thái lưu giá trị tìm kiếm
 
+    const [roleCount, setRoleCount] = useState(0);
     // Hàm xử lý thay đổi role
     const handleRoleChange = (e) => {
         const selectedRole = e.target.value;
@@ -71,12 +72,25 @@ const UserList = ({ users, setUsers }) => {
         setFilteredUsers(filtered);
     };
     useEffect(() => {
-        setFilteredUsers(users); // Mỗi lần `users` thay đổi, cập nhật lại danh sách người dùng đã lọc
-    }, [users]);
+        if (role === "all") {
+            setFilteredUsers(users); // Hiển thị tất cả người dùng nếu role là 'all'
+        } else {
+            setFilteredUsers(users.filter((user) => user.role === role)); // Lọc người dùng theo role
+        }
+        // Cập nhật số lượng người dùng theo role
+        if (role !== "all") {
+            setRoleCount(users.filter((user) => user.role === role).length);
+        } else {
+            setRoleCount(users.length); // Hiển thị tổng số người dùng khi chọn 'all'
+        }
+    }, [role, users]); // Lắng nghe thay đổi của role và users
+
+    // Đếm số lượng người dùng theo role
+
     return (
         <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
             <h2 className="text-center text-2xl font-semibold mb-6">User List</h2>
-
+            {/* Hiển thị số lượng người dùng */}
             <div className="flex space-x-2">
                 {/* Nút Add */}
                 <button
@@ -106,8 +120,9 @@ const UserList = ({ users, setUsers }) => {
                         <ChevronDownIcon className="w-5 h-5 text-gray-500 absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none" />
                     )}
                 </div>
+                <p className="p-2 pr-8 border border-gray-300 rounded mb-4">User: {roleCount}</p>
                 {/* Thanh tìm kiếm */}
-                <div className="flex space-x-2 justify-end mb-4 w-9/12">
+                <div className="flex space-x-2 justify-end mb-4">
                     <input
                         type="text"
                         value={searchQuery}
