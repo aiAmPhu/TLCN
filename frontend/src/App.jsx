@@ -1,7 +1,7 @@
 // src/App.jsx
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import UserListPage from "./pages/UserListPage"; // Import UserListPage
-import { UserIcon, DocumentTextIcon, CubeIcon } from "@heroicons/react/24/outline"; // Hoặc @heroicons/react/24/solid
+import { UserIcon, DocumentTextIcon, CubeIcon, FolderIcon } from "@heroicons/react/24/outline"; // Hoặc @heroicons/react/24/solid
 
 function App() {
     return (
@@ -17,13 +17,13 @@ function App() {
                         <li>
                             <Link to="/user" className="flex items-center p-2 hover:bg-gray-700 rounded">
                                 <UserIcon className="w-5 h-5 mr-2" /> {/* Icon User */}
-                                Manage User
+                                Quản lý Users
                             </Link>
                         </li>
                         <li>
                             <Link to="/term" className="flex items-center p-2 hover:bg-gray-700 rounded">
-                                <DocumentTextIcon className="w-5 h-5 mr-2" />
-                                Term
+                                <FolderIcon className="w-5 h-5 mr-2" />
+                                Quản lý khối xét tuyển
                             </Link>
                         </li>
                         <li>
