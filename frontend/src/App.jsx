@@ -2,6 +2,7 @@
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import UserListPage from "./pages/UserListPage"; // Import UserListPage
 import { UserIcon, DocumentTextIcon, CubeIcon, FolderIcon } from "@heroicons/react/24/outline"; // Hoặc @heroicons/react/24/solid
+import AdbListPage from "./pages/AdbListPage";
 
 function App() {
     return (
@@ -39,7 +40,7 @@ function App() {
                 <div className="w-3/4 p-6">
                     <Routes>
                         <Route path="/user" element={<UserListPage />} />
-                        <Route path="/term" element={<h1 className="text-2xl font-bold mb-4">Term Page</h1>} />
+                        <Route path="/term" element={<AdbListPage />} />
                         <Route path="/object" element={<h1 className="text-2xl font-bold mb-4">Object Page</h1>} />
                     </Routes>
                 </div>
