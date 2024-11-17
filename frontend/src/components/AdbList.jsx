@@ -12,7 +12,14 @@ const AdbList = ({ adbs, setAdbs }) => {
     const [filteredAdbs, setFilteredAdbs] = useState(adbs); // Trạng thái lưu người dùng đã lọc
     const [searchQuery, setSearchQuery] = useState(""); // Trạng thái lưu giá trị tìm kiếm
     const [adbCount, setAdbCount] = useState(0);
+    const [selectedKeyword, setSelectedKeyword] = useState(""); // Từ khóa lọc (ví dụ: A, B, C,...)
+    const [blocks, setBlocks] = useState([]); // Lưu trữ dữ liệu khối ngành từ API
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [filteredBlocks, setFilteredBlocks] = useState([]); // Các khối ngành đã lọc
 
+    const toggleDropdown = () => {
+        setIsDropdownOpen((prev) => !prev);
+    };
     const handleDelete = async (adb) => {
         const confirmDelete = window.confirm(`Are you sure you want to delete ${adb.name}?`);
         if (confirmDelete) {
@@ -55,11 +62,36 @@ const AdbList = ({ adbs, setAdbs }) => {
     };
     useEffect(() => {
         // Lấy toàn bộ admission blocks (ADB)
-        setFilteredAdbs(adbs); // Giả sử bạn có danh sách ADB là 'admissionBlocks'
-        setAdbCount(adbs.length); // Cập nhật số lượng admission blocks
-        console.log(adbs);
-    }, [adbs]); // Lắng nghe thay đổi của role và users
+        const fetchBlocks = async () => {
+            try {
+                const response = await axios.get("/api/blocks"); // Gọi API để lấy danh sách khối ngành
+                setBlocks(response.data);
+                setFilteredAdbs(adbs); // Mặc định, hiển thị tất cả các khối ngành
+            } catch (error) {
+                console.error("Lỗi khi lấy dữ liệu khối ngành:", error);
+            }
+        };
 
+        fetchBlocks();
+        setAdbCount(adbs.length); // Cập nhật số lượng admission blocks
+    }, [adbs]);
+    // Xử lý thay đổi từ khóa lọc
+    const handleKeywordChange = (event) => {
+        const keyword = event.target.value.toUpperCase(); // Chuyển đổi từ khóa thành chữ hoa
+        setSelectedKeyword(keyword);
+
+        // Nếu người dùng nhập từ khóa (ví dụ: "B")
+        if (keyword) {
+            // Lọc các admissionBlocks có 'admissionBlockId' chứa từ khóa (dùng includes thay vì startsWith)
+            const filtered = adbs.filter(
+                (adb) => adb.admissionBlockId.toUpperCase().includes(keyword) // Kiểm tra xem admissionBlockId có chứa từ khóa hay không
+            );
+            setFilteredAdbs(filtered);
+        } else {
+            // Nếu không có từ khóa, hiển thị tất cả
+            setFilteredAdbs(adbs);
+        }
+    };
     // Đếm số lượng người dùng theo role
     return (
         <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
@@ -73,6 +105,33 @@ const AdbList = ({ adbs, setAdbs }) => {
                 >
                     Add
                 </button>
+                {/* Dropdown chọn khối ngành */}
+                <div className="mb-4 relative">
+                    <select
+                        id="block"
+                        value={selectedKeyword}
+                        onChange={handleKeywordChange}
+                        onClick={toggleDropdown}
+                        className="p-2 pr-8 border appearance-none border-gray-300 rounded"
+                    >
+                        <option value="">All</option>
+                        <option value="A">Khối A</option>
+                        <option value="B">Khối B</option>
+                        <option value="C">Khối C</option>
+                        <option value="D">Khối D</option>
+                        <option value="H">Khối H</option>
+                        <option value="V">Khối V</option>
+                        <option value="R">Khối R</option>
+                        <option value="M">Khối M</option>
+                        <option value="N">Khối N</option>
+                        <option value="T">Khối T</option>
+                    </select>
+                    {isDropdownOpen ? (
+                        <ChevronUpIcon className="w-5 h-5 text-gray-500 absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none" />
+                    ) : (
+                        <ChevronDownIcon className="w-5 h-5 text-gray-500 absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none" />
+                    )}
+                </div>
 
                 <p className="p-2 pr-8 border border-gray-300 rounded mb-4">Total: {adbCount}</p>
                 {/* Thanh tìm kiếm */}
