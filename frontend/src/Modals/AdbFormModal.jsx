@@ -1,7 +1,6 @@
 // UserFormModal.js
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { EyeIcon, EyeSlashIcon, ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
 
 const AdbFormModal = ({ adbId, adbToEdit, setAdbs, onClose, isEditing }) => {
     const [admissionBlockId, setAdmissionBlockId] = useState("");
@@ -10,10 +9,7 @@ const AdbFormModal = ({ adbId, adbToEdit, setAdbs, onClose, isEditing }) => {
     const [admissionBlockSubject2, setAdmissionBlockSubject2] = useState("");
     const [admissionBlockSubject3, setAdmissionBlockSubject3] = useState("");
     const [error, setError] = useState("");
-    //const [role, setRole] = useState("1");
-    //const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    //const [image, setImage] = useState(null);
-    //let [pic, setPic] = useState(null);
+
     useEffect(() => {
         if (adbToEdit) {
             setAdmissionBlockId(adbToEdit.admissionBlockId);
@@ -29,10 +25,6 @@ const AdbFormModal = ({ adbId, adbToEdit, setAdbs, onClose, isEditing }) => {
             setAdmissionBlockSubject3("");
         }
     }, [adbToEdit]);
-
-    // const toggleDropdown = () => {
-    //     setIsDropdownOpen(!isDropdownOpen); // Đổi trạng thái mở/đóng dropdown
-    // };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -52,7 +44,6 @@ const AdbFormModal = ({ adbId, adbToEdit, setAdbs, onClose, isEditing }) => {
                 // Thêm user mới
                 await axios.post("http://localhost:8080/api/adbs/add", newAdb);
             }
-
             // Cập nhật danh sách người dùng sau khi thêm hoặc sửa
             const response = await axios.get("http://localhost:8080/api/adbs/getall");
             setAdbs(response.data);
@@ -61,9 +52,8 @@ const AdbFormModal = ({ adbId, adbToEdit, setAdbs, onClose, isEditing }) => {
         } catch (error) {
             if (error.response && error.response.data) {
                 // Kiểm tra các mã lỗi khác nhau
-                const { errorCode, message } = error.response.data;
                 if (error.status === 400) {
-                    setError(message || "Trùng email"); // Hiển thị thông báo lỗi "Trùng email" nếu mã lỗi là 400
+                    setError(error.response.data.message || "Trùng email"); // Hiển thị thông báo lỗi "Trùng email" nếu mã lỗi là 400
                 } else if (error.status === 500) {
                     setError("Vui lòng điền đầy đủ thông tin"); // Hiển thị thông báo lỗi nếu mã lỗi là 1
                 } else {
@@ -75,27 +65,6 @@ const AdbFormModal = ({ adbId, adbToEdit, setAdbs, onClose, isEditing }) => {
             }
         }
     };
-
-    // const handleUpload = async () => {
-    //     const formData = new FormData();
-    //     formData.append("image", image); // Gửi file trong formData
-
-    //     try {
-    //         const res = await axios.post("http://localhost:8080/api/upload", formData, {
-    //             headers: {
-    //                 "Content-Type": "multipart/form-data",
-    //             },
-    //         });
-    //         setPic(res.data.imageUrl);
-    //         console.log("Image uploaded successfully:", res.data.imageUrl);
-    //     } catch (err) {
-    //         console.log("Error uploading image:", err);
-    //     }
-    // };
-
-    // const handleImageChange = async (e) => {
-    //     setImage(e.target.files[0]); // Lấy file từ input
-    // };
 
     return (
         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">

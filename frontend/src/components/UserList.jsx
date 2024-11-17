@@ -13,13 +13,12 @@ const UserList = ({ users, setUsers }) => {
     const [filteredUsers, setFilteredUsers] = useState(users); // Trạng thái lưu người dùng đã lọc
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState(""); // Trạng thái lưu giá trị tìm kiếm
-
     const [roleCount, setRoleCount] = useState(0);
+
     // Hàm xử lý thay đổi role
     const handleRoleChange = (e) => {
         const selectedRole = e.target.value;
         setRole(selectedRole);
-
         if (selectedRole === "all") {
             setFilteredUsers(users); // Nếu role là 'all', hiển thị tất cả người dùng
         } else {
@@ -67,7 +66,6 @@ const UserList = ({ users, setUsers }) => {
     const handleSearchChange = (e) => {
         const query = e.target.value.toLowerCase();
         setSearchQuery(query);
-
         const filtered = users.filter((user) => user.name.toLowerCase().includes(query));
         setFilteredUsers(filtered);
     };
@@ -85,8 +83,6 @@ const UserList = ({ users, setUsers }) => {
         }
     }, [role, users]); // Lắng nghe thay đổi của role và users
 
-    // Đếm số lượng người dùng theo role
-
     return (
         <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
             <h2 className="text-center text-2xl font-semibold mb-6">User List</h2>
@@ -99,7 +95,6 @@ const UserList = ({ users, setUsers }) => {
                 >
                     Add User
                 </button>
-
                 {/* Dropdown chọn role */}
                 <div className="mb-4 relative">
                     <select
@@ -132,6 +127,7 @@ const UserList = ({ users, setUsers }) => {
                     />
                 </div>
             </div>
+
             {/* Khung danh sách người dùng */}
             <div className="max-h-[458px] overflow-y-auto border border-gray-300 rounded p-4">
                 <ul className="space-y-2">

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import UserListPage from "./pages/UserListPage"; // Import UserListPage
 import { UserIcon, DocumentTextIcon, CubeIcon, FolderIcon } from "@heroicons/react/24/outline"; // Hoặc @heroicons/react/24/solid
 import AdbListPage from "./pages/AdbListPage";
-
+import AdmListPage from "./pages/AdmListPage";
 function App() {
     return (
         <Router>
@@ -41,7 +41,7 @@ function App() {
                     <Routes>
                         <Route path="/user" element={<UserListPage />} />
                         <Route path="/term" element={<AdbListPage />} />
-                        <Route path="/object" element={<h1 className="text-2xl font-bold mb-4">Object Page</h1>} />
+                        <Route path="/object" element={<AdmListPage />} />
                     </Routes>
                 </div>
             </div>
@@ -50,64 +50,3 @@ function App() {
 }
 
 export default App;
-
-// UploadForm.js
-// import React, { useState } from "react";
-// import axios from "axios";
-
-// function UploadForm() {
-//     const [image, setImage] = useState(null);
-//     const [imageUrl, setImageUrl] = useState("");
-
-//     const handleImageChange = (e) => {
-//         setImage(e.target.files[0]); // Lấy file từ input
-//     };
-
-//     const handleUpload = async () => {
-//         const formData = new FormData();
-//         formData.append("image", image); // Gửi file trong formData
-
-//         try {
-//             const res = await axios.post("http://localhost:8080/api/upload", formData, {
-//                 headers: {
-//                     "Content-Type": "multipart/form-data",
-//                 },
-//             });
-//             setImageUrl(res.data.imageUrl); // Lấy URL ảnh trả về từ Cloudinary
-//         } catch (err) {
-//             console.error("Error uploading image:", err);
-//         }
-//     };
-
-//     return (
-//         <div>
-//             <input type="file" onChange={handleImageChange} accept="image/*" />
-//             <button onClick={handleUpload}>Upload</button>
-//             {imageUrl && (
-//                 <div>
-//                     <p>Ảnh đã upload:</p>
-//                     <img src={imageUrl} alt="Uploaded" width="300" />
-//                 </div>
-//             )}
-//         </div>
-//     );
-// }
-
-// export default UploadForm;
-
-//Lưu URL của ảnh vào MongoDB
-// const Image = require('../models/Image');
-
-// router.post('/upload', upload.single('image'), async (req, res) => {
-//   if (!req.file) {
-//     return res.status(400).json({ message: 'Không có file nào được upload!' });
-//   }
-
-//   const newImage = new Image({
-//     imageUrl: req.file.path, // Lưu URL ảnh
-//   });
-
-//   await newImage.save();
-
-//   res.status(200).json({ imageUrl: req.file.path });
-// });

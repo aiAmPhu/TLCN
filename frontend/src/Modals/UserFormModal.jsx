@@ -65,7 +65,6 @@ const UserFormModal = ({ userId, userToEdit, setUsers, onClose, isEditing }) => 
             if (error.response && error.response.data) {
                 // Kiểm tra mã lỗi trong dữ liệu phản hồi
                 const { errorCode, message } = error.response.data;
-
                 // Kiểm tra các mã lỗi khác nhau
                 if (error.status === 400) {
                     setError(message || "Trùng email"); // Hiển thị thông báo lỗi "Trùng email" nếu mã lỗi là 400
