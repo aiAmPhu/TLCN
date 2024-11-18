@@ -1,7 +1,7 @@
 // src/pages/UserListPage.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import UserList from "../components/UserList";
+import PermissionList from "../components/PermissionList";
 
 const PermissionListPage = () => {
     const [users, setUsers] = useState([]);
@@ -23,7 +23,7 @@ const PermissionListPage = () => {
 
     return (
         <div>
-            <UserList users={users} setUsers={setUsers} />
+            <PermissionList users={users} setUsers={setUsers} />
         </div>
     );
 };

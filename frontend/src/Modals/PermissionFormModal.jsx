@@ -2,72 +2,52 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const AdmFormModal = ({ admId, admToEdit, setAdms, onClose, isEditing }) => {
-    const [majorId, setMajorId] = useState("");
-    const [majorCodeName, setMajorCodeName] = useState("");
-    const [majorName, setMajorName] = useState("");
-    const [majorCombination, setMajorCombination] = useState("");
-    const [majorDescription, setMajorDescription] = useState("");
+const PermissionFormModal = ({ userId, userToEdit, setUsers, onClose, isEditing }) => {
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
     const [error, setError] = useState("");
-    const [admissionBlocks, setAdmissionBlocks] = useState([]); // Lưu danh sách từ MongoDB
+    const [admissionMajors, setAdmissionMajors] = useState([]); // Lưu danh sách từ MongoDB
     const [selectedCombinations, setSelectedCombinations] = useState([]); // Lưu các combination được chọn
 
     useEffect(() => {
-        const fetchAdmissionBlocks = async () => {
+        const fetchAdmissionMajors = async () => {
             try {
-                const response = await axios.get("http://localhost:8080/api/adbs/getall");
-                setAdmissionBlocks(response.data);
+                const response = await axios.get("http://localhost:8080/api/adms/getall");
+                setAdmissionMajors(response.data);
             } catch (error) {
-                console.error("Error fetching admission blocks", error);
+                console.error("Error fetching admission majors", error);
             }
         };
-        fetchAdmissionBlocks();
+        fetchAdmissionMajors();
 
-        if (admToEdit) {
-            setMajorId(admToEdit.majorId);
-            setMajorCodeName(admToEdit.majorCodeName);
-            setMajorName(admToEdit.majorName);
-            setMajorCombination(admToEdit.majorCombination);
-            setMajorDescription(admToEdit.majorDescription);
-            setSelectedCombinations(admToEdit.majorCombination || []);
+        if (userToEdit) {
+            setName(userToEdit.name);
+            setEmail(userToEdit.email);
+            setSelectedCombinations(userToEdit.majorGroup || []);
         } else {
-            setMajorId("");
-            setMajorCodeName("");
-            setMajorName("");
-            setMajorCombination("");
-            setMajorDescription("");
             setSelectedCombinations([]);
         }
-    }, [admToEdit]);
+    }, [userToEdit]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const newAdm = {
-            majorId,
-            majorCodeName,
-            majorName,
-            majorCombination: selectedCombinations,
-            majorDescription: majorDescription || null,
+        //console.log("Selected Combinations:", selectedCombinations);
+        console.log("Submitting data:", { name, email, majorCombination: selectedCombinations });
+        const newUser = {
+            majorGroup: selectedCombinations,
         };
 
         try {
-            if (isEditing && admId) {
-                // Cập nhật user
-                await axios.put(`http://localhost:8080/api/adms/update/${admId}`, newAdm);
-            } else {
-                // Thêm user mới
-                await axios.post("http://localhost:8080/api/adms/add", newAdm);
-            }
-
+            await axios.put(`http://localhost:8080/api/permissions/update/${userId}`, newUser);
             // Cập nhật danh sách người dùng sau khi thêm hoặc sửa
-            const response = await axios.get("http://localhost:8080/api/adms/getall");
-            setAdms(response.data);
+            const response = await axios.get("http://localhost:8080/api/users/getall");
+            setUsers(response.data);
             // Đóng modal sau khi submit
             onClose();
         } catch (error) {
+            console.error("Error submitting form:", error.response || error);
             if (error.response && error.response.data) {
                 // Kiểm tra các mã lỗi khác nhau
-
                 if (error.status === 400) {
                     setError(error.response.data.message || "Trùng email"); // Hiển thị thông báo lỗi "Trùng email" nếu mã lỗi là 400
                 } else if (error.status === 500) {
@@ -97,42 +77,33 @@ const AdmFormModal = ({ admId, admToEdit, setAdms, onClose, isEditing }) => {
             )}
             <div className="bg-white p-6 rounded shadow-lg max-w-md w-full">
                 <h2 className="text-2xl font-bold mb-4 text-center">
-                    {isEditing ? "Edit Admission Major" : "Add Admission Major"}
+                    {/* {isEditing ? "Edit Admission Major" : "Add Admission Major"} */}
+                    Edit Admission Major
                 </h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <input
                         type="text"
-                        placeholder="ID"
-                        value={majorId}
-                        onChange={(e) => setMajorId(e.target.value)}
+                        value={name}
                         required
                         className="w-full p-2 border border-gray-300 rounded"
+                        disabled
                     />
                     <input
                         type="text"
-                        placeholder="Code Name"
-                        value={majorCodeName}
-                        onChange={(e) => setMajorCodeName(e.target.value)}
+                        value={email}
                         required
                         className="w-full p-2 border border-gray-300 rounded"
+                        disabled
                     />
-                    <input
-                        type="text"
-                        placeholder="Name"
-                        value={majorName}
-                        onChange={(e) => setMajorName(e.target.value)}
-                        required
-                        className="w-full p-2 border border-gray-300 rounded"
-                    />
+
                     <div>
-                        {/* <label className="block font-semibold mb-2">Combination</label> */}
-                        <div className="grid grid-cols-5 gap-2 max-h-48 overflow-y-auto border border-gray-300 rounded p-2 place-items-center">
-                            {admissionBlocks.map((block) => (
-                                <label key={block._id} className="flex items-center space-x-2">
+                        <div className="grid grid-cols-3 gap-2 max-h-48 overflow-y-auto border border-gray-300 rounded p-2 place-items-center">
+                            {admissionMajors.map((major) => (
+                                <label key={major._id} className="flex items-center space-x-2">
                                     <input
                                         type="checkbox"
-                                        value={block.admissionBlockId}
-                                        checked={selectedCombinations.includes(block.admissionBlockId)}
+                                        value={major.majorId}
+                                        checked={selectedCombinations.includes(major.majorId)}
                                         onChange={(e) => {
                                             const value = e.target.value;
                                             setSelectedCombinations(
@@ -144,24 +115,16 @@ const AdmFormModal = ({ admId, admToEdit, setAdms, onClose, isEditing }) => {
                                         }}
                                         className="form-checkbox h-5 w-5 text-blue-600"
                                     />
-                                    <span>{block.admissionBlockId}</span>
+                                    <span>{major.majorId}</span>
                                 </label>
                             ))}
                         </div>
                     </div>
 
-                    <textarea
-                        type="text"
-                        placeholder="Description"
-                        value={majorDescription}
-                        onChange={(e) => setMajorDescription(e.target.value || null)}
-                        rows={4}
-                        className="w-full p-2 border border-gray-300 rounded resize-none"
-                    />
-
                     <div className="flex justify-between mt-4">
                         <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
-                            {isEditing ? "Update" : "Add"}
+                            {/* {isEditing ? "Update" : "Add"} */}
+                            Update
                         </button>
                         <button
                             type="button"
@@ -177,4 +140,4 @@ const AdmFormModal = ({ admId, admToEdit, setAdms, onClose, isEditing }) => {
     );
 };
 
-export default AdmFormModal;
+export default PermissionFormModal;
