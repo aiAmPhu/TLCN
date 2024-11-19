@@ -45,7 +45,7 @@ export const updateAdYear = async (req, res) => {
     try {
         const { id } = req.params;
         const { yearId, yearName, startDate, endDate, yearMajors } = req.body;
-
+        console.log(req.body);
         // Kiểm tra xem Major ID có trùng với ID của một Major khác không
         const existingYear = await AdYear.findOne({ yearId });
 

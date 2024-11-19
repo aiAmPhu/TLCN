@@ -5,6 +5,7 @@ import UserListPage from "./pages/UserListPage"; // Trang quản lý Users
 import AdbListPage from "./pages/AdbListPage"; // Trang quản lý Khối xét tuyển
 import AdmListPage from "./pages/AdmListPage"; // Trang quản lý Ngành xét tuyển
 import PermissionListPage from "./pages/PermissionList"; // Trang quản lý Phân quyền
+import AdyListPage from "./pages/AdyListPage";
 //import GraduateListPage from "./pages/GraduateListPage"; // Trang quản lý Tuyển sinh
 
 function App() {
@@ -23,7 +24,7 @@ function App() {
                         <Route path="/permission" element={<PermissionListPage />} />
                         <Route path="/permission" element={<PermissionListPage />} />
                         {/* Hiển thị Hello World 1 */}
-                        <Route path="/option1" element={<h1 className="text-2xl font-bold">Hello World 1</h1>} />
+                        <Route path="/option1" element={<AdyListPage />} />
                         <Route path="/option2" element={<h1 className="text-2xl font-bold">Hello World 2</h1>} />
                         <Route path="/option3" element={<h1 className="text-2xl font-bold">Hello World 3</h1>} />
                     </Routes>
