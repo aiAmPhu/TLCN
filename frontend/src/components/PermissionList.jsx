@@ -50,7 +50,7 @@ const PermissionList = ({ users, setUsers }) => {
 
     return (
         <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
-            <h2 className="text-center text-2xl font-semibold mb-6">User List</h2>
+            <h2 className="text-center text-2xl font-semibold mb-6">Reviewers List</h2>
             {/* Thanh tìm kiếm */}
             <div className="flex justify-between items-center mb-4">
                 <p className="text-gray-700 font-medium">Total Users: {filteredUsers.length}</p>
