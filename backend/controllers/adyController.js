@@ -20,6 +20,7 @@ export const addAdYear = async (req, res) => {
             startDate,
             endDate,
             yearMajors,
+            status: "Active",
         });
 
         await newYear.save();
@@ -44,8 +45,8 @@ export const getAllAdYears = async (req, res) => {
 export const updateAdYear = async (req, res) => {
     try {
         const { id } = req.params;
-        const { yearId, yearName, startDate, endDate, yearMajors } = req.body;
-        console.log(req.body);
+        const { yearId, yearName, startDate, endDate, yearMajors, status } = req.body;
+        // console.log(req.body);
         // Kiểm tra xem Major ID có trùng với ID của một Major khác không
         const existingYear = await AdYear.findOne({ yearId });
 
@@ -63,6 +64,7 @@ export const updateAdYear = async (req, res) => {
                 startDate,
                 endDate,
                 yearMajors,
+                status,
             },
             { new: true, runValidators: true }
         );

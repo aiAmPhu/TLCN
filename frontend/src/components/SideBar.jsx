@@ -78,7 +78,7 @@ const Sidebar = () => {
                                         }`}
                                         onClick={() => handleOptionClick("Option 2")}
                                     >
-                                        Mở cổng nhận hồ sơ
+                                        Nhập điểm chuẩn
                                     </Link>
                                 </li>
                                 <li>

@@ -55,6 +55,34 @@ const AdyList = ({ adys, setAdys }) => {
     };
     useEffect(() => {
         // Lấy toàn bộ adyission blocks (ADB)
+        const updateAllActiveStatuses = async () => {
+            try {
+                const updates = adys.map((ady) => {
+                    const currentDate = new Date();
+                    const endDate = new Date(ady.endDate);
+                    const isActive = endDate > currentDate;
+
+                    // Chỉ cập nhật nếu Active
+                    if (isActive) {
+                        return axios.put(`http://localhost:8080/api/adys/update/${ady._id}`, {
+                            status: "Active",
+                        });
+                    } else {
+                        return axios.put(`http://localhost:8080/api/adys/update/${ady._id}`, {
+                            status: "Inactive",
+                        });
+                    }
+                    return Promise.resolve(); // Không cần cập nhật nếu không Active
+                });
+
+                await Promise.all(updates); // Đợi tất cả cập nhật hoàn tất
+                console.log("Updated all active statuses successfully");
+            } catch (error) {
+                console.error("Error updating active statuses:", error);
+            }
+        };
+
+        updateAllActiveStatuses();
         setFilteredAdys(adys); // Giả sử bạn có danh sách ADB là 'adyissionBlocks'
         setAdyCount(adys.length); // Cập nhật số lượng adyission blocks
         //console.log(adys);
@@ -62,7 +90,7 @@ const AdyList = ({ adys, setAdys }) => {
 
     // Đếm số lượng người dùng theo role
     return (
-        <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
+        <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg ">
             <h2 className="text-center text-2xl font-semibold mb-6">Manage Admission</h2>
             {/* Hiển thị số lượng người dùng */}
             <div className="flex space-x-2">
@@ -88,35 +116,56 @@ const AdyList = ({ adys, setAdys }) => {
             {/* Khung danh sách người dùng */}
             <div className="max-h-[458px] overflow-y-auto border border-gray-300 rounded p-4">
                 <ul className="space-y-2">
-                    {filteredAdys.map((ady) => (
-                        <li
-                            key={ady._id}
-                            className="flex justify-between items-center p-4 border border-gray-200 rounded shadow-sm"
-                        >
-                            {ady.yearName}
-                            {/* ({ady.majorName}) */}
-                            <div className="flex ml-auto">
-                                <button
-                                    onClick={() => handleEdit(ady)}
-                                    className="bg-yellow-500 text-white py-1 px-3 rounded hover:bg-yellow-600 mr-2"
-                                >
-                                    Edit
-                                </button>
-                                <button
-                                    onClick={() => handleDelete(ady)}
-                                    className="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 mr-2"
-                                >
-                                    Delete
-                                </button>
-                                <button
-                                    onClick={() => handleMoreClick(ady)}
-                                    className="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600"
-                                >
-                                    More
-                                </button>
-                            </div>
-                        </li>
-                    ))}
+                    {filteredAdys.map((ady) => {
+                        const currentDate = new Date();
+                        const endDate = new Date(ady.endDate);
+                        const isActive = endDate > currentDate;
+
+                        return (
+                            <li key={ady._id} className="flex justify-between items-center p-4 border rounded ">
+                                {ady.yearName}
+                                <div className="flex ml-auto">
+                                    <span
+                                        className={`px-2 py-1 text-sm font-semibold rounded mr-2 ${
+                                            isActive
+                                                ? "bg-green-200 text-green-800" // Active
+                                                : "bg-red-200 text-red-800" // Inactive
+                                        }`}
+                                    >
+                                        {isActive ? "Active" : "Inactive"}
+                                    </span>
+                                    <button
+                                        onClick={() => handleEdit(ady)}
+                                        disabled={!isActive} // Vô hiệu hóa nếu không Active
+                                        className={`py-1 px-3 rounded mr-2 ${
+                                            isActive
+                                                ? "bg-yellow-500 text-white hover:bg-yellow-600"
+                                                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                        }`}
+                                    >
+                                        Edit
+                                    </button>
+                                    <button
+                                        onClick={() => handleDelete(ady)}
+                                        disabled={!isActive} // Vô hiệu hóa nếu không Active
+                                        className={`py-1 px-3 rounded mr-2 ${
+                                            isActive
+                                                ? "bg-red-500 text-white hover:bg-red-600"
+                                                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                        }`}
+                                    >
+                                        Delete
+                                    </button>
+                                    <button
+                                        onClick={() => handleMoreClick(ady)}
+                                        className="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600"
+                                    >
+                                        More
+                                    </button>
+                                </div>
+                            </li>
+                        );
+                    })}
                 </ul>
             </div>
 

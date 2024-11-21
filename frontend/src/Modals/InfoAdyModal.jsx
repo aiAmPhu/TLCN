@@ -1,6 +1,6 @@
 // Modal.js
 import React from "react";
-
+import { format } from "date-fns";
 const InfoAdyModal = ({ ady, onClose }) => {
     if (!ady) return null;
 
@@ -16,31 +16,51 @@ const InfoAdyModal = ({ ady, onClose }) => {
                         <strong>Name:</strong> {ady.yearName}
                     </p>
                     <p>
-                        <strong>Start Date:</strong> {ady.startDate}
+                        <strong>Start Date:</strong> {format(new Date(ady.startDate), "dd/MM/yyyy")}
                     </p>
                     <p>
-                        <strong>End Date:</strong> {ady.endDate}
+                        <strong>End Date:</strong> {format(new Date(ady.endDate), "dd/MM/yyyy")}
                     </p>
                     {/* Hiển thị Majors dưới dạng bảng */}
                     <div>
                         <strong>Majors:</strong>
-                        {Array.isArray(ady.majorCombination) && ady.majorCombination.length > 0 ? (
+                        {Array.isArray(ady.yearMajors) && ady.yearMajors.length > 0 ? (
                             <table className="table-auto border-collapse border border-gray-500 mt-2 w-full">
                                 <thead>
                                     <tr className="bg-gray-200">
-                                        <th className="border border-gray-500 px-4 py-2">#</th>
-                                        <th className="border border-gray-500 px-4 py-2">Major</th>
+                                        <th className="border border-gray-500 px-4 py-2" colSpan={4}>
+                                            Majors
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {ady.majorCombination.map((major, index) => (
-                                        <tr key={index} className="hover:bg-gray-100">
-                                            <td className="border border-gray-500 px-4 py-2 text-center">
-                                                {index + 1}
-                                            </td>
-                                            <td className="border border-gray-500 px-4 py-2">{major}</td>
-                                        </tr>
-                                    ))}
+                                    {ady.yearMajors
+                                        .reduce((rows, major, index) => {
+                                            // Group items into rows of 4
+                                            if (index % 4 === 0) rows.push([]);
+                                            rows[rows.length - 1].push(major);
+                                            return rows;
+                                        }, [])
+                                        .map((row, rowIndex) => (
+                                            <tr key={rowIndex} className="hover:bg-gray-100">
+                                                {row.map((major, colIndex) => (
+                                                    <td
+                                                        key={colIndex}
+                                                        className="border border-gray-500 px-4 py-2 text-center"
+                                                    >
+                                                        {major}
+                                                    </td>
+                                                ))}
+                                                {/* Add empty cells to fill row if less than 4 items */}
+                                                {row.length < 4 &&
+                                                    Array.from({ length: 4 - row.length }).map((_, emptyIndex) => (
+                                                        <td
+                                                            key={`empty-${rowIndex}-${emptyIndex}`}
+                                                            className="border border-gray-500 px-4 py-2"
+                                                        ></td>
+                                                    ))}
+                                            </tr>
+                                        ))}
                                 </tbody>
                             </table>
                         ) : (

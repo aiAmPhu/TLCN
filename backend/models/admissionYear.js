@@ -6,6 +6,7 @@ const admissionYearSchema = new mongoose.Schema({
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },
     yearMajors: { type: [String], required: true },
+    status: { type: String, required: true },
 });
 
 const AdYear = mongoose.model("admissionyear", admissionYearSchema);

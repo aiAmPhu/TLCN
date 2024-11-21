@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { endOfYear } from "date-fns"; // Import hàm endOfYear từ date-fns
+import { endOfYear, addDays } from "date-fns"; // Import hàm endOfYear từ date-fns
 import { CalendarDaysIcon } from "@heroicons/react/24/solid";
 const AdyFormModal = ({ adyId, adyToEdit, setAdys, onClose, isEditing }) => {
     const [yearId, setYearId] = useState("");
@@ -11,6 +11,7 @@ const AdyFormModal = ({ adyId, adyToEdit, setAdys, onClose, isEditing }) => {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [yearMajors, setYearMajors] = useState("");
+
     const [error, setError] = useState("");
     const [admissionMajors, setAdmissionMajors] = useState([]); // Lưu danh sách từ MongoDB
     const [selectedCombinations, setSelectedCombinations] = useState([]); // Lưu các combination được chọn
@@ -141,7 +142,7 @@ const AdyFormModal = ({ adyId, adyToEdit, setAdys, onClose, isEditing }) => {
                                 selected={endDate}
                                 onChange={(date) => setEndDate(date)}
                                 dateFormat="dd-MM-yyyy"
-                                minDate={startDate} // Ngày nhỏ nhất là startDate
+                                minDate={addDays(startDate, 1)} // Ngày nhỏ nhất là startDate
                                 maxDate={maxDate} // Ngày lớn nhất là ngày cuối năm của startDate
                                 placeholderText="End date"
                                 className="w-[150px] p-2 border border-gray-300 rounded pr-10"
