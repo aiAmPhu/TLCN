@@ -7,6 +7,7 @@ import adbRoutes from "./routes/adbRoutes.js";
 import admRoutes from "./routes/admRoutes.js";
 import permissionRoutes from "./routes/permissionRoutes.js";
 import yearRoutes from "./routes/adyRoutes.js";
+import adcRoutes from "./routes/adcRoutes.js";
 import cors from "cors";
 
 dotenv.config();
@@ -21,4 +22,5 @@ app.use("/api/adbs", adbRoutes);
 app.use("/api/adms", admRoutes);
 app.use("/api/permissions", permissionRoutes);
 app.use("/api/adys", yearRoutes);
+app.use("/api/adcs", adcRoutes);
 export default app;

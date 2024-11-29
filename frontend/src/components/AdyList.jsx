@@ -72,7 +72,7 @@ const AdyList = ({ adys, setAdys }) => {
                             status: "Inactive",
                         });
                     }
-                    return Promise.resolve(); // Không cần cập nhật nếu không Active
+                    //return Promise.resolve(); // Không cần cập nhật nếu không Active
                 });
 
                 await Promise.all(updates); // Đợi tất cả cập nhật hoàn tất

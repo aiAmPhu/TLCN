@@ -3,7 +3,7 @@ import AdMajor from "../models/admissionMajor.js"; // Đổi tên model thành A
 // Thêm Major mới
 export const addAdMajor = async (req, res) => {
     try {
-        const { majorId, majorCodeName, majorName, majorCombination, majorDescription } = req.body;
+        const { majorId, majorCodeName, majorName, majorCombination, majorDescription, majorCriteria } = req.body;
 
         // Kiểm tra xem Major ID đã tồn tại chưa
         const existingMajor = await AdMajor.findOne({ majorId });
@@ -20,6 +20,7 @@ export const addAdMajor = async (req, res) => {
             majorName,
             majorCombination,
             majorDescription,
+            majorCriteria,
         });
 
         await newMajor.save();
@@ -44,7 +45,7 @@ export const getAllAdMajors = async (req, res) => {
 export const updateAdMajor = async (req, res) => {
     try {
         const { id } = req.params;
-        const { majorId, majorCodeName, majorName, majorCombination, majorDescription } = req.body;
+        const { majorId, majorCodeName, majorName, majorCombination, majorDescription, majorCriteria } = req.body;
 
         // Kiểm tra xem Major ID có trùng với ID của một Major khác không
         const existingMajor = await AdMajor.findOne({ majorId });
@@ -63,6 +64,7 @@ export const updateAdMajor = async (req, res) => {
                 majorName,
                 majorCombination,
                 majorDescription,
+                majorCriteria,
             },
             { new: true, runValidators: true }
         );

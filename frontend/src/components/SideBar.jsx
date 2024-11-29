@@ -32,6 +32,12 @@ const Sidebar = () => {
                     </Link>
                 </li>
                 <li>
+                    <Link to="/criteria" className="flex items-center p-2 hover:bg-gray-700 rounded">
+                        <AcademicCapIcon className="w-5 h-5 mr-4" />
+                        Quản lý diện xét tuyển
+                    </Link>
+                </li>
+                <li>
                     <Link to="/major" className="flex items-center p-2 hover:bg-gray-700 rounded">
                         <CubeIcon className="w-5 h-5 mr-4" />
                         Quản lý ngành xét tuyển
@@ -78,7 +84,7 @@ const Sidebar = () => {
                                         }`}
                                         onClick={() => handleOptionClick("Option 2")}
                                     >
-                                        Nhập điểm chuẩn
+                                        Quản lý ngành tuyển sinh
                                     </Link>
                                 </li>
                                 <li>

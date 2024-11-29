@@ -94,3 +94,14 @@ export const deleteAdYear = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+export const getAllYearMajors = async (req, res) => {
+    try {
+        // Chỉ lấy trường yearMajors
+        const { id } = req.params;
+        const years = await AdYear.find(id).select("yearMajors");
+        res.status(200).json(years);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};

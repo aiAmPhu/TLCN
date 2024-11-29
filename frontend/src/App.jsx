@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Sidebar from "./components/SideBar"; // Import Sidebar
 import UserListPage from "./pages/UserListPage"; // Trang quản lý Users
 import AdbListPage from "./pages/AdbListPage"; // Trang quản lý Khối xét tuyển
+import AdcListPage from "./pages/AdcListPage";
 import AdmListPage from "./pages/AdmListPage"; // Trang quản lý Ngành xét tuyển
 import PermissionListPage from "./pages/PermissionList"; // Trang quản lý Phân quyền
 import AdyListPage from "./pages/AdyListPage";
@@ -21,8 +22,9 @@ function App() {
                         <Route path="/user" element={<UserListPage />} />
                         <Route path="/block" element={<AdbListPage />} />
                         <Route path="/major" element={<AdmListPage />} />
+                        <Route path="/criteria" element={<AdcListPage />} />
                         <Route path="/permission" element={<PermissionListPage />} />
-                        <Route path="/permission" element={<PermissionListPage />} />
+
                         {/* Hiển thị Hello World 1 */}
                         <Route path="/option1" element={<AdyListPage />} />
                         <Route path="/option2" element={<h1 className="text-2xl font-bold">Hello World 2</h1>} />

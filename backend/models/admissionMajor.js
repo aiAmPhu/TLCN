@@ -6,6 +6,7 @@ const adMSchema = new mongoose.Schema({
     majorName: { type: String, required: true },
     majorCombination: { type: [String], required: true },
     majorDescription: { type: String, default: null },
+    // majorCriteria: { type: [String], default: null },
 });
 
 const adMajor = mongoose.model("admissionmajor", adMSchema);
