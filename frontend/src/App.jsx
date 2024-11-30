@@ -7,6 +7,8 @@ import AdcListPage from "./pages/AdcListPage";
 import AdmListPage from "./pages/AdmListPage"; // Trang quản lý Ngành xét tuyển
 import PermissionListPage from "./pages/PermissionList"; // Trang quản lý Phân quyền
 import AdyListPage from "./pages/AdyListPage";
+import AdrListPage from "./pages/AdrListPage";
+import AdoListPage from "./pages/AdoListPage";
 //import GraduateListPage from "./pages/GraduateListPage"; // Trang quản lý Tuyển sinh
 
 function App() {
@@ -23,6 +25,8 @@ function App() {
                         <Route path="/block" element={<AdbListPage />} />
                         <Route path="/major" element={<AdmListPage />} />
                         <Route path="/criteria" element={<AdcListPage />} />
+                        <Route path="/region" element={<AdrListPage />} />
+                        <Route path="/object" element={<AdoListPage />} />
                         <Route path="/permission" element={<PermissionListPage />} />
 
                         {/* Hiển thị Hello World 1 */}

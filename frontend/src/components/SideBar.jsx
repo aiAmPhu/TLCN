@@ -1,6 +1,14 @@
 // src/components/Sidebar.jsx
 import { Link } from "react-router-dom";
-import { UserIcon, FolderIcon, CubeIcon, UsersIcon, AcademicCapIcon } from "@heroicons/react/24/outline";
+import {
+    UserIcon,
+    FolderIcon,
+    CubeIcon,
+    UsersIcon,
+    AcademicCapIcon,
+    MapPinIcon,
+    IdentificationIcon,
+} from "@heroicons/react/24/outline";
 import { useState } from "react";
 
 const Sidebar = () => {
@@ -41,6 +49,18 @@ const Sidebar = () => {
                     <Link to="/major" className="flex items-center p-2 hover:bg-gray-700 rounded">
                         <CubeIcon className="w-5 h-5 mr-4" />
                         Quản lý ngành xét tuyển
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/region" className="flex items-center p-2 hover:bg-gray-700 rounded">
+                        <MapPinIcon className="w-5 h-5 mr-4" />
+                        Quản lý khu vực ưu tiên
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/object" className="flex items-center p-2 hover:bg-gray-700 rounded">
+                        <IdentificationIcon className="w-5 h-5 mr-4" />
+                        Quản lý đối tượng ưu tiên
                     </Link>
                 </li>
                 <li>
