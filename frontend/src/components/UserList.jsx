@@ -1,5 +1,5 @@
 // UserList.js
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import InfoModal from "../Modals/InfoModal";
 import UserFormModal from "../Modals/UserFormModal";
