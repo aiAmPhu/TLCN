@@ -18,13 +18,57 @@ const InfoAdmModal = ({ adm, onClose }) => {
                     <p>
                         <strong>Name:</strong> {adm.majorName}
                     </p>
-                    <p>
+                    {/* <p>
                         <strong>Combination:</strong>{" "}
                         {Array.isArray(adm.majorCombination) ? adm.majorCombination.join(", ") : adm.majorCombination}
-                    </p>
+                    </p> */}
                     <p>
                         <strong>Descripstion:</strong> {adm.majorDescription}
                     </p>
+                    <div>
+                        {Array.isArray(adm.majorCombination) && adm.majorCombination.length > 0 ? (
+                            <table className="table-auto border-collapse border border-gray-500 mt-2 w-full">
+                                <thead>
+                                    <tr className="bg-gray-200">
+                                        <th className="border border-gray-500 px-4 py-2" colSpan={4}>
+                                            Majors
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {adm.majorCombination
+                                        .reduce((rows, major, index) => {
+                                            // Group items into rows of 4
+                                            if (index % 4 === 0) rows.push([]);
+                                            rows[rows.length - 1].push(major);
+                                            return rows;
+                                        }, [])
+                                        .map((row, rowIndex) => (
+                                            <tr key={rowIndex} className="hover:bg-gray-100">
+                                                {row.map((major, colIndex) => (
+                                                    <td
+                                                        key={colIndex}
+                                                        className="border border-gray-500 px-4 py-2 text-center"
+                                                    >
+                                                        {major}
+                                                    </td>
+                                                ))}
+                                                {/* Add empty cells to fill row if less than 4 items */}
+                                                {row.length < 4 &&
+                                                    Array.from({ length: 4 - row.length }).map((_, emptyIndex) => (
+                                                        <td
+                                                            key={`empty-${rowIndex}-${emptyIndex}`}
+                                                            className="border border-gray-500 px-4 py-2"
+                                                        ></td>
+                                                    ))}
+                                            </tr>
+                                        ))}
+                                </tbody>
+                            </table>
+                        ) : (
+                            <p>No majors available</p>
+                        )}
+                    </div>
                 </div>
                 <div className="mt-4 flex justify-end">
                     <button onClick={onClose} className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600">

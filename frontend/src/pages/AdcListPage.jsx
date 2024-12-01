@@ -12,7 +12,7 @@ const AdcListPage = () => {
                 const response = await axios.get("http://localhost:8080/api/adcs/getall");
                 setAdcs(response.data);
             } catch (error) {
-                console.error("Error fetching admission block", error);
+                console.error("Error fetching admission score", error);
             }
         };
 

@@ -9,6 +9,7 @@ import PermissionListPage from "./pages/PermissionList"; // Trang quản lý Ph�
 import AdyListPage from "./pages/AdyListPage";
 import AdrListPage from "./pages/AdrListPage";
 import AdoListPage from "./pages/AdoListPage";
+import AdqListPage from "./pages/AdqListPage";
 //import GraduateListPage from "./pages/GraduateListPage"; // Trang quản lý Tuyển sinh
 
 function App() {
@@ -28,7 +29,7 @@ function App() {
                         <Route path="/region" element={<AdrListPage />} />
                         <Route path="/object" element={<AdoListPage />} />
                         <Route path="/permission" element={<PermissionListPage />} />
-
+                        <Route path="/quantity" element={<AdqListPage />} />
                         {/* Hiển thị Hello World 1 */}
                         <Route path="/option1" element={<AdyListPage />} />
                         <Route path="/option2" element={<h1 className="text-2xl font-bold">Hello World 2</h1>} />

@@ -8,6 +8,7 @@ import {
     AcademicCapIcon,
     MapPinIcon,
     IdentificationIcon,
+    PencilSquareIcon,
 } from "@heroicons/react/24/outline";
 import { useState } from "react";
 
@@ -55,6 +56,12 @@ const Sidebar = () => {
                     <Link to="/region" className="flex items-center p-2 hover:bg-gray-700 rounded">
                         <MapPinIcon className="w-5 h-5 mr-4" />
                         Quản lý khu vực ưu tiên
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/quantity" className="flex items-center p-2 hover:bg-gray-700 rounded">
+                        <PencilSquareIcon className="w-5 h-5 mr-4" />
+                        Quản lý chỉ tiêu
                     </Link>
                 </li>
                 <li>
