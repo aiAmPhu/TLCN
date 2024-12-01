@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import 'font-awesome/css/font-awesome.min.css';
-import backgroundImage from '../../public/background.jpg';
+import backgroundImage from '../../public/backgroundhcmute.jpg';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
 const LoginPage = () => {
