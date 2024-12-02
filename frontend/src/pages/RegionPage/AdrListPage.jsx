@@ -1,7 +1,7 @@
 // src/pages/UserListPage.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import AdrList from "../components/AdrList";
+import AdrList from "./AdrList";
 
 const AdrListPage = () => {
     const [adrs, setAdrs] = useState([]);

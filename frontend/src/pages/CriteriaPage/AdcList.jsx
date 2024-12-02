@@ -1,8 +1,8 @@
 // UserList.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import InfoAdcModal from "../Modals/InfoAdcModal";
-import AdcFormModal from "../Modals/AdcFormModal";
+import InfoAdcModal from "../../Modals/CriteriaModal/InfoAdcModal";
+import AdcFormModal from "../../Modals/CriteriaModal/AdcFormModal";
 
 const AdcList = ({ adcs, setAdcs }) => {
     const [selectedAdc, setSelectedAdc] = useState(null);

@@ -1,8 +1,8 @@
 // UserList.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import InfoAdbModal from "../Modals/InfoAdbModal";
-import AdbFormModal from "../Modals/AdbFormModal";
+import InfoAdbModal from "../../Modals/BlockModal/InfoAdbModal";
+import AdbFormModal from "../../Modals/BlockModal/AdbFormModal";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
 const AdbList = ({ adbs, setAdbs }) => {
     const [selectedAdb, setSelectedAdb] = useState(null);

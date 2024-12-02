@@ -1,7 +1,7 @@
 // src/pages/UserListPage.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import UserList from "../components/UserList";
+import UserList from "./UserList";
 
 const UserListPage = () => {
     const [users, setUsers] = useState([]);

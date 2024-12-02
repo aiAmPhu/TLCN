@@ -1,8 +1,8 @@
 // UserList.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import InfoAdyModal from "../Modals/InfoAdyModal";
-import AdyFormModal from "../Modals/AdyFormModal";
+import InfoAdyModal from "../../Modals/YearModal/InfoAdyModal";
+import AdyFormModal from "../../Modals/YearModal/AdyFormModal";
 
 const AdyList = ({ adys, setAdys }) => {
     const [selectedAdy, setSelectedAdy] = useState(null);

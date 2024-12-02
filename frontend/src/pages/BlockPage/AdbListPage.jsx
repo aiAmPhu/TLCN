@@ -1,7 +1,7 @@
 // src/pages/UserListPage.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import AdbList from "../components/AdbList";
+import AdbList from "./AdbList";
 
 const AdbListPage = () => {
     const [adbs, setAdbs] = useState([]);

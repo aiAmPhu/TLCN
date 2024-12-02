@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-import InfoAdqModal from "../Modals/InfoAdqModal";
-import AdqFormModal from "../Modals/AdqFormModal";
+import InfoAdqModal from "../../Modals/QuantityModal/InfoAdqModal";
+import AdqFormModal from "../../Modals/QuantityModal/AdqFormModal";
 
 const AdqList = ({ adqs, setAdqs }) => {
     const [selectedAdq, setSelectedAdq] = useState(null);

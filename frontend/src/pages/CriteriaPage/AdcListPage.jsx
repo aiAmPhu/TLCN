@@ -1,7 +1,7 @@
 // src/pages/UserListPage.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import AdcList from "../components/AdcList";
+import AdcList from "./AdcList";
 
 const AdcListPage = () => {
     const [adcs, setAdcs] = useState([]);

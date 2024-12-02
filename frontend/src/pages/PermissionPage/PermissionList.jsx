@@ -1,9 +1,9 @@
 // UserList.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import InfoModal from "../Modals/InfoModal";
-import PermissionFormModal from "../Modals/PermissionFormModal";
-import InfoPermissionModal from "../Modals/InfoPermissionModal";
+import InfoModal from "../../Modals/UserModal/InfoModal";
+import PermissionFormModal from "../../Modals/PermissionModal/PermissionFormModal";
+import InfoPermissionModal from "../../Modals/PermissionModal/InfoPermissionModal";
 const PermissionList = ({ users, setUsers }) => {
     const [selectedUser, setSelectedUser] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -45,7 +45,8 @@ const PermissionList = ({ users, setUsers }) => {
     };
 
     useEffect(() => {
-        setFilteredUsers(users); // Cập nhật danh sách người dùng khi users thay đổi
+        setFilteredUsers(users);
+        console.log(users); // Cập nhật danh sách người dùng khi users thay đổi
     }, [users]);
 
     return (

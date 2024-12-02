@@ -1,79 +1,81 @@
 // UserList.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import InfoAdmModal from "../Modals/InfoAdmModal";
-import AdmFormModal from "../Modals/AdmFormModal";
+// import InfoAdrModal from "../Modals/InfoAdrModal";
+// import AdrFormModal from "../Modals/AdrFormModal";
+import InfoAdrModal from "../../Modals/RegionModal/InfoAdrModal";
+import AdrFormModal from "../../Modals/RegionModal/AdrFormModal";
 
-const AdmList = ({ adms, setAdms }) => {
-    const [selectedAdm, setSelectedAdm] = useState(null);
+const AdrList = ({ adrs, setAdrs }) => {
+    const [selectedAdr, setSelectedAdr] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [admToEdit, setAdmToEdit] = useState(null);
+    const [adrToEdit, setAdrToEdit] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
-    const [filteredAdms, setFilteredAdms] = useState(adms); // Trạng thái lưu người dùng đã lọc
+    const [filteredAdrs, setFilteredAdrs] = useState(adrs); // Trạng thái lưu người dùng đã lọc
     const [searchQuery, setSearchQuery] = useState(""); // Trạng thái lưu giá trị tìm kiếm
-    const [admCount, setAdmCount] = useState(0);
+    const [adrCount, setAdrCount] = useState(0);
 
-    const handleDelete = async (adm) => {
-        const confirmDelete = window.confirm(`Are you sure you want to delete ${adm.name}?`);
+    const handleDelete = async (adr) => {
+        const confirmDelete = window.confirm(`Are you sure you want to delete ${adr.regionId}?`);
         if (confirmDelete) {
             try {
-                await axios.delete(`http://localhost:8080/api/adms/delete/${adm._id}`);
-                const response = await axios.get("http://localhost:8080/api/adms/getall");
-                setAdms(response.data); // Cập nhật lại danh sách người dùng sau khi xóa
+                await axios.delete(`http://localhost:8080/api/adrs/delete/${adr._id}`);
+                const response = await axios.get("http://localhost:8080/api/adrs/getall");
+                setAdrs(response.data); // Cập nhật lại danh sách người dùng sau khi xóa
             } catch (error) {
                 console.error("Error while delete", error);
             }
         }
     };
 
-    const handleMoreClick = (adm) => {
-        setSelectedAdm(adm);
+    const handleMoreClick = (adr) => {
+        setSelectedAdr(adr);
     };
 
-    const handleEdit = (adm) => {
-        setAdmToEdit(adm);
+    const handleEdit = (adr) => {
+        setAdrToEdit(adr);
         setIsEditing(true);
         setIsModalOpen(true); // Mở modal chỉnh sửa
     };
 
-    const handleAddAdm = () => {
-        setAdmToEdit(null); // Đặt userToEdit là null cho form thêm mới
+    const handleAddAdr = () => {
+        setAdrToEdit(null); // Đặt userToEdit là null cho form thêm mới
         setIsEditing(false); // Đặt chế độ là thêm mới
         setIsModalOpen(true); // Mở modal thêm mới
     };
 
     const handleCloseModal = () => {
-        setSelectedAdm(null); // Đóng modal
+        setSelectedAdr(null); // Đóng modal
     };
 
     const handleSearchChange = (e) => {
         const query = e.target.value.toLowerCase();
         setSearchQuery(query);
 
-        const filtered = adms.filter((adm) => adm.majorId.toLowerCase().includes(query));
-        setFilteredAdms(filtered);
+        const filtered = adrs.filter((adr) => adr.regionId.toLowerCase().includes(query));
+        setFilteredAdrs(filtered);
     };
     useEffect(() => {
-        // Lấy toàn bộ admission blocks (ADB)
-        setFilteredAdms(adms); // Giả sử bạn có danh sách ADB là 'admissionBlocks'
-        setAdmCount(adms.length); // Cập nhật số lượng admission blocks
-        console.log(adms);
-    }, [adms]); // Lắng nghe thay đổi của role và users
+        // Lấy toàn bộ adrission blocks (ADB)
+        setFilteredAdrs(adrs); // Giả sử bạn có danh sách ADB là 'adrissionBlocks'
+        setAdrCount(adrs.length); // Cập nhật số lượng adrission blocks
+        console.log(adrs);
+    }, [adrs]); // Lắng nghe thay đổi của role và users
 
     // Đếm số lượng người dùng theo role
     return (
         <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
-            <h2 className="text-center text-2xl font-semibold mb-6">Admission Major List</h2>
+            <h2 className="text-center text-2xl font-semibold mb-6">Admission Region List</h2>
             {/* Hiển thị số lượng người dùng */}
             <div className="flex space-x-2">
                 {/* Nút Add */}
                 <button
-                    onClick={handleAddAdm}
+                    onClick={handleAddAdr}
                     className="bg-green-500 text-white py-1 px-3 rounded hover:bg-green-600 mb-4"
                 >
                     Add
                 </button>
-                <p className="p-2 pr-8 border border-gray-300 rounded mb-4">Total: {admCount}</p>
+                <p className="p-2 pr-8 border border-gray-300 rounded mb-4">Total: {adrCount}</p>
                 {/* Thanh tìm kiếm */}
                 <div className="flex space-x-2 justify-end mb-4">
                     <input
@@ -88,27 +90,27 @@ const AdmList = ({ adms, setAdms }) => {
             {/* Khung danh sách người dùng */}
             <div className="max-h-[458px] overflow-y-auto border border-gray-300 rounded p-4">
                 <ul className="space-y-2">
-                    {filteredAdms.map((adm) => (
+                    {filteredAdrs.map((adr) => (
                         <li
-                            key={adm._id}
+                            key={adr._id}
                             className="flex justify-between items-center p-4 border border-gray-200 rounded shadow-sm"
                         >
-                            {adm.majorId} ({adm.majorName})
+                            {adr.regionId} ({adr.regionName})
                             <div className="flex ml-auto">
                                 <button
-                                    onClick={() => handleEdit(adm)}
+                                    onClick={() => handleEdit(adr)}
                                     className="bg-yellow-500 text-white py-1 px-3 rounded hover:bg-yellow-600 mr-2"
                                 >
                                     Edit
                                 </button>
                                 <button
-                                    onClick={() => handleDelete(adm)}
+                                    onClick={() => handleDelete(adr)}
                                     className="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 mr-2"
                                 >
                                     Delete
                                 </button>
                                 <button
-                                    onClick={() => handleMoreClick(adm)}
+                                    onClick={() => handleMoreClick(adr)}
                                     className="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600"
                                 >
                                     More
@@ -120,19 +122,19 @@ const AdmList = ({ adms, setAdms }) => {
             </div>
 
             {isModalOpen && (
-                <AdmFormModal
-                    admId={admToEdit?._id}
-                    admToEdit={admToEdit}
-                    setAdms={setAdms}
+                <AdrFormModal
+                    adrId={adrToEdit?._id}
+                    adrToEdit={adrToEdit}
+                    setAdrs={setAdrs}
                     onClose={() => setIsModalOpen(false)} // Đóng modal
                     isEditing={isEditing}
                 />
             )}
 
             {/* Modal hiển thị chi tiết thông tin người dùng */}
-            <InfoAdmModal adm={selectedAdm} onClose={handleCloseModal} />
+            <InfoAdrModal adr={selectedAdr} onClose={handleCloseModal} />
         </div>
     );
 };
 
-export default AdmList;
+export default AdrList;

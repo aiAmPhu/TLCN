@@ -1,7 +1,7 @@
 // src/pages/UserListPage.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import AdoList from "../components/AdoList";
+import AdoList from "./AdoList";
 
 const AdoListPage = () => {
     const [ados, setAdos] = useState([]);

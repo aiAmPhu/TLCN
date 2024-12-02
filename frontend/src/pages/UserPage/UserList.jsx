@@ -1,8 +1,8 @@
 // UserList.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import InfoModal from "../Modals/InfoModal";
-import UserFormModal from "../Modals/UserFormModal";
+import InfoModal from "../../Modals/UserModal/InfoModal";
+import UserFormModal from "../../Modals/UserModal/UserFormModal";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
 const UserList = ({ users, setUsers }) => {
     const [selectedUser, setSelectedUser] = useState(null);

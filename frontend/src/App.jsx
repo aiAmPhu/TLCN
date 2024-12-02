@@ -1,15 +1,15 @@
 // src/App.jsx
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Sidebar from "./components/SideBar"; // Import Sidebar
-import UserListPage from "./pages/UserListPage"; // Trang quản lý Users
-import AdbListPage from "./pages/AdbListPage"; // Trang quản lý Khối xét tuyển
-import AdcListPage from "./pages/AdcListPage";
-import AdmListPage from "./pages/AdmListPage"; // Trang quản lý Ngành xét tuyển
-import PermissionListPage from "./pages/PermissionList"; // Trang quản lý Phân quyền
-import AdyListPage from "./pages/AdyListPage";
-import AdrListPage from "./pages/AdrListPage";
-import AdoListPage from "./pages/AdoListPage";
-import AdqListPage from "./pages/AdqListPage";
+import UserListPage from "./pages/UserPage/UserListPage"; // Trang quản lý Users
+import AdbListPage from "./pages/BlockPage/AdbListPage"; // Trang quản lý Khối xét tuyển
+import AdcListPage from "./pages/CriteriaPage/AdcListPage";
+import AdmListPage from "./pages/MajorPage/AdmListPage"; // Trang quản lý Ngành xét tuyển
+import PermissionListPage from "./pages/PermissionPage/PermissionListPage"; // Trang quản lý Phân quyền
+import AdyListPage from "./pages/YearPage/AdyListPage";
+import AdrListPage from "./pages/RegionPage/AdrListPage";
+import AdoListPage from "./pages/ObjectPage/AdoListPage";
+import AdqListPage from "./pages/QuantityPage/AdqListPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import HomePage from "./pages/HomePage";
