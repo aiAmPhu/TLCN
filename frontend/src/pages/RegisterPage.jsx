@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import 'font-awesome/css/font-awesome.min.css';
-import backgroundImage from '../../public/background.jpg';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { useState } from "react";
+import "font-awesome/css/font-awesome.min.css";
+import backgroundImage from "../assets/backgroundhcmute.jpg";
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
 
 const RegisterPage = () => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [errors, setErrors] = useState([]);
     const [rememberMe, setRememberMe] = useState(false);
 
@@ -42,9 +42,9 @@ const RegisterPage = () => {
             className="relative flex items-center justify-center min-h-screen bg-cover bg-center"
             style={{
                 backgroundImage: `url(${backgroundImage})`,
-                backgroundSize: "contain", 
-                backgroundPosition: "center", 
-                backgroundRepeat: "no-repeat" 
+                backgroundSize: "contain",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
             }}
         >
             {/* Semi-transparent overlay */}
@@ -53,7 +53,9 @@ const RegisterPage = () => {
             {/* Content container */}
             <div className="relative w-full max-w-md mx-4 bg-white shadow-2xl rounded-lg p-8 z-10">
                 {/* Greeting outside the form */}
-                <h2 className="text-3xl font-semibold text-center text-[#005A8E] mb-4"> {/* HCMUTE Blue Color */}
+                <h2 className="text-3xl font-semibold text-center text-[#005A8E] mb-4">
+                    {" "}
+                    {/* HCMUTE Blue Color */}
                     Đăng ký
                 </h2>
                 {errors.length > 0 && (
@@ -119,7 +121,9 @@ const RegisterPage = () => {
                             checked={rememberMe}
                             onChange={handleRememberMeChange}
                         />
-                        <label htmlFor="customCheck" className="text-gray-600">Ghi nhớ tài khoản</label>
+                        <label htmlFor="customCheck" className="text-gray-600">
+                            Ghi nhớ tài khoản
+                        </label>
                     </div>
                     <button
                         type="submit"
@@ -132,7 +136,7 @@ const RegisterPage = () => {
                 {/* Login Link */}
                 <div className="text-center mt-4">
                     <p className="text-sm text-gray-600">
-                        Đã có tài khoản?{' '}
+                        Đã có tài khoản?{" "}
                         <Link to="/login" className="text-[#005A8E] font-semibold hover:underline">
                             Đăng nhập ngay
                         </Link>

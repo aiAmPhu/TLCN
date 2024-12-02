@@ -10,33 +10,56 @@ import AdyListPage from "./pages/AdyListPage";
 import AdrListPage from "./pages/AdrListPage";
 import AdoListPage from "./pages/AdoListPage";
 import AdqListPage from "./pages/AdqListPage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import HomePage from "./pages/HomePage";
+
 //import GraduateListPage from "./pages/GraduateListPage"; // Trang quản lý Tuyển sinh
 
 function App() {
-    return (
-        <Router>
+    function SidebarLayout() {
+        return (
             <div className="flex">
-                {/* Sidebar */}
-                <Sidebar />
-
-                {/* Main Content */}
-                <div className="w-4/5 p-6">
+                {/* Sidebar cố định */}
+                <Sidebar className="w-1/4 bg-gray-100 h-screen" />
+                {/* Nội dung sẽ thay đổi theo route */}
+                <div className="w-3/4 p-6">
                     <Routes>
-                        <Route path="/user" element={<UserListPage />} />
-                        <Route path="/block" element={<AdbListPage />} />
-                        <Route path="/major" element={<AdmListPage />} />
-                        <Route path="/criteria" element={<AdcListPage />} />
-                        <Route path="/region" element={<AdrListPage />} />
-                        <Route path="/object" element={<AdoListPage />} />
-                        <Route path="/permission" element={<PermissionListPage />} />
-                        <Route path="/quantity" element={<AdqListPage />} />
-                        {/* Hiển thị Hello World 1 */}
-                        <Route path="/option1" element={<AdyListPage />} />
-                        <Route path="/option2" element={<h1 className="text-2xl font-bold">Hello World 2</h1>} />
-                        <Route path="/option3" element={<h1 className="text-2xl font-bold">Hello World 3</h1>} />
+                        <Route path="user" element={<UserListPage />} />
+                        {/* <Route path="/sidebar" element={<Sidebar />} /> */}
+                        <Route path="block" element={<AdbListPage />} />
+                        <Route path="major" element={<AdmListPage />} />
+                        <Route path="criteria" element={<AdcListPage />} />
+                        <Route path="region" element={<AdrListPage />} />
+                        <Route path="object" element={<AdoListPage />} />
+                        <Route path="permission" element={<PermissionListPage />} />
+                        <Route path="quantity" element={<AdqListPage />} />
+
+                        <Route path="option1" element={<AdyListPage />} />
+                        <Route path="option2" element={<h1 className="text-2xl font-bold">Hello World 2</h1>} />
+                        <Route path="option3" element={<h1 className="text-2xl font-bold">Hello World 3</h1>} />
                     </Routes>
                 </div>
             </div>
+        );
+    }
+    return (
+        <Router>
+            {/* className="flex" */}
+            {/* Sidebar */}
+            {/* <LoginPage /> */}
+            {/* <RegisterPage /> */}
+            {/* <HomePage /> */}
+            {/* <Sidebar /> */}
+            <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/home" element={<HomePage />} />
+                <Route path="/sidebar/*" element={<SidebarLayout />} />
+            </Routes>
+
+            {/* Main Content */}
+            {/* <div className="w-4/5 p-6"></div> */}
         </Router>
     );
 }
