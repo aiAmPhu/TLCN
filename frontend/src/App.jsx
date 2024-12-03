@@ -14,9 +14,10 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import HomePage from "./pages/HomePage";
 import ChangePasswordPage from "./pages/ChangePasswordPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 //import GraduateListPage from "./pages/GraduateListPage"; // Trang quản lý Tuyển sinh
 
-import ProfilePage from './pages/ProfilePage/ProfilePage';
+import ProfilePage from "./pages/ProfilePage/ProfilePage";
 
 function App() {
     function SidebarLayout() {
@@ -58,6 +59,7 @@ function App() {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/changepassword" element={<ChangePasswordPage />} />
+                <Route path="/forgotpassword" element={<ForgotPasswordPage />} />
                 <Route path="/home" element={<HomePage />} />
                 <Route path="/sidebar/*" element={<SidebarLayout />} />
                 <Route path="/profile" element={<ProfilePage />} />

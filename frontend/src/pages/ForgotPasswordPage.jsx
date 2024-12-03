@@ -3,23 +3,42 @@ import "font-awesome/css/font-awesome.min.css";
 import backgroundImage from "../assets/backgroundhcmute.jpg";
 
 import axios from "axios";
-const ChangePasswordPage = () => {
+const ForgotPasswordPage = () => {
     const token = localStorage.getItem("token");
     const tokenUser = token ? JSON.parse(atob(token.split(".")[1])) : null;
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [newPassword, setNewpassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-
+    const [countdown, setCountdown] = useState(0);
     const [errors, setErrors] = useState([]);
     const [user, setUser] = useState([]);
     const [userId, setUserId] = useState([]);
     const [userPassword, setUserPassword] = useState([]);
+    const [otp, setOtp] = useState("");
     const handleEmailChange = (e) => setEmail(e.target.value);
     const handlePasswordChange = (e) => setPassword(e.target.value);
     const handleNewPasswordChange = (e) => setNewpassword(e.target.value);
     const handleConfirmPasswordChange = (e) => setConfirmPassword(e.target.value);
+    const handleOtpChange = (e) => setOtp(e.target.value);
 
+    const handleSendOtp = async () => {
+        try {
+            if (!email) {
+                alert("Please enter your email first.");
+                return;
+            }
+            // Gửi yêu cầu gửi OTP
+            const response = await axios.post("http://localhost:8080/api/users/sendOTP", { email });
+            if (response.status === 200) {
+                alert("OTP has been sent to your email.");
+                setCountdown(30);
+            }
+        } catch (error) {
+            console.error("Error sending OTP:", error);
+            alert("Failed to send OTP. Please try again.");
+        }
+    };
     const handleSubmit = async (e) => {
         e.preventDefault();
         const newErrors = [];
@@ -108,39 +127,32 @@ const ChangePasswordPage = () => {
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <input
-                            type="email"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:border-[#005A8E]" // HCMUTE Blue
-                            placeholder="Nhập email"
-                            value={email}
-                            onChange={handleEmailChange}
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <input
-                            type="password"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:border-[#005A8E]" // HCMUTE Blue
-                            placeholder="Nhập mật khẩu cũ"
-                            value={password}
-                            onChange={handlePasswordChange}
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <input
-                            type="password"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:border-[#005A8E]" // HCMUTE Blue
-                            placeholder="Nhập mật khẩu mới"
-                            value={newPassword}
-                            onChange={handleNewPasswordChange}
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <input
                             type="password"
                             className="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:border-[#005A8E]" // HCMUTE Blue
                             placeholder="Nhập lại mật khẩu"
                             value={confirmPassword}
                             onChange={handleConfirmPasswordChange}
                         />
+                    </div>
+                    <div className="mb-4 flex items-center space-x-2">
+                        {/* Input OTP */}
+                        <input
+                            type="text"
+                            className="flex-grow px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:border-[#005A8E]"
+                            placeholder="Nhập OTP"
+                            value={otp}
+                            onChange={handleOtpChange}
+                            //disabled={countdown > 0} // Không cho nhập nếu đang đếm ngược
+                        />
+                        {/* Gửi OTP button */}
+                        <button
+                            type="button"
+                            onClick={handleSendOtp}
+                            className="px-4 py-2 bg-[#005A8E] text-white font-semibold rounded-md hover:bg-[#004d7a] transition duration-200"
+                            disabled={countdown > 0} // Không cho gửi nếu đang đếm ngược
+                        >
+                            {countdown > 0 ? formatCountdown() : "Gửi OTP"}
+                        </button>
                     </div>
 
                     <button
@@ -165,4 +177,4 @@ const ChangePasswordPage = () => {
     );
 };
 
-export default ChangePasswordPage;
+export default ForgotPasswordPage;

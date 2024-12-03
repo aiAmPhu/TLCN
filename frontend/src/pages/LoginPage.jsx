@@ -92,7 +92,10 @@ const LoginPage = () => {
     //         console.log("Email:", email, "Password:", password);
     //     }
     // };
-
+    const handleForgotPassword = () => {
+        // Logic xử lý quên mật khẩu (ví dụ: mở popup, điều hướng đến trang reset password, etc.)
+        window.location.href = "/forgotpassword";
+    };
     return (
         <div
             className="relative flex items-center justify-center min-h-screen bg-cover bg-center"
@@ -164,9 +167,19 @@ const LoginPage = () => {
                         Login
                     </button>
                 </form>
-
+                <div className="mt-2">
+                    <p className="text-sm text-gray-600">
+                        <Link
+                            to="#"
+                            onClick={handleForgotPassword} // Hàm gọi khi nhấn vào "Quên mật khẩu"
+                            className="text-[#005A8E] font-semibold hover:underline"
+                        >
+                            Quên mật khẩu?
+                        </Link>
+                    </p>
+                </div>
                 {/* Register Link */}
-                <div className="text-center mt-4">
+                <div className="text-center mt-2">
                     <p className="text-sm text-gray-600">
                         Nếu chưa có tài khoản{" "}
                         <Link to="/register" className="text-[#005A8E] font-semibold hover:underline">

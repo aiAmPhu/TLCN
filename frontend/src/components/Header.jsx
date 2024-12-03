@@ -68,7 +68,7 @@ const Header = () => {
                         <Link to="/overviewBlocks" className="hover:text-blue-500">
                             Khối xét tuyển
                         </Link>
-                        <Link to="/register" className="hover:text-blue-500">
+                        <Link to="/overviewRegisterMajors" className="hover:text-blue-500">
                             Đăng ký xét tuyển
                         </Link>
                         <Link to="/results" className="hover:text-blue-500">
