@@ -1,4 +1,3 @@
-// src/components/Sidebar.jsx
 import { Link } from "react-router-dom";
 import {
     UserIcon,
@@ -13,76 +12,112 @@ import {
 import { useState, useEffect } from "react";
 
 const Sidebar = () => {
-    const [isGraduateOpen, setGraduateOpen] = useState(false); // State để mở/đóng dropdown Tuyển sinh
-    const [activeOption, setActiveOption] = useState(null); // State để lưu lựa chọn hiện tại trong dropdown
+    const [isGraduateOpen, setGraduateOpen] = useState(false); // State to toggle dropdown
+    const [activeOption, setActiveOption] = useState(null); // State to store the active option
     const token = localStorage.getItem("token");
     const tokenUser = token ? JSON.parse(atob(token.split(".")[1])) : null;
     const [user, setUser] = useState([]);
-    // Hàm để thay đổi nội dung hiển thị khi nhấn vào option
+
+    // Function to handle option click and keep it active
     const handleOptionClick = (option) => {
-        setActiveOption(option);
+        setActiveOption(option); // Set the clicked option as active
     };
+
     const handleLogout = () => {
-        localStorage.removeItem("token"); // Xóa token khi đăng xuất
-        window.location.href = "/home"; // Chuyển hướng về trang đăng nhập
+        localStorage.removeItem("token"); // Remove token on logout
+        window.location.href = "/home"; // Redirect to login page
     };
+
     useEffect(() => {
         if (!token || tokenUser?.role !== "admin") {
-            // Nếu không có token hoặc role không phải là admin, chuyển hướng đến trang login
+            // If no token or role is not admin, redirect to login
             window.location.href = "/home";
         }
     }, [token, tokenUser]);
+
     return (
         <div className="w-[270px] h-screen bg-gray-800 text-white p-4">
-            <h2 className="text-xl font-bold mb-4 text-center">
-                <span>Admin</span>
-                <span className="text-yellow-500">Panel</span>
-            </h2>
+            <span className="inline-block w-full">
+                <img src="../../public/myUTE_Admin.png" alt="Logo" className="w-full h-auto object-contain" />
+            </span>
+
             <ul>
                 <li>
-                    <Link to="user" className="flex items-center p-2 hover:bg-gray-700 rounded">
+                    <Link
+                        to="user"
+                        className={`flex items-center p-2 hover:bg-gray-700 rounded ${activeOption === "user" ? "bg-gray-600" : ""}`}
+                        onClick={() => handleOptionClick("user")}
+                    >
                         <UserIcon className="w-5 h-5 mr-4" />
                         Quản lý Users
                     </Link>
                 </li>
                 <li>
-                    <Link to="block" className="flex items-center p-2 hover:bg-gray-700 rounded">
+                    <Link
+                        to="block"
+                        className={`flex items-center p-2 hover:bg-gray-700 rounded ${activeOption === "block" ? "bg-gray-600" : ""}`}
+                        onClick={() => handleOptionClick("block")}
+                    >
                         <FolderIcon className="w-5 h-5 mr-4" />
                         Quản lý khối xét tuyển
                     </Link>
                 </li>
                 <li>
-                    <Link to="criteria" className="flex items-center p-2 hover:bg-gray-700 rounded">
+                    <Link
+                        to="criteria"
+                        className={`flex items-center p-2 hover:bg-gray-700 rounded ${activeOption === "criteria" ? "bg-gray-600" : ""}`}
+                        onClick={() => handleOptionClick("criteria")}
+                    >
                         <AcademicCapIcon className="w-5 h-5 mr-4" />
                         Quản lý diện xét tuyển
                     </Link>
                 </li>
                 <li>
-                    <Link to="major" className="flex items-center p-2 hover:bg-gray-700 rounded">
+                    <Link
+                        to="major"
+                        className={`flex items-center p-2 hover:bg-gray-700 rounded ${activeOption === "major" ? "bg-gray-600" : ""}`}
+                        onClick={() => handleOptionClick("major")}
+                    >
                         <CubeIcon className="w-5 h-5 mr-4" />
                         Quản lý ngành xét tuyển
                     </Link>
                 </li>
                 <li>
-                    <Link to="region" className="flex items-center p-2 hover:bg-gray-700 rounded">
+                    <Link
+                        to="region"
+                        className={`flex items-center p-2 hover:bg-gray-700 rounded ${activeOption === "region" ? "bg-gray-600" : ""}`}
+                        onClick={() => handleOptionClick("region")}
+                    >
                         <MapPinIcon className="w-5 h-5 mr-4" />
                         Quản lý khu vực ưu tiên
                     </Link>
                 </li>
                 <li>
-                    <Link to="quantity" className="flex items-center p-2 hover:bg-gray-700 rounded">
+                    <Link
+                        to="quantity"
+                        className={`flex items-center p-2 hover:bg-gray-700 rounded ${activeOption === "quantity" ? "bg-gray-600" : ""}`}
+                        onClick={() => handleOptionClick("quantity")}
+                    >
                         <PencilSquareIcon className="w-5 h-5 mr-4" />
                         Quản lý chỉ tiêu
                     </Link>
                 </li>
                 <li>
-                    <Link to="object" className="flex items-center p-2 hover:bg-gray-700 rounded">
+                    <Link
+                        to="object"
+                        className={`flex items-center p-2 hover:bg-gray-700 rounded ${activeOption === "object" ? "bg-gray-600" : ""}`}
+                        onClick={() => handleOptionClick("object")}
+                    >
                         <IdentificationIcon className="w-5 h-5 mr-4" />
                         Quản lý đối tượng ưu tiên
                     </Link>
                 </li>
                 <li>
-                    <Link to="permission" className="flex items-center p-2 hover:bg-gray-700 rounded">
+                    <Link
+                        to="permission"
+                        className={`flex items-center p-2 hover:bg-gray-700 rounded ${activeOption === "permission" ? "bg-gray-600" : ""}`}
+                        onClick={() => handleOptionClick("permission")}
+                    >
                         <UsersIcon className="w-5 h-5 mr-4" />
                         Quản lý phân quyền
                     </Link>
@@ -91,9 +126,7 @@ const Sidebar = () => {
                 {/* Quản lý Tuyển Sinh (Dropdown) */}
                 <li>
                     <button
-                        className={`flex items-center p-2 w-full hover:bg-gray-700 rounded ${
-                            isGraduateOpen ? "bg-gray-700" : ""
-                        }`}
+                        className={`flex items-center p-2 w-full hover:bg-gray-700 rounded ${isGraduateOpen ? "bg-gray-700" : ""}`}
                         onClick={() => setGraduateOpen(!isGraduateOpen)} // Toggle dropdown
                     >
                         <AcademicCapIcon className="w-5 h-5 mr-4" />
@@ -106,10 +139,8 @@ const Sidebar = () => {
                                 <li>
                                     <Link
                                         to="option1"
-                                        className={`p-2 rounded block ${
-                                            activeOption === "Option 1" ? "bg-gray-600" : "hover:bg-gray-600"
-                                        }`}
-                                        onClick={() => handleOptionClick("Option 1")}
+                                        className={`p-2 rounded block ${activeOption === "option1" ? "bg-gray-600" : "hover:bg-gray-600"}`}
+                                        onClick={() => handleOptionClick("option1")}
                                     >
                                         Quản lý cổng tuyển sinh
                                     </Link>
@@ -117,10 +148,8 @@ const Sidebar = () => {
                                 <li>
                                     <Link
                                         to="option2"
-                                        className={`p-2 rounded block ${
-                                            activeOption === "Option 2" ? "bg-gray-600" : "hover:bg-gray-600"
-                                        }`}
-                                        onClick={() => handleOptionClick("Option 2")}
+                                        className={`p-2 rounded block ${activeOption === "option2" ? "bg-gray-600" : "hover:bg-gray-600"}`}
+                                        onClick={() => handleOptionClick("option2")}
                                     >
                                         Quản lý ngành tuyển sinh
                                     </Link>
@@ -128,10 +157,8 @@ const Sidebar = () => {
                                 <li>
                                     <Link
                                         to="option3"
-                                        className={`p-2 rounded block ${
-                                            activeOption === "Option 3" ? "bg-gray-600" : "hover:bg-gray-600"
-                                        }`}
-                                        onClick={() => handleOptionClick("Option 3")}
+                                        className={`p-2 rounded block ${activeOption === "option3" ? "bg-gray-600" : "hover:bg-gray-600"}`}
+                                        onClick={() => handleOptionClick("option3")}
                                     >
                                         Thống kê
                                     </Link>
@@ -141,10 +168,10 @@ const Sidebar = () => {
                     )}
                 </li>
             </ul>
-            {/* Phần ảnh người dùng và nút đăng xuất */}
 
+            {/* Logout Button */}
             <button
-                onClick={handleLogout} // Đăng xuất
+                onClick={handleLogout} // Logout
                 className="px-8 py-2 mt-4 bg-red-600 text-white rounded hover:bg-red-500 mx-auto block"
             >
                 Đăng xuất
