@@ -12,6 +12,7 @@ import adrRoutes from "./routes/adrRoutes.js";
 import adoRoutes from "./routes/adoRoutes.js";
 import adqRoutes from "./routes/adqRoutes.js";
 import jwtRoutes from "./routes/jwtRoutes.js";
+import adiRoutes from "./routes/adiRoutes.js";
 import cors from "cors";
 
 dotenv.config();
@@ -30,5 +31,6 @@ app.use("/api/adcs", adcRoutes);
 app.use("/api/adrs", adrRoutes);
 app.use("/api/ados", adoRoutes);
 app.use("/api/adqs", adqRoutes);
+app.use("/api/adis", adiRoutes);
 app.use("/api/jwt", jwtRoutes);
 export default app;
