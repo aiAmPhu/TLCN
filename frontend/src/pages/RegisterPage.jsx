@@ -1,30 +1,45 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "font-awesome/css/font-awesome.min.css";
 import backgroundImage from "../assets/backgroundhcmute.jpg";
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
-
+import axios from "axios";
 const RegisterPage = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
-    const [phone, setPhone] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [otp, setOtp] = useState("");
     const [errors, setErrors] = useState([]);
-    const [rememberMe, setRememberMe] = useState(false);
+    const [countdown, setCountdown] = useState(0);
 
     const handleNameChange = (e) => setName(e.target.value);
     const handleEmailChange = (e) => setEmail(e.target.value);
-    const handlePhoneChange = (e) => setPhone(e.target.value);
     const handlePasswordChange = (e) => setPassword(e.target.value);
     const handleConfirmPasswordChange = (e) => setConfirmPassword(e.target.value);
-    const handleRememberMeChange = () => setRememberMe(!rememberMe);
+    const handleOtpChange = (e) => setOtp(e.target.value);
 
-    const handleSubmit = (e) => {
+    const handleSendOtp = async () => {
+        try {
+            if (!email) {
+                alert("Please enter your email first.");
+                return;
+            }
+            // Gửi yêu cầu gửi OTP
+            const response = await axios.post("http://localhost:8080/api/users/sendOTP", { email });
+            if (response.status === 200) {
+                alert("OTP has been sent to your email.");
+                setCountdown(30);
+            }
+        } catch (error) {
+            console.error("Error sending OTP:", error);
+            alert("Failed to send OTP. Please try again.");
+        }
+    };
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const newErrors = [];
         if (!name) newErrors.push("Name is required");
         if (!email) newErrors.push("Email is required");
-        if (!phone) newErrors.push("Phone number is required");
         if (!password) newErrors.push("Password is required");
         if (!confirmPassword) newErrors.push("Confirm password is required");
         if (password !== confirmPassword) newErrors.push("Passwords do not match");
@@ -32,9 +47,38 @@ const RegisterPage = () => {
         if (newErrors.length > 0) {
             setErrors(newErrors);
         } else {
-            setErrors([]);
-            console.log("Name:", name, "Email:", email, "Phone:", phone, "Password:", password);
+            try {
+                // Xác minh OTP và thêm user
+                const response = await axios.post("http://localhost:8080/api/users/add", {
+                    name,
+                    email,
+                    otp,
+                    password,
+                });
+                alert(response.data.message);
+                window.location.href = "/login";
+            } catch (error) {
+                setErrors([error.response?.data?.message || "Failed to register."]);
+            }
         }
+    };
+
+    useEffect(() => {
+        let timer;
+        if (countdown > 0) {
+            timer = setInterval(() => {
+                setCountdown((prev) => prev - 1);
+            }, 1000);
+        } else {
+            clearInterval(timer);
+        }
+        return () => clearInterval(timer);
+    }, [countdown]);
+
+    const formatCountdown = () => {
+        const minutes = Math.floor(countdown / 60);
+        const seconds = countdown % 60;
+        return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
     };
 
     return (
@@ -88,15 +132,6 @@ const RegisterPage = () => {
                     </div>
                     <div className="mb-4">
                         <input
-                            type="text"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:border-[#005A8E]" // HCMUTE Blue
-                            placeholder="Nhập số điện thoại"
-                            value={phone}
-                            onChange={handlePhoneChange}
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <input
                             type="password"
                             className="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:border-[#005A8E]" // HCMUTE Blue
                             placeholder="Nhập mật khẩu"
@@ -113,17 +148,25 @@ const RegisterPage = () => {
                             onChange={handleConfirmPasswordChange}
                         />
                     </div>
-                    <div className="flex items-center mb-4">
+                    <div className="mb-4 flex items-center space-x-2">
+                        {/* Input OTP */}
                         <input
-                            type="checkbox"
-                            className="mr-2"
-                            id="customCheck"
-                            checked={rememberMe}
-                            onChange={handleRememberMeChange}
+                            type="text"
+                            className="flex-grow px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:border-[#005A8E]"
+                            placeholder="Nhập OTP"
+                            value={otp}
+                            onChange={handleOtpChange}
+                            //disabled={countdown > 0} // Không cho nhập nếu đang đếm ngược
                         />
-                        <label htmlFor="customCheck" className="text-gray-600">
-                            Ghi nhớ tài khoản
-                        </label>
+                        {/* Gửi OTP button */}
+                        <button
+                            type="button"
+                            onClick={handleSendOtp}
+                            className="px-4 py-2 bg-[#005A8E] text-white font-semibold rounded-md hover:bg-[#004d7a] transition duration-200"
+                            disabled={countdown > 0} // Không cho gửi nếu đang đếm ngược
+                        >
+                            {countdown > 0 ? formatCountdown() : "Gửi OTP"}
+                        </button>
                     </div>
                     <button
                         type="submit"

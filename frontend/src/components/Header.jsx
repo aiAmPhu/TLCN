@@ -19,10 +19,16 @@ const Header = () => {
         window.location.href = "/login"; // Chuyển hướng về trang đăng nhập
     };
     useEffect(() => {
-        if (!token || tokenUser?.role !== "user") {
-            // Nếu không có token hoặc role không phải là user, chuyển hướng về trang đăng nhập
-            window.location.href = "/login";
-            return; // Dừng việc gọi API nếu role không phải là user
+        if (tokenUser?.role === "admin") {
+            // Nếu không có token hoặc vai trò là "user", chuyển hướng về trang Home
+            window.location.href = "/sidebar";
+            return; // Dừng việc gọi API nếu điều kiện đúng
+        }
+
+        if (tokenUser?.role === "reviewer") {
+            // Nếu vai trò không phải là "user", chuyển hướng về trang Login
+            window.location.href = "/reviewer";
+            return; // Dừng việc gọi API nếu điều kiện đúng
         }
         const fetchUser = async () => {
             try {
@@ -53,13 +59,13 @@ const Header = () => {
                         <Link to="/home" className="hover:text-blue-500">
                             Trang chủ
                         </Link>
-                        <Link to="/majors" className="hover:text-blue-500">
+                        <Link to="/overviewMajors" className="hover:text-blue-500">
                             Ngành xét tuyển
                         </Link>
-                        <Link to="/methods" className="hover:text-blue-500">
+                        <Link to="/overviewMethods" className="hover:text-blue-500">
                             Diện xét tuyển
                         </Link>
-                        <Link to="/blocks" className="hover:text-blue-500">
+                        <Link to="/overviewBlocks" className="hover:text-blue-500">
                             Khối xét tuyển
                         </Link>
                         <Link to="/register" className="hover:text-blue-500">
@@ -111,8 +117,11 @@ const Header = () => {
                                                     </Link>
                                                 </li>
                                                 <li>
-                                                    <Link to="/profile" className="block px-4 py-2 hover:bg-gray-200">
-                                                        Tài khoản
+                                                    <Link
+                                                        to="/changepassword"
+                                                        className="block px-4 py-2 hover:bg-gray-200"
+                                                    >
+                                                        Đổi mật khẩu
                                                     </Link>
                                                 </li>
                                                 <li>
