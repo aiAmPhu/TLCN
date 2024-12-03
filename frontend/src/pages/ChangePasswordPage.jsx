@@ -52,7 +52,7 @@ const ChangePasswordPage = () => {
             // Nếu không có token hoặc role không phải là user, chuyển hướng về trang đăng nhập
             window.location.href = "/sidebar";
             return; // Dừng việc gọi API nếu role không phải là user
-        } else if (tokenUser?.role === "admin") {
+        } else if (tokenUser?.role === "reviewer") {
             window.location.href = "/sidebar";
             return;
         } else if (tokenUser?.role === null) {

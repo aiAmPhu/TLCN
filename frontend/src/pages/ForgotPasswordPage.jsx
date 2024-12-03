@@ -4,24 +4,12 @@ import backgroundImage from "../assets/backgroundhcmute.jpg";
 
 import axios from "axios";
 const ForgotPasswordPage = () => {
-    const token = localStorage.getItem("token");
-    const tokenUser = token ? JSON.parse(atob(token.split(".")[1])) : null;
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [newPassword, setNewpassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
     const [countdown, setCountdown] = useState(0);
     const [errors, setErrors] = useState([]);
-    const [user, setUser] = useState([]);
-    const [userId, setUserId] = useState([]);
-    const [userPassword, setUserPassword] = useState([]);
     const [otp, setOtp] = useState("");
     const handleEmailChange = (e) => setEmail(e.target.value);
-    const handlePasswordChange = (e) => setPassword(e.target.value);
-    const handleNewPasswordChange = (e) => setNewpassword(e.target.value);
-    const handleConfirmPasswordChange = (e) => setConfirmPassword(e.target.value);
     const handleOtpChange = (e) => setOtp(e.target.value);
-
     const handleSendOtp = async () => {
         try {
             if (!email) {
@@ -44,55 +32,41 @@ const ForgotPasswordPage = () => {
         const newErrors = [];
 
         if (!email) newErrors.push("Email is required");
-        if (!password) newErrors.push("Password is required");
-        if (!newPassword) newErrors.push("Password is required");
-        if (!confirmPassword) newErrors.push("Confirm password is required");
-        if (newPassword !== confirmPassword) newErrors.push("New passwords do not match");
-        if (password !== userPassword) newErrors.push("Wrong password");
+        if (!otp) newErrors.push("OTP is required");
         if (newErrors.length > 0) {
             setErrors(newErrors);
         } else {
             try {
                 // Xác minh OTP và thêm user
-                const response = await axios.put(`http://localhost:8080/api/users/update/${userId}`, {
-                    password: newPassword,
+                const response = await axios.post(`http://localhost:8080/api/users/verify`, {
+                    email,
+                    otp,
                 });
                 alert(response.data.message);
-                localStorage.removeItem("token"); // Xóa token khi đăng xuất
-                window.location.href = "/login";
+                localStorage.setItem("email", email);
+                window.location.href = "/forgotpasswordnextpage";
             } catch (error) {
                 setErrors([error.response?.data?.message || "Failed to register."]);
             }
         }
     };
 
+    const formatCountdown = () => {
+        const minutes = Math.floor(countdown / 60);
+        const seconds = countdown % 60;
+        return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+    };
     useEffect(() => {
-        if (tokenUser?.role === "admin") {
-            // Nếu không có token hoặc role không phải là user, chuyển hướng về trang đăng nhập
-            window.location.href = "/sidebar";
-            return; // Dừng việc gọi API nếu role không phải là user
-        } else if (tokenUser?.role === "admin") {
-            window.location.href = "/sidebar";
-            return;
-        } else if (tokenUser?.role === null) {
-            window.location.href = "/home";
-            return;
+        let timer;
+        if (countdown > 0) {
+            timer = setInterval(() => {
+                setCountdown((prev) => prev - 1);
+            }, 1000);
+        } else {
+            clearInterval(timer);
         }
-        const fetchUser = async () => {
-            try {
-                const response = await axios.get(`http://localhost:8080/api/users/getall`);
-
-                const userTpassword = response.data.find((user) => user.email === tokenUser.email)?.password;
-                setUserPassword(userTpassword);
-                const userTid = response.data.find((user) => user.email === tokenUser.email)?._id;
-                setUserId(userTid);
-            } catch (error) {
-                console.error("Lỗi khi tải dữ liệu", error);
-            }
-        };
-
-        fetchUser();
-    }, []);
+        return () => clearInterval(timer);
+    }, [countdown]);
 
     return (
         <div
@@ -113,7 +87,7 @@ const ForgotPasswordPage = () => {
                 <h2 className="text-3xl font-semibold text-center text-[#005A8E] mb-4">
                     {" "}
                     {/* HCMUTE Blue Color */}
-                    Quên mật khẩu
+                    Xác minh email
                 </h2>
                 {errors.length > 0 && (
                     <div className="bg-red-100 text-red-700 p-4 rounded mb-4">
@@ -127,11 +101,11 @@ const ForgotPasswordPage = () => {
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <input
-                            type="password"
+                            type="text"
                             className="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:border-[#005A8E]" // HCMUTE Blue
-                            placeholder="Nhập lại mật khẩu"
-                            value={confirmPassword}
-                            onChange={handleConfirmPasswordChange}
+                            placeholder="Email"
+                            value={email}
+                            onChange={handleEmailChange}
                         />
                     </div>
                     <div className="mb-4 flex items-center space-x-2">
@@ -159,19 +133,9 @@ const ForgotPasswordPage = () => {
                         type="submit"
                         className="w-full bg-[#005A8E] hover:bg-[#004d7a] text-white font-semibold py-2 px-4 rounded-md transition duration-200" // HCMUTE Blue
                     >
-                        Đổi mật khẩu
+                        Xác minh
                     </button>
                 </form>
-
-                {/* Login Link */}
-                {/* <div className="text-center mt-4">
-                    <p className="text-sm text-gray-600">
-                        Đã có tài khoản?{" "}
-                        <Link to="/login" className="text-[#005A8E] font-semibold hover:underline">
-                            Đăng nhập ngay
-                        </Link>
-                    </p>
-                </div> */}
             </div>
         </div>
     );

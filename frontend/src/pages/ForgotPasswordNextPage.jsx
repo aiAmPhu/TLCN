@@ -1,23 +1,21 @@
 import { useState, useEffect } from "react";
 import "font-awesome/css/font-awesome.min.css";
 import backgroundImage from "../assets/backgroundhcmute.jpg";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
+
 import axios from "axios";
+const ForgotPasswordNextPage = () => {
+    const email = localStorage.getItem("email");
 
-const RegisterPage = () => {
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [newPassword, setNewpassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [otp, setOtp] = useState("");
-    const [errors, setErrors] = useState([]);
     const [countdown, setCountdown] = useState(0);
+    const [errors, setErrors] = useState([]);
 
-    const handleNameChange = (e) => setName(e.target.value);
-    const handleEmailChange = (e) => setEmail(e.target.value);
-    const handlePasswordChange = (e) => setPassword(e.target.value);
+    const [userId, setUserId] = useState([]);
+
+    const handleNewPasswordChange = (e) => setNewpassword(e.target.value);
     const handleConfirmPasswordChange = (e) => setConfirmPassword(e.target.value);
-    const handleOtpChange = (e) => setOtp(e.target.value);
 
     const handleSendOtp = async () => {
         try {
@@ -39,24 +37,19 @@ const RegisterPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const newErrors = [];
-        if (!name) newErrors.push("Name is required");
-        if (!email) newErrors.push("Email is required");
-        if (!password) newErrors.push("Password is required");
+        if (!newPassword) newErrors.push("New password is required");
         if (!confirmPassword) newErrors.push("Confirm password is required");
-        if (password !== confirmPassword) newErrors.push("Passwords do not match");
-
+        if (newPassword !== confirmPassword) newErrors.push("New passwords do not match");
         if (newErrors.length > 0) {
             setErrors(newErrors);
         } else {
             try {
                 // Xác minh OTP và thêm user
-                const response = await axios.post("http://localhost:8080/api/users/add", {
-                    name,
-                    email,
-                    otp,
-                    password,
+                const response = await axios.put(`http://localhost:8080/api/users/update/${userId}`, {
+                    password: newPassword,
                 });
                 alert(response.data.message);
+                localStorage.removeItem("email"); // Xóa token khi đăng xuất
                 window.location.href = "/login";
             } catch (error) {
                 setErrors([error.response?.data?.message || "Failed to register."]);
@@ -64,23 +57,24 @@ const RegisterPage = () => {
         }
     };
 
-    useEffect(() => {
-        let timer;
-        if (countdown > 0) {
-            timer = setInterval(() => {
-                setCountdown((prev) => prev - 1);
-            }, 1000);
-        } else {
-            clearInterval(timer);
-        }
-        return () => clearInterval(timer);
-    }, [countdown]);
-
     const formatCountdown = () => {
         const minutes = Math.floor(countdown / 60);
         const seconds = countdown % 60;
         return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
     };
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/api/users/getall`);
+                const userTid = response.data.find((user) => user.email === email)?._id;
+                setUserId(userTid);
+            } catch (error) {
+                console.error("Lỗi khi tải dữ liệu", error);
+            }
+        };
+
+        fetchUser();
+    }, []);
 
     return (
         <div
@@ -101,7 +95,7 @@ const RegisterPage = () => {
                 <h2 className="text-3xl font-semibold text-center text-[#005A8E] mb-4">
                     {" "}
                     {/* HCMUTE Blue Color */}
-                    Đăng ký
+                    Xác minh email
                 </h2>
                 {errors.length > 0 && (
                     <div className="bg-red-100 text-red-700 p-4 rounded mb-4">
@@ -115,80 +109,32 @@ const RegisterPage = () => {
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <input
-                            type="text"
+                            type="password"
                             className="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:border-[#005A8E]" // HCMUTE Blue
-                            placeholder="Nhập tên"
-                            value={name}
-                            onChange={handleNameChange}
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <input
-                            type="email"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:border-[#005A8E]" // HCMUTE Blue
-                            placeholder="Nhập email"
-                            value={email}
-                            onChange={handleEmailChange}
+                            placeholder="New password"
+                            value={newPassword}
+                            onChange={handleNewPasswordChange}
                         />
                     </div>
                     <div className="mb-4">
                         <input
                             type="password"
                             className="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:border-[#005A8E]" // HCMUTE Blue
-                            placeholder="Nhập mật khẩu"
-                            value={password}
-                            onChange={handlePasswordChange}
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <input
-                            type="password"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:border-[#005A8E]" // HCMUTE Blue
-                            placeholder="Nhập lại mật khẩu"
+                            placeholder="Confirm password"
                             value={confirmPassword}
                             onChange={handleConfirmPasswordChange}
                         />
-                    </div>
-                    <div className="mb-4 flex items-center space-x-2">
-                        {/* Input OTP */}
-                        <input
-                            type="text"
-                            className="flex-grow px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:border-[#005A8E]"
-                            placeholder="Nhập OTP"
-                            value={otp}
-                            onChange={handleOtpChange}
-                            //disabled={countdown > 0} // Không cho nhập nếu đang đếm ngược
-                        />
-                        {/* Gửi OTP button */}
-                        <button
-                            type="button"
-                            onClick={handleSendOtp}
-                            className="px-4 py-2 bg-[#005A8E] text-white font-semibold rounded-md hover:bg-[#004d7a] transition duration-200"
-                            disabled={countdown > 0} // Không cho gửi nếu đang đếm ngược
-                        >
-                            {countdown > 0 ? formatCountdown() : "Gửi OTP"}
-                        </button>
                     </div>
                     <button
                         type="submit"
                         className="w-full bg-[#005A8E] hover:bg-[#004d7a] text-white font-semibold py-2 px-4 rounded-md transition duration-200" // HCMUTE Blue
                     >
-                        Đăng ký
+                        Đổi mật khẩu
                     </button>
                 </form>
-
-                {/* Login Link */}
-                <div className="text-center mt-4">
-                    <p className="text-sm text-gray-600">
-                        Đã có tài khoản?{" "}
-                        <Link to="/login" className="text-[#005A8E] font-semibold hover:underline">
-                            Đăng nhập ngay
-                        </Link>
-                    </p>
-                </div>
             </div>
         </div>
     );
 };
 
-export default RegisterPage;
+export default ForgotPasswordNextPage;

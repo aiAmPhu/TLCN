@@ -1,7 +1,9 @@
 import User from "../models/user.js";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
+
 import dotenv from "dotenv";
+dotenv.config();
 const otps = {};
 
 // Thêm User mới
@@ -54,8 +56,8 @@ export const sendOTP = async (req, res) => {
             secure: true,
             auth: {
                 user: "bophantuyensinhute@gmail.com", // Thay bằng email thực
-                //pass: process.env.EMAIL_PASSWORD, // Thay bằng mật khẩu thực hoặc App Password
-                pass: "aibizhfweaounepw",
+                pass: process.env.NODE_MAIL_PASSWORD, // Thay bằng mật khẩu thực hoặc App Password
+                //pass: "aibizhfweaounepw",
             },
         });
 
@@ -129,6 +131,29 @@ export const deleteUser = async (req, res) => {
 
         res.status(200).json({ message: "User deleted successfully" });
     } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+export const verifyEmail = async (req, res) => {
+    try {
+        const { email, otp } = req.body; // Lấy email từ request body
+        const validOtp = otps[email]; // Lấy OTP đã lưu
+
+        if (!validOtp || parseInt(validOtp) !== parseInt(otp)) {
+            return res.status(400).json({ message: "Invalid or expired OTP" });
+        }
+        // Tìm kiếm email trong database
+        const user = await User.findOne({ email });
+
+        if (user) {
+            delete otps[email];
+            return res.status(200).json({ exists: true, message: "Verification successful" });
+        } else {
+            delete otps[email];
+            return res.status(404).json({ exists: false, message: "Email not found" });
+        }
+    } catch (error) {
+        console.error("Error checking email:", error);
         res.status(500).json({ message: error.message });
     }
 };
