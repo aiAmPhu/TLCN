@@ -63,7 +63,7 @@ const AdmList = ({ adms, setAdms }) => {
     // Đếm số lượng người dùng theo role
     return (
         <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
-            <h2 className="text-center text-2xl font-semibold mb-6">Admission Major List</h2>
+            <h1 className="text-3xl font-bold mb-6 text-center text-blue-600">Quản lý ngành xét tuyển</h1>
             {/* Hiển thị số lượng người dùng */}
             <div className="flex space-x-2">
                 {/* Nút Add */}
@@ -71,9 +71,9 @@ const AdmList = ({ adms, setAdms }) => {
                     onClick={handleAddAdm}
                     className="bg-green-500 text-white py-1 px-3 rounded hover:bg-green-600 mb-4"
                 >
-                    Add
+                    Thêm
                 </button>
-                <p className="p-2 pr-8 border border-gray-300 rounded mb-4">Total: {admCount}</p>
+                <p className="p-2 pr-8 border border-gray-300 rounded mb-4">Tổng: {admCount}</p>
                 {/* Thanh tìm kiếm */}
                 <div className="flex space-x-2 justify-end mb-4">
                     <input
@@ -99,19 +99,19 @@ const AdmList = ({ adms, setAdms }) => {
                                     onClick={() => handleEdit(adm)}
                                     className="bg-yellow-500 text-white py-1 px-3 rounded hover:bg-yellow-600 mr-2"
                                 >
-                                    Edit
+                                    Cập nhật
                                 </button>
-                                <button
+                                {/* <button
                                     onClick={() => handleDelete(adm)}
                                     className="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 mr-2"
                                 >
                                     Delete
-                                </button>
+                                </button> */}
                                 <button
                                     onClick={() => handleMoreClick(adm)}
                                     className="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600"
                                 >
-                                    More
+                                    Xem thêm
                                 </button>
                             </div>
                         </li>
