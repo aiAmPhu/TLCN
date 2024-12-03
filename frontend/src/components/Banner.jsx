@@ -1,44 +1,88 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Banner = () => {
-  // Danh sách các banner
-  const banners = [
-    "../../public/banner_1.jpeg",
-    "../../public/banner_2.jpeg",
-    "../../public/banner_3.jpeg",
-    "../../public/banner_4.jpeg",
-  ];
+  const banners = ["/banner_1.png", "/banner_2.png", "/banner_3.png"];
 
-  // Trạng thái quản lý index của banner hiện tại
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Chuyển đến banner trước
-  const handlePrev = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? banners.length - 1 : prevIndex - 1
-    );
-  };
-
-  // Chuyển đến banner kế tiếp
   const handleNext = () => {
     setCurrentIndex((prevIndex) =>
       prevIndex === banners.length - 1 ? 0 : prevIndex + 1
     );
   };
 
+  useEffect(() => {
+    const interval = setInterval(handleNext, 5000);
+    return () => clearInterval(interval); 
+  }, [currentIndex]); 
+
+  // CSS nội tuyến
+  const styles = {
+    container: {
+      position: "relative",
+      marginTop: "96px",
+    },
+    image: {
+      width: "100%",
+      height: "395px",
+      objectFit: "cover",
+      transition: "all 0.5s ease-in-out",
+    },
+    button: {
+      position: "absolute",
+      top: "50%",
+      transform: "translateY(-50%)",
+      backgroundColor: "#4B5563",
+      color: "#FFF",
+      padding: "10px",
+      borderRadius: "50%",
+      border: "none",
+      cursor: "pointer",
+      fontSize: "18px",
+    },
+    leftButton: {
+      left: "16px",
+    },
+    rightButton: {
+      right: "16px",
+    },
+    indicators: {
+      position: "absolute",
+      bottom: "16px",
+      left: "50%",
+      transform: "translateX(-50%)",
+      display: "flex",
+      gap: "8px",
+    },
+    indicator: {
+      width: "12px",
+      height: "12px",
+      borderRadius: "50%",
+      backgroundColor: "#D1D5DB",
+      cursor: "pointer",
+    },
+    activeIndicator: {
+      backgroundColor: "#1F2937",
+    },
+  };
+
   return (
-    <div className="mt-[96px] relative">
+    <div style={styles.container}>
       {/* Hiển thị banner hiện tại */}
       <img
         src={banners[currentIndex]}
         alt={`Banner ${currentIndex + 1}`}
-        className="w-full h-64 object-cover"
+        style={styles.image}
       />
 
       {/* Nút mũi tên bên trái */}
       <button
-        onClick={handlePrev}
-        className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-full hover:bg-gray-500"
+        onClick={() =>
+          setCurrentIndex((prevIndex) =>
+            prevIndex === 0 ? banners.length - 1 : prevIndex - 1
+          )
+        }
+        style={{ ...styles.button, ...styles.leftButton }}
       >
         &#8592;
       </button>
@@ -46,10 +90,24 @@ const Banner = () => {
       {/* Nút mũi tên bên phải */}
       <button
         onClick={handleNext}
-        className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-full hover:bg-gray-500"
+        style={{ ...styles.button, ...styles.rightButton }}
       >
         &#8594;
       </button>
+
+      {/* Nút điều khiển hiển thị */}
+      <div style={styles.indicators}>
+        {banners.map((_, index) => (
+          <div
+            key={index}
+            onClick={() => setCurrentIndex(index)}
+            style={{
+              ...styles.indicator,
+              ...(index === currentIndex ? styles.activeIndicator : {}),
+            }}
+          />
+        ))}
+      </div>
     </div>
   );
 };
