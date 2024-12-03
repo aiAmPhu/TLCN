@@ -7,10 +7,10 @@ const InfoPermissionModal = ({ user, onClose }) => {
     return (
         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
             <div className="bg-white p-6 rounded shadow-lg max-w-md w-full">
-                <h2 className="text-2xl font-bold mb-4 text-center">Permission Details</h2>
+                <h2 className="text-2xl font-bold mb-4 text-center">Chi tiết phân quyền</h2>
                 <div>
                     <p>
-                        <strong>Name:</strong> {user.name}
+                        <strong>Tên:</strong> {user.name}
                     </p>
                     <p>
                         <strong>Email:</strong> {user.email}
@@ -25,7 +25,7 @@ const InfoPermissionModal = ({ user, onClose }) => {
                                 <thead>
                                     <tr className="bg-gray-200">
                                         <th className="border border-gray-500 px-4 py-2" colSpan={4}>
-                                            Majors
+                                            Các ngành học
                                         </th>
                                     </tr>
                                 </thead>
@@ -60,13 +60,13 @@ const InfoPermissionModal = ({ user, onClose }) => {
                                 </tbody>
                             </table>
                         ) : (
-                            <p>No majors available</p>
+                            <p>Không có chuyên ngành có sẵn</p>
                         )}
                     </div>
                 </div>
                 <div className="mt-4 flex justify-end">
                     <button onClick={onClose} className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600">
-                        Close
+                        Đóng
                     </button>
                 </div>
             </div>

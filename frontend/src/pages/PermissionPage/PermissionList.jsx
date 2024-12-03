@@ -51,15 +51,15 @@ const PermissionList = ({ users, setUsers }) => {
 
     return (
         <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
-            <h2 className="text-center text-2xl font-semibold mb-6">Reviewers List</h2>
+            <h1 className="text-3xl font-bold mb-6 text-center text-blue-600">Quản lý phân quyền</h1>
             {/* Thanh tìm kiếm */}
             <div className="flex justify-between items-center mb-4">
-                <p className="text-gray-700 font-medium">Total Users: {filteredUsers.length}</p>
+                <p className="text-gray-700 font-medium">Tổng: {filteredUsers.length}</p>
                 <input
                     type="text"
                     value={searchQuery}
                     onChange={handleSearchChange}
-                    placeholder="Search by name..."
+                    placeholder="Tìm theo tên ...."
                     className="p-2 pr-8 border appearance-none border-gray-300 rounded"
                 />
                 {/* Nút thêm người dùng */}
@@ -85,26 +85,26 @@ const PermissionList = ({ users, setUsers }) => {
                                             : "bg-red-100 text-red-800" // Inactive style
                                     }`}
                                 >
-                                    {user.majorGroup && user.majorGroup.length > 0 ? "Active" : "Inactive"}
+                                    {user.majorGroup && user.majorGroup.length > 0 ? "Kích hoạt" : "Chưa kích hoạt"}
                                 </span>
                                 {/* Các nút hành động */}
                                 <button
                                     onClick={() => handleEdit(user)}
                                     className="bg-yellow-500 text-white py-1 px-3 rounded hover:bg-yellow-600"
                                 >
-                                    Edit
+                                    Cập nhật
                                 </button>
-                                <button
+                                {/* <button
                                     onClick={() => handleDelete(user)}
                                     className="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600"
                                 >
                                     Delete
-                                </button>
+                                </button> */}
                                 <button
                                     onClick={() => handleMoreClick(user)}
                                     className="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600"
                                 >
-                                    More
+                                    Xem thêm
                                 </button>
                             </div>
                         </li>
