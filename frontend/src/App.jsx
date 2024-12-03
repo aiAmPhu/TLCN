@@ -13,8 +13,9 @@ import AdqListPage from "./pages/QuantityPage/AdqListPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import HomePage from "./pages/HomePage";
-
 //import GraduateListPage from "./pages/GraduateListPage"; // Trang quản lý Tuyển sinh
+
+import ProfilePage from './pages/ProfilePage/ProfilePage';
 
 function App() {
     function SidebarLayout() {
@@ -57,6 +58,7 @@ function App() {
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/home" element={<HomePage />} />
                 <Route path="/sidebar/*" element={<SidebarLayout />} />
+                <Route path="/profile" element={<ProfilePage />} />
             </Routes>
 
             {/* Main Content */}
