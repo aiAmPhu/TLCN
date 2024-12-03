@@ -24,7 +24,7 @@ const Sidebar = () => {
     };
     const handleLogout = () => {
         localStorage.removeItem("token"); // Xóa token khi đăng xuất
-        window.location.href = "/login"; // Chuyển hướng về trang đăng nhập
+        window.location.href = "/home"; // Chuyển hướng về trang đăng nhập
     };
     useEffect(() => {
         if (!token || tokenUser?.role !== "admin") {

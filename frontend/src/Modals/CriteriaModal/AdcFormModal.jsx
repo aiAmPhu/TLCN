@@ -6,8 +6,7 @@ const AdcFormModal = ({ adcId, adcToEdit, setAdcs, onClose, isEditing }) => {
     const [criteriaId, setCriteriaId] = useState("");
     const [criteriaName, setCriteriaName] = useState("");
     const [criteriaDescription, setCriteriaDescription] = useState("");
-    // const [admissionBlockSubject2, setAdmissionBlockSubject2] = useState("");
-    // const [admissionBlockSubject3, setAdmissionBlockSubject3] = useState("");
+
     const [error, setError] = useState("");
 
     useEffect(() => {
@@ -15,14 +14,10 @@ const AdcFormModal = ({ adcId, adcToEdit, setAdcs, onClose, isEditing }) => {
             setCriteriaId(adcToEdit.criteriaId);
             setCriteriaName(adcToEdit.criteriaName);
             setCriteriaDescription(adcToEdit.criteriaDescription);
-            // setAdmissionBlockSubject2(adcToEdit.admissionBlockSubject2);
-            // setAdmissionBlockSubject3(adcToEdit.admissionBlockSubject3);
         } else {
             setCriteriaId("");
             setCriteriaName("");
             setCriteriaDescription("");
-            // setAdmissionBlockSubject2("");
-            // setAdmissionBlockSubject3("");
         }
     }, [adcToEdit]);
 
@@ -32,8 +27,6 @@ const AdcFormModal = ({ adcId, adcToEdit, setAdcs, onClose, isEditing }) => {
             criteriaId,
             criteriaName,
             criteriaDescription,
-            // admissionBlockSubject2,
-            // admissionBlockSubject3,
         };
 
         try {
@@ -102,29 +95,13 @@ const AdcFormModal = ({ adcId, adcToEdit, setAdcs, onClose, isEditing }) => {
                     />
                     <textarea
                         type="text"
-                        placeholder="Subject 1"
+                        placeholder="Description"
                         value={criteriaDescription}
                         onChange={(e) => setCriteriaDescription(e.target.value)}
                         rows={4}
                         required
                         className="w-full p-2 border border-gray-300 rounded"
                     />
-                    {/* <input
-                        type="text"
-                        placeholder="Subject 2"
-                        value={admissionBlockSubject2}
-                        onChange={(e) => setAdmissionBlockSubject2(e.target.value)}
-                        required
-                        className="w-full p-2 border border-gray-300 rounded"
-                    /> */}
-                    {/* <input
-                        type="text"
-                        placeholder="Subject 3"
-                        value={admissionBlockSubject3}
-                        onChange={(e) => setAdmissionBlockSubject3(e.target.value)}
-                        required
-                        className="w-full p-2 border border-gray-300 rounded"
-                    /> */}
 
                     <div className="flex justify-between mt-4">
                         <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
