@@ -91,7 +91,7 @@ const AdyList = ({ adys, setAdys }) => {
     // Đếm số lượng người dùng theo role
     return (
         <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg ">
-            <h2 className="text-center text-2xl font-semibold mb-6">Manage Admission</h2>
+            <h1 className="text-3xl font-bold mb-6 text-center text-blue-600">Cổng tuyển sinh</h1>
             {/* Hiển thị số lượng người dùng */}
             <div className="flex space-x-2">
                 {/* Nút Add */}
@@ -99,16 +99,16 @@ const AdyList = ({ adys, setAdys }) => {
                     onClick={handleAddAdy}
                     className="bg-green-500 text-white py-1 px-3 rounded hover:bg-green-600 mb-4"
                 >
-                    Add
+                    Thêm
                 </button>
-                <p className="p-2 pr-8 border border-gray-300 rounded mb-4">Total: {adyCount}</p>
+                <p className="p-2 pr-8 border border-gray-300 rounded mb-4">Tổng: {adyCount}</p>
                 {/* Thanh tìm kiếm */}
                 <div className="flex space-x-2 justify-end mb-4">
                     <input
                         type="text"
                         value={searchQuery}
                         onChange={handleSearchChange}
-                        placeholder="Search by ID..."
+                        placeholder="Tìm theo ID"
                         className="p-2 pr-8 border appearance-none border-gray-300 rounded"
                     />
                 </div>
@@ -132,7 +132,7 @@ const AdyList = ({ adys, setAdys }) => {
                                                 : "bg-red-200 text-red-800" // Inactive
                                         }`}
                                     >
-                                        {isActive ? "Active" : "Inactive"}
+                                        {isActive ? "Kích hoạt" : "Chưa kích hoạt"}
                                     </span>
                                     <button
                                         onClick={() => handleEdit(ady)}
@@ -143,9 +143,9 @@ const AdyList = ({ adys, setAdys }) => {
                                                 : "bg-gray-300 text-gray-500 cursor-not-allowed"
                                         }`}
                                     >
-                                        Edit
+                                        Cập nhật
                                     </button>
-                                    <button
+                                    {/* <button
                                         onClick={() => handleDelete(ady)}
                                         disabled={!isActive} // Vô hiệu hóa nếu không Active
                                         className={`py-1 px-3 rounded mr-2 ${
@@ -155,12 +155,12 @@ const AdyList = ({ adys, setAdys }) => {
                                         }`}
                                     >
                                         Delete
-                                    </button>
+                                    </button> */}
                                     <button
                                         onClick={() => handleMoreClick(ady)}
                                         className="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600"
                                     >
-                                        More
+                                        Xem thêm
                                     </button>
                                 </div>
                             </li>
