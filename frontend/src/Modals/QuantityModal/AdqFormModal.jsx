@@ -111,7 +111,7 @@ const AdqFormModal = ({ adqId, adqToEdit, setAdqs, onClose, isEditing }) => {
                 </h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <label className="block font-semibold mb-2">Combination</label>
+                        <label className="block font-semibold mb-2">Chỉ tiêu</label>
                         <div className="max-w-md">
                             <select
                                 value={selectedCombinationCriteria} // Dùng state để lưu giá trị đã chọn
@@ -130,7 +130,7 @@ const AdqFormModal = ({ adqId, adqToEdit, setAdqs, onClose, isEditing }) => {
                         </div>
                     </div>
                     <div>
-                        <label className="block font-semibold mb-2">Combination</label>
+                        <label className="block font-semibold mb-2">Ngành</label>
                         <div className="max-w-md">
                             <select
                                 value={selectedCombinationMajor} // Dùng state để lưu giá trị đã chọn
@@ -148,7 +148,7 @@ const AdqFormModal = ({ adqId, adqToEdit, setAdqs, onClose, isEditing }) => {
                             </select>
                         </div>
                     </div>
-
+                    <label className="block font-semibold mb-2">Số lượng</label>
                     <input
                         type="number"
                         placeholder="Số lượng"
@@ -167,7 +167,7 @@ const AdqFormModal = ({ adqId, adqToEdit, setAdqs, onClose, isEditing }) => {
                             onClick={onClose}
                             className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600"
                         >
-                            Close
+                            Đóng
                         </button>
                     </div>
                 </form>

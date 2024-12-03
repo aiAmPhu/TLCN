@@ -21,7 +21,7 @@ const InfoAdqModal = ({ adq, onClose }) => {
                 </div>
                 <div className="mt-4 flex justify-end">
                     <button onClick={onClose} className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600">
-                        Close
+                        Đóng
                     </button>
                 </div>
             </div>
