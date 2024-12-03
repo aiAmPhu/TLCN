@@ -85,7 +85,7 @@ const UserList = ({ users, setUsers }) => {
 
     return (
         <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
-            <h2 className="text-center text-2xl font-semibold mb-6">User List</h2>
+            <h1 className="text-3xl font-bold mb-6 text-center text-blue-600">Quản lý User</h1>
             {/* Hiển thị số lượng người dùng */}
             <div className="flex space-x-2">
                 {/* Nút Add */}
@@ -93,7 +93,7 @@ const UserList = ({ users, setUsers }) => {
                     onClick={handleAddUser}
                     className="bg-green-500 text-white py-1 px-3 rounded hover:bg-green-600 mb-4"
                 >
-                    Add User
+                    Thêm
                 </button>
                 {/* Dropdown chọn role */}
                 <div className="mb-4 relative">
@@ -104,7 +104,7 @@ const UserList = ({ users, setUsers }) => {
                         onClick={toggleDropdown}
                         className="p-2 pr-8 border appearance-none border-gray-300 rounded"
                     >
-                        <option value="all">All Roles</option>
+                        <option value="all">Tất cả</option>
                         <option value="admin">Admin</option>
                         <option value="reviewer">Reviewer</option>
                         <option value="user">User</option>
@@ -115,14 +115,14 @@ const UserList = ({ users, setUsers }) => {
                         <ChevronDownIcon className="w-5 h-5 text-gray-500 absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none" />
                     )}
                 </div>
-                <p className="p-2 pr-8 border border-gray-300 rounded mb-4">User: {roleCount}</p>
+                <p className="p-2 pr-8 border border-gray-300 rounded mb-4">Tổng: {roleCount}</p>
                 {/* Thanh tìm kiếm */}
                 <div className="flex space-x-2 justify-end mb-4">
                     <input
                         type="text"
                         value={searchQuery}
                         onChange={handleSearchChange}
-                        placeholder="Search by name..."
+                        placeholder="Tìm kiếm theo tên"
                         className="p-2 pr-8 border appearance-none border-gray-300 rounded"
                     />
                 </div>
@@ -138,23 +138,23 @@ const UserList = ({ users, setUsers }) => {
                         >
                             {user.email} {/* ({user.email}) */}
                             <div className="flex ml-auto">
-                                <button
-                                    onClick={() => handleEdit(user)}
-                                    className="bg-yellow-500 text-white py-1 px-3 rounded hover:bg-yellow-600 mr-2"
-                                >
-                                    Edit
-                                </button>
-                                <button
+                            <button
+                                onClick={() => handleEdit(user)}
+                                className="bg-yellow-500 text-white py-1 px-3 rounded hover:bg-yellow-600 mr-2"
+                            >
+                                Cập nhật
+                            </button>
+                                {/* <button
                                     onClick={() => handleDelete(user)}
                                     className="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 mr-2"
                                 >
                                     Delete
-                                </button>
+                                </button> */}
                                 <button
                                     onClick={() => handleMoreClick(user)}
                                     className="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600"
                                 >
-                                    More
+                                    Xem thêm
                                 </button>
                             </div>
                         </li>

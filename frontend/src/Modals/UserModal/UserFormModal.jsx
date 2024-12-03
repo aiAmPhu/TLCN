@@ -109,13 +109,13 @@ const UserFormModal = ({ userId, userToEdit, setUsers, onClose, isEditing }) => 
                     <div className="bg-red-500 text-white p-6 rounded-md shadow-lg max-w-xs w-full text-center">
                         <p>{error}</p>
                         <button onClick={() => setError("")} className="mt-4 bg-white text-red-500 px-4 py-2 rounded">
-                            Close
+                            Đóng
                         </button>
                     </div>
                 </div>
             )}
             <div className="bg-white p-6 rounded shadow-lg max-w-md w-full">
-                <h2 className="text-2xl font-bold mb-4 text-center">{isEditing ? "Edit User" : "Add User"}</h2>
+                <h2 className="text-2xl font-bold mb-4 text-center">{isEditing ? "Cập nhật" : "Thêm"}</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <input
                         type="text"
@@ -180,7 +180,7 @@ const UserFormModal = ({ userId, userToEdit, setUsers, onClose, isEditing }) => 
                             onClick={handleUpload}
                             className="bg-orange-300 text-black py-1 px-4 rounded hover:bg-orange-400 ml-auto"
                         >
-                            Upload
+                            Tải lên
                         </button>
                     </div>
                     {pic && (
@@ -191,14 +191,14 @@ const UserFormModal = ({ userId, userToEdit, setUsers, onClose, isEditing }) => 
 
                     <div className="flex justify-between mt-4">
                         <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
-                            {isEditing ? "Update User" : "Add User"}
+                            {isEditing ? "Cập nhật" : "Thêm"}
                         </button>
                         <button
                             type="button"
                             onClick={onClose}
                             className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600"
                         >
-                            Close
+                            Đóng
                         </button>
                     </div>
                 </form>
