@@ -13,6 +13,7 @@ import AdqListPage from "./pages/QuantityPage/AdqListPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import HomePage from "./pages/HomePage";
+import ChangePasswordPage from "./pages/ChangePasswordPage";
 
 //import GraduateListPage from "./pages/GraduateListPage"; // Trang quản lý Tuyển sinh
 
@@ -55,6 +56,7 @@ function App() {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
+                <Route path="/changepassword" element={<ChangePasswordPage />} />
                 <Route path="/home" element={<HomePage />} />
                 <Route path="/sidebar/*" element={<SidebarLayout />} />
             </Routes>

@@ -12,9 +12,7 @@ export const addUser = async (req, res) => {
         const role = "user";
         const pic = "https://res.cloudinary.com/dlum0st9k/image/upload/v1731705123/pngwing.com_1_x0zbek.png";
         const validOtp = otps[email]; // Lấy OTP đã lưu
-        console.log("Received email:", email);
-        console.log("Received OTP:", otp);
-        console.log("Valid OTP stored:", validOtp);
+
         if (!validOtp || parseInt(validOtp) !== parseInt(otp)) {
             return res.status(400).json({ message: "Invalid or expired OTP" });
         }
@@ -28,6 +26,7 @@ export const addUser = async (req, res) => {
         const user = new User({ name, email, password, role, pic });
         await user.save();
         res.status(201).json({ message: "User created successfully" });
+        delete otps[email];
     } catch (error) {
         console.error("Error adding user:", error); // Log chi tiết lỗi
         res.status(500).json({ message: error.message });

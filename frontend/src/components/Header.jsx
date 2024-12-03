@@ -19,10 +19,16 @@ const Header = () => {
         window.location.href = "/login"; // Chuyển hướng về trang đăng nhập
     };
     useEffect(() => {
-        if (tokenUser?.role !== "user") {
-            // Nếu không có token hoặc role không phải là user, chuyển hướng về trang đăng nhập
-            window.location.href = "/login";
-            return; // Dừng việc gọi API nếu role không phải là user
+        if (tokenUser?.role === "admin") {
+            // Nếu không có token hoặc vai trò là "user", chuyển hướng về trang Home
+            window.location.href = "/sidebar";
+            return; // Dừng việc gọi API nếu điều kiện đúng
+        }
+
+        if (tokenUser?.role === "reviewer") {
+            // Nếu vai trò không phải là "user", chuyển hướng về trang Login
+            window.location.href = "/reviewer";
+            return; // Dừng việc gọi API nếu điều kiện đúng
         }
         const fetchUser = async () => {
             try {
@@ -111,7 +117,10 @@ const Header = () => {
                                                     </Link>
                                                 </li>
                                                 <li>
-                                                    <Link to="/profile" className="block px-4 py-2 hover:bg-gray-200">
+                                                    <Link
+                                                        to="/changepassword"
+                                                        className="block px-4 py-2 hover:bg-gray-200"
+                                                    >
                                                         Đổi mật khẩu
                                                     </Link>
                                                 </li>
