@@ -19,7 +19,7 @@ const Header = () => {
         window.location.href = "/login"; // Chuyển hướng về trang đăng nhập
     };
     useEffect(() => {
-        if (!token || tokenUser?.role !== "user") {
+        if (tokenUser?.role !== "user") {
             // Nếu không có token hoặc role không phải là user, chuyển hướng về trang đăng nhập
             window.location.href = "/login";
             return; // Dừng việc gọi API nếu role không phải là user
@@ -53,13 +53,13 @@ const Header = () => {
                         <Link to="/home" className="hover:text-blue-500">
                             Trang chủ
                         </Link>
-                        <Link to="/majors" className="hover:text-blue-500">
+                        <Link to="/overviewMajors" className="hover:text-blue-500">
                             Ngành xét tuyển
                         </Link>
-                        <Link to="/methods" className="hover:text-blue-500">
+                        <Link to="/overviewMethods" className="hover:text-blue-500">
                             Diện xét tuyển
                         </Link>
-                        <Link to="/blocks" className="hover:text-blue-500">
+                        <Link to="/overviewBlocks" className="hover:text-blue-500">
                             Khối xét tuyển
                         </Link>
                         <Link to="/register" className="hover:text-blue-500">
@@ -112,7 +112,7 @@ const Header = () => {
                                                 </li>
                                                 <li>
                                                     <Link to="/profile" className="block px-4 py-2 hover:bg-gray-200">
-                                                        Tài khoản
+                                                        Đổi mật khẩu
                                                     </Link>
                                                 </li>
                                                 <li>

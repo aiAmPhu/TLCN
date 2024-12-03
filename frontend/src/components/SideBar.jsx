@@ -29,7 +29,7 @@ const Sidebar = () => {
     useEffect(() => {
         if (!token || tokenUser?.role !== "admin") {
             // Nếu không có token hoặc role không phải là admin, chuyển hướng đến trang login
-            window.location.href = "/login";
+            window.location.href = "/home";
         }
     }, [token, tokenUser]);
     return (
