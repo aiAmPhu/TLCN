@@ -1,6 +1,8 @@
 import { useState } from "react";
 
 const AdmissionInformation = () => {
+    const token = localStorage.getItem("token");
+    const tokenUser = token ? JSON.parse(atob(token.split(".")[1])) : null;
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
@@ -8,7 +10,7 @@ const AdmissionInformation = () => {
         gender: "Nam",
         birthPlace: "",
         phone: "",
-        email: "",
+        email: tokenUser.email,
         parentEmail: "",
         idNumber: "",
         idIssueDate: "",
@@ -63,10 +65,10 @@ const AdmissionInformation = () => {
                 case "phone":
                     if (!value || !/^[0-9]{10}$/.test(value)) newErrors.phone = "Số điện thoại phải nhập đủ 10 số.";
                     break;
-                case "email":
-                    if (!value || !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value))
-                        newErrors.email = "Email không hợp lệ.";
-                    break;
+                // case "email":
+                //     if (!value || !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value))
+                //         newErrors.email = "Email không hợp lệ.";
+                //     break;
                 case "idNumber":
                     if (!value || !/^[0-9]{9,12}$/.test(value))
                         newErrors.idNumber = "CMND/CCCD phải là số từ 9 đến 12 ký tự.";
@@ -201,10 +203,11 @@ const AdmissionInformation = () => {
                                 type="email"
                                 name="email"
                                 value={formData.email}
-                                onChange={handleInputChange}
+                                //onChange={handleInputChange}
                                 onKeyDown={handleKeyDown}
-                                className="border border-gray-300 rounded-lg w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="Nhập email"
+                                className="border border-gray-300 rounded-lg w-full p-2 bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                //placeholder="Nhập email"
+                                disabled
                             />
                             {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
                         </div>

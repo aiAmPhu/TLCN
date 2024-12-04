@@ -63,6 +63,7 @@ function App() {
                 <Route path="/forgotpassword" element={<ForgotPasswordPage />} />
                 <Route path="/forgotpasswordnextpage" element={<ForgotPasswordNextPage />} />
                 <Route path="/home" element={<HomePage />} />
+                <Route path="/forgotpassword" element={<ForgotPasswordPage />} />
                 <Route path="/sidebar/*" element={<SidebarLayout />} />
                 <Route path="/profile" element={<ProfilePage />} />
             </Routes>

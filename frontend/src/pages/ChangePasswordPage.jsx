@@ -24,7 +24,6 @@ const ChangePasswordPage = () => {
         e.preventDefault();
         const newErrors = [];
 
-        if (!email) newErrors.push("Email is required");
         if (!password) newErrors.push("Password is required");
         if (!newPassword) newErrors.push("Password is required");
         if (!confirmPassword) newErrors.push("Confirm password is required");
@@ -94,7 +93,7 @@ const ChangePasswordPage = () => {
                 <h2 className="text-3xl font-semibold text-center text-[#005A8E] mb-4">
                     {" "}
                     {/* HCMUTE Blue Color */}
-                    Quên mật khẩu
+                    Đổi mật khẩu
                 </h2>
                 {errors.length > 0 && (
                     <div className="bg-red-100 text-red-700 p-4 rounded mb-4">
@@ -106,15 +105,6 @@ const ChangePasswordPage = () => {
                     </div>
                 )}
                 <form onSubmit={handleSubmit}>
-                    <div className="mb-4">
-                        <input
-                            type="email"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:border-[#005A8E]" // HCMUTE Blue
-                            placeholder="Nhập email"
-                            value={email}
-                            onChange={handleEmailChange}
-                        />
-                    </div>
                     <div className="mb-4">
                         <input
                             type="password"

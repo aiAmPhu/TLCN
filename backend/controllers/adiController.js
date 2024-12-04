@@ -65,6 +65,7 @@ export const addAdInfomation = async (req, res) => {
             address,
             houseNumber,
             streetName,
+            status: "waiting",
         });
 
         // Lưu vào cơ sở dữ liệu

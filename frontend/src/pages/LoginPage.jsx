@@ -106,17 +106,10 @@ const LoginPage = () => {
                 backgroundRepeat: "no-repeat",
             }}
         >
-            {/* Semi-transparent overlay */}
             <div className="absolute inset-0 bg-black opacity-50"></div>
 
-            {/* Content container */}
             <div className="relative w-full max-w-md mx-4 bg-white shadow-2xl rounded-lg p-8 z-10">
-                {/* Greeting outside the form */}
-                <h2 className="text-3xl font-semibold text-center text-[#005A8E] mb-4">
-                    {" "}
-                    {/* HCMUTE Blue Color */}
-                    Login
-                </h2>
+                <h2 className="text-3xl font-semibold text-center text-[#005A8E] mb-4">Login</h2>
                 {errors.length > 0 && (
                     <div className="bg-red-100 text-red-700 p-4 rounded mb-4">
                         <ul>
@@ -130,26 +123,26 @@ const LoginPage = () => {
                     <div className="mb-4">
                         <input
                             type="email"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:border-[#005A8E]" // HCMUTE Blue
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:border-[#005A8E]"
                             placeholder="Enter Email Address..."
                             value={email}
-                            onChange={handleEmailChange}
+                            onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
                     <div className="mb-4">
                         <input
                             type="password"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:border-[#005A8E]" // HCMUTE Blue
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:border-[#005A8E]"
                             placeholder="Password"
                             value={password}
-                            onChange={handlePasswordChange}
+                            onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
                     <div className="mb-4">
                         <select
-                            className="w-48 px-2 py-1 border border-gray-300 rounded text-sm text-gray-700 focus:outline-none focus:border-[#005A8E]" // HCMUTE Blue
+                            className="w-48 px-2 py-1 border border-gray-300 rounded text-sm text-gray-700 focus:outline-none focus:border-[#005A8E]"
                             value={role}
-                            onChange={handleRoleChange}
+                            onChange={(e) => setRole(e.target.value)}
                         >
                             <option value="" disabled>
                                 -- Select Role --
@@ -162,7 +155,7 @@ const LoginPage = () => {
 
                     <button
                         type="submit"
-                        className="w-full bg-[#005A8E] hover:bg-[#004d7a] text-white font-semibold py-2 px-4 rounded-md transition duration-200" // HCMUTE Blue
+                        className="w-full bg-[#005A8E] hover:bg-[#004d7a] text-white font-semibold py-2 px-4 rounded-md transition duration-200"
                     >
                         Login
                     </button>
@@ -171,14 +164,13 @@ const LoginPage = () => {
                     <p className="text-sm text-gray-600">
                         <Link
                             to="#"
-                            onClick={handleForgotPassword} // Hàm gọi khi nhấn vào "Quên mật khẩu"
+                            onClick={handleForgotPassword}
                             className="text-[#005A8E] font-semibold hover:underline"
                         >
                             Quên mật khẩu?
                         </Link>
                     </p>
                 </div>
-                {/* Register Link */}
                 <div className="text-center mt-2">
                     <p className="text-sm text-gray-600">
                         Nếu chưa có tài khoản{" "}
