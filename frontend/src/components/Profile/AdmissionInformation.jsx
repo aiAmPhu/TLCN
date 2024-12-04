@@ -4,6 +4,7 @@ const AdmissionInformation = () => {
     const token = localStorage.getItem("token");
     const tokenUser = token ? JSON.parse(atob(token.split(".")[1])) : null;
     const [user, setUser] = useState({});
+    const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
@@ -59,6 +60,7 @@ const AdmissionInformation = () => {
                         streetName: userAdInfo.streetName,
                         address: userAdInfo.address,
                     });
+                    setIsEditing(true);
                 } else {
                     // Nếu không tìm thấy, đặt formData là giá trị mặc định
                     setFormData({
@@ -80,6 +82,7 @@ const AdmissionInformation = () => {
                         streetName: "",
                         address: "",
                     });
+                    setIsEditing(false);
                 }
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -103,6 +106,7 @@ const AdmissionInformation = () => {
                     streetName: "",
                     address: "",
                 });
+                setIsEditing(false);
             }
         };
 
@@ -130,7 +134,7 @@ const AdmissionInformation = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         // Kiểm tra nếu tất cả trường dữ liệu hợp lệ
-        if (isFormValid()) {
+        if (isEditing) {
             // Logic cho "Cập nhật" khi tất cả trường có dữ liệu
             updateInformation();
         } else {
@@ -204,10 +208,11 @@ const AdmissionInformation = () => {
             try {
                 await axios.post("http://localhost:8080/api/adis/add", formData);
 
-                alert(response.data.message || "Data added successfully!");
+                alert("Data added successfully!");
+                setIsEditing(false);
             } catch (error) {
-                console.error("Error while submitting data:", error.response?.data?.message || error.message);
-                alert(error.response?.data?.message || "Failed to add data. Please try again.");
+                console.error("Error while submitting data:", error.message);
+                alert(error.message || "Failed to add data. Please try again.");
             }
             // Tiến hành xử lý dữ liệu (gửi lên server hoặc tiếp tục logic khác)
         } else {
@@ -552,7 +557,7 @@ const AdmissionInformation = () => {
                         type="submit"
                         className="w-full bg-blue-500 text-white py-3 rounded-lg text-lg font-medium hover:bg-blue-600 transition duration-200"
                     >
-                        {isFormValid() ? "Cập nhật" : "Gửi thông tin"}
+                        {isEditing ? "Cập nhật" : "Gửi thông tin"}
                     </button>
                 </form>
             </section>
