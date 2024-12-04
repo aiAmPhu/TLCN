@@ -16,6 +16,7 @@ import HomePage from "./pages/HomePage";
 import ChangePasswordPage from "./pages/ChangePasswordPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ForgotPasswordNextPage from "./pages/ForgotPasswordNextPage";
+import NotFoundPage from "./pages/ErrorPage";
 //import GraduateListPage from "./pages/GraduateListPage"; // Trang quản lý Tuyển sinh
 
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
@@ -58,6 +59,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/login" element={<LoginPage />} />
+                <Route path="/404" element={<NotFoundPage />} />
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/changepassword" element={<ChangePasswordPage />} />
                 <Route path="/forgotpassword" element={<ForgotPasswordPage />} />

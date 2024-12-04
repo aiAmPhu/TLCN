@@ -31,7 +31,7 @@ const Sidebar = () => {
     useEffect(() => {
         if (!token || tokenUser?.role !== "admin") {
             // If no token or role is not admin, redirect to login
-            window.location.href = "/home";
+            window.location.href = "/404";
         }
     }, [token, tokenUser]);
 
@@ -45,7 +45,9 @@ const Sidebar = () => {
                 <li>
                     <Link
                         to="user"
-                        className={`flex items-center p-2 hover:bg-gray-700 rounded ${activeOption === "user" ? "bg-gray-600" : ""}`}
+                        className={`flex items-center p-2 hover:bg-gray-700 rounded ${
+                            activeOption === "user" ? "bg-gray-600" : ""
+                        }`}
                         onClick={() => handleOptionClick("user")}
                     >
                         <UserIcon className="w-5 h-5 mr-4" />
@@ -55,7 +57,9 @@ const Sidebar = () => {
                 <li>
                     <Link
                         to="block"
-                        className={`flex items-center p-2 hover:bg-gray-700 rounded ${activeOption === "block" ? "bg-gray-600" : ""}`}
+                        className={`flex items-center p-2 hover:bg-gray-700 rounded ${
+                            activeOption === "block" ? "bg-gray-600" : ""
+                        }`}
                         onClick={() => handleOptionClick("block")}
                     >
                         <FolderIcon className="w-5 h-5 mr-4" />
@@ -65,7 +69,9 @@ const Sidebar = () => {
                 <li>
                     <Link
                         to="criteria"
-                        className={`flex items-center p-2 hover:bg-gray-700 rounded ${activeOption === "criteria" ? "bg-gray-600" : ""}`}
+                        className={`flex items-center p-2 hover:bg-gray-700 rounded ${
+                            activeOption === "criteria" ? "bg-gray-600" : ""
+                        }`}
                         onClick={() => handleOptionClick("criteria")}
                     >
                         <AcademicCapIcon className="w-5 h-5 mr-4" />
@@ -75,7 +81,9 @@ const Sidebar = () => {
                 <li>
                     <Link
                         to="major"
-                        className={`flex items-center p-2 hover:bg-gray-700 rounded ${activeOption === "major" ? "bg-gray-600" : ""}`}
+                        className={`flex items-center p-2 hover:bg-gray-700 rounded ${
+                            activeOption === "major" ? "bg-gray-600" : ""
+                        }`}
                         onClick={() => handleOptionClick("major")}
                     >
                         <CubeIcon className="w-5 h-5 mr-4" />
@@ -85,7 +93,9 @@ const Sidebar = () => {
                 <li>
                     <Link
                         to="region"
-                        className={`flex items-center p-2 hover:bg-gray-700 rounded ${activeOption === "region" ? "bg-gray-600" : ""}`}
+                        className={`flex items-center p-2 hover:bg-gray-700 rounded ${
+                            activeOption === "region" ? "bg-gray-600" : ""
+                        }`}
                         onClick={() => handleOptionClick("region")}
                     >
                         <MapPinIcon className="w-5 h-5 mr-4" />
@@ -95,7 +105,9 @@ const Sidebar = () => {
                 <li>
                     <Link
                         to="quantity"
-                        className={`flex items-center p-2 hover:bg-gray-700 rounded ${activeOption === "quantity" ? "bg-gray-600" : ""}`}
+                        className={`flex items-center p-2 hover:bg-gray-700 rounded ${
+                            activeOption === "quantity" ? "bg-gray-600" : ""
+                        }`}
                         onClick={() => handleOptionClick("quantity")}
                     >
                         <PencilSquareIcon className="w-5 h-5 mr-4" />
@@ -105,7 +117,9 @@ const Sidebar = () => {
                 <li>
                     <Link
                         to="object"
-                        className={`flex items-center p-2 hover:bg-gray-700 rounded ${activeOption === "object" ? "bg-gray-600" : ""}`}
+                        className={`flex items-center p-2 hover:bg-gray-700 rounded ${
+                            activeOption === "object" ? "bg-gray-600" : ""
+                        }`}
                         onClick={() => handleOptionClick("object")}
                     >
                         <IdentificationIcon className="w-5 h-5 mr-4" />
@@ -115,7 +129,9 @@ const Sidebar = () => {
                 <li>
                     <Link
                         to="permission"
-                        className={`flex items-center p-2 hover:bg-gray-700 rounded ${activeOption === "permission" ? "bg-gray-600" : ""}`}
+                        className={`flex items-center p-2 hover:bg-gray-700 rounded ${
+                            activeOption === "permission" ? "bg-gray-600" : ""
+                        }`}
                         onClick={() => handleOptionClick("permission")}
                     >
                         <UsersIcon className="w-5 h-5 mr-4" />
@@ -126,7 +142,9 @@ const Sidebar = () => {
                 {/* Quản lý Tuyển Sinh (Dropdown) */}
                 <li>
                     <button
-                        className={`flex items-center p-2 w-full hover:bg-gray-700 rounded ${isGraduateOpen ? "bg-gray-700" : ""}`}
+                        className={`flex items-center p-2 w-full hover:bg-gray-700 rounded ${
+                            isGraduateOpen ? "bg-gray-700" : ""
+                        }`}
                         onClick={() => setGraduateOpen(!isGraduateOpen)} // Toggle dropdown
                     >
                         <AcademicCapIcon className="w-5 h-5 mr-4" />
@@ -139,7 +157,9 @@ const Sidebar = () => {
                                 <li>
                                     <Link
                                         to="option1"
-                                        className={`p-2 rounded block ${activeOption === "option1" ? "bg-gray-600" : "hover:bg-gray-600"}`}
+                                        className={`p-2 rounded block ${
+                                            activeOption === "option1" ? "bg-gray-600" : "hover:bg-gray-600"
+                                        }`}
                                         onClick={() => handleOptionClick("option1")}
                                     >
                                         Quản lý cổng tuyển sinh
@@ -148,7 +168,9 @@ const Sidebar = () => {
                                 <li>
                                     <Link
                                         to="option2"
-                                        className={`p-2 rounded block ${activeOption === "option2" ? "bg-gray-600" : "hover:bg-gray-600"}`}
+                                        className={`p-2 rounded block ${
+                                            activeOption === "option2" ? "bg-gray-600" : "hover:bg-gray-600"
+                                        }`}
                                         onClick={() => handleOptionClick("option2")}
                                     >
                                         Quản lý ngành tuyển sinh
@@ -157,7 +179,9 @@ const Sidebar = () => {
                                 <li>
                                     <Link
                                         to="option3"
-                                        className={`p-2 rounded block ${activeOption === "option3" ? "bg-gray-600" : "hover:bg-gray-600"}`}
+                                        className={`p-2 rounded block ${
+                                            activeOption === "option3" ? "bg-gray-600" : "hover:bg-gray-600"
+                                        }`}
                                         onClick={() => handleOptionClick("option3")}
                                     >
                                         Thống kê

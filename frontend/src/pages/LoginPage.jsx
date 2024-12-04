@@ -79,19 +79,6 @@ const LoginPage = () => {
         }
     };
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     const newErrors = [];
-    //     if (!email) newErrors.push("Email is required");
-    //     if (!password) newErrors.push("Password is required");
-
-    //     if (newErrors.length > 0) {
-    //         setErrors(newErrors);
-    //     } else {
-    //         setErrors([]);
-    //         console.log("Email:", email, "Password:", password);
-    //     }
-    // };
     const handleForgotPassword = () => {
         // Logic xử lý quên mật khẩu (ví dụ: mở popup, điều hướng đến trang reset password, etc.)
         window.location.href = "/forgotpassword";

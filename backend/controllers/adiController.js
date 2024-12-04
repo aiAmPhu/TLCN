@@ -23,29 +23,6 @@ export const addAdInfomation = async (req, res) => {
             streetName,
         } = req.body;
 
-        // Kiểm tra các trường bắt buộc
-        if (
-            !firstName ||
-            !lastName ||
-            !birthDate ||
-            !gender ||
-            !birthPlace ||
-            !phone ||
-            !email ||
-            !parentEmail ||
-            !idNumber ||
-            !idIssueDate ||
-            !idIssuePlace ||
-            !province ||
-            !district ||
-            !commune ||
-            !address ||
-            !houseNumber ||
-            !streetName
-        ) {
-            return res.status(400).json({ message: "All fields are required" });
-        }
-
         // Tạo tài liệu mới
         const newAdInformation = new AdInfomation({
             firstName,
@@ -74,6 +51,45 @@ export const addAdInfomation = async (req, res) => {
         res.status(201).json({ message: "Admission infomation added successfully", data: newAdInformation });
     } catch (error) {
         console.error("Error adding admission infomation:", error);
+        res.status(500).json({ message: error.message });
+    }
+};
+export const updateAdInfomation = async (req, res) => {
+    try {
+        const { id } = req.params; // Lấy id từ URL
+        const updatedData = req.body; // Dữ liệu mới từ body request
+
+        // Cập nhật tài liệu theo id
+        const updatedAdInfomation = await AdInfomation.findByIdAndUpdate(
+            id,
+            updatedData,
+            { new: true, runValidators: true } // Trả về tài liệu đã cập nhật và kiểm tra tính hợp lệ
+        );
+
+        if (!updatedAdInfomation) {
+            return res.status(404).json({ message: "AdInfomation not found" });
+        }
+
+        res.status(200).json({ message: "Updated successfully", data: updatedAdInfomation });
+    } catch (error) {
+        console.error("Error updating admission infomation:", error);
+        res.status(500).json({ message: error.message });
+    }
+};
+export const getAllAdInfomation = async (req, res) => {
+    try {
+        // Lấy tất cả tài liệu từ collection
+        const adInformations = await AdInfomation.find();
+
+        // Kiểm tra nếu không có dữ liệu
+        if (!adInformations.length) {
+            return res.status(404).json({ message: "No admission information found" });
+        }
+
+        // Trả về dữ liệu
+        res.status(200).json({ message: "Success", data: adInformations });
+    } catch (error) {
+        console.error("Error fetching admission information:", error);
         res.status(500).json({ message: error.message });
     }
 };

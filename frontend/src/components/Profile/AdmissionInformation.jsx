@@ -1,8 +1,9 @@
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+import axios from "axios";
 const AdmissionInformation = () => {
     const token = localStorage.getItem("token");
     const tokenUser = token ? JSON.parse(atob(token.split(".")[1])) : null;
+    const [user, setUser] = useState({});
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
@@ -20,9 +21,94 @@ const AdmissionInformation = () => {
         commune: "",
         houseNumber: "",
         streetName: "",
+        address: "",
     });
 
     const [errors, setErrors] = useState({});
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // Gọi API để lấy danh sách thông tin từ cơ sở dữ liệu
+                const response = await axios.get("http://localhost:8080/api/adis/getAll");
+
+                // Tìm kiếm thông tin dựa trên tokenUser.email
+                const userAdInfo = response.data.data.find((item) => item.email === tokenUser.email);
+                setUser(userAdInfo);
+                //const userAdInfo = response.data.items?.find((item) => item.email === tokenUser.email);
+
+                if (userAdInfo) {
+                    // Nếu tìm thấy, cập nhật formData
+                    setFormData({
+                        firstName: userAdInfo.firstName,
+                        lastName: userAdInfo.lastName,
+                        birthDate: formatDate(userAdInfo.birthDate),
+                        gender: userAdInfo.gender,
+                        //birthPlace: userAdInfo.birthPlace,
+                        birthPlace: userAdInfo.birthPlace,
+                        phone: userAdInfo.phone,
+                        email: userAdInfo.email || tokenUser.email,
+                        parentEmail: userAdInfo.parentEmail,
+                        idNumber: userAdInfo.idNumber,
+                        idIssueDate: formatDate(userAdInfo.idIssueDate),
+                        idIssuePlace: userAdInfo.idIssuePlace,
+                        province: userAdInfo.province,
+                        district: userAdInfo.district,
+                        commune: userAdInfo.commune,
+                        houseNumber: userAdInfo.houseNumber,
+                        streetName: userAdInfo.streetName,
+                        address: userAdInfo.address,
+                    });
+                } else {
+                    // Nếu không tìm thấy, đặt formData là giá trị mặc định
+                    setFormData({
+                        firstName: "",
+                        lastName: "",
+                        birthDate: "",
+                        gender: "Nam",
+                        birthPlace: "",
+                        phone: "",
+                        email: tokenUser.email,
+                        parentEmail: "",
+                        idNumber: "",
+                        idIssueDate: "",
+                        idIssuePlace: "",
+                        province: "",
+                        district: "",
+                        commune: "",
+                        houseNumber: "",
+                        streetName: "",
+                        address: "",
+                    });
+                }
+            } catch (error) {
+                console.error("Error fetching data:", error);
+                // Nếu xảy ra lỗi, đặt các giá trị là null
+                setFormData({
+                    firstName: "",
+                    lastName: "",
+                    birthDate: "",
+                    gender: "Nam",
+                    birthPlace: "",
+                    phone: "",
+                    email: tokenUser.email,
+                    parentEmail: "",
+                    idNumber: "",
+                    idIssueDate: "",
+                    idIssuePlace: "",
+                    province: "",
+                    district: "",
+                    commune: "",
+                    houseNumber: "",
+                    streetName: "",
+                    address: "",
+                });
+            }
+        };
+
+        // Gọi hàm fetchData
+        fetchData();
+    }, [tokenUser.email]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -41,9 +127,18 @@ const AdmissionInformation = () => {
             }
         }
     };
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-
+        // Kiểm tra nếu tất cả trường dữ liệu hợp lệ
+        if (isFormValid()) {
+            // Logic cho "Cập nhật" khi tất cả trường có dữ liệu
+            updateInformation();
+        } else {
+            // Logic cho "Gửi thông tin" khi có trường thiếu
+            submitInformation();
+        }
+    };
+    const submitInformation = async () => {
         let newErrors = {}; // Lưu các lỗi mới
 
         // Kiểm tra từng trường trong formData
@@ -58,6 +153,9 @@ const AdmissionInformation = () => {
                     break;
                 case "birthDate":
                     if (!value) newErrors.birthDate = "Ngày sinh là bắt buộc.";
+                    break;
+                case "address":
+                    if (!value) newErrors.address = "Địa chỉ là bắt buộc.";
                     break;
                 case "birthPlace":
                     if (!value) newErrors.birthPlace = "Nơi sinh là bắt buộc";
@@ -103,13 +201,103 @@ const AdmissionInformation = () => {
 
         // Kiểm tra nếu không có lỗi
         if (Object.keys(newErrors).length === 0) {
-            console.log("Form submitted successfully:", formData);
+            try {
+                await axios.post("http://localhost:8080/api/adis/add", formData);
+
+                alert(response.data.message || "Data added successfully!");
+            } catch (error) {
+                console.error("Error while submitting data:", error.response?.data?.message || error.message);
+                alert(error.response?.data?.message || "Failed to add data. Please try again.");
+            }
             // Tiến hành xử lý dữ liệu (gửi lên server hoặc tiếp tục logic khác)
         } else {
             console.log("Form có lỗi:", newErrors);
         }
     };
+    const updateInformation = async () => {
+        let newErrors = {}; // Lưu các lỗi mới
 
+        // Kiểm tra từng trường trong formData
+        Object.keys(formData).forEach((field) => {
+            const value = formData[field];
+            switch (field) {
+                case "firstName":
+                    if (!value) newErrors.firstName = "Họ và Họ đệm là bắt buộc.";
+                    break;
+                case "lastName":
+                    if (!value) newErrors.lastName = "Tên là bắt buộc.";
+                    break;
+                case "birthDate":
+                    if (!value) newErrors.birthDate = "Ngày sinh là bắt buộc.";
+                    break;
+                case "address":
+                    if (!value) newErrors.address = "Địa chỉ là bắt buộc.";
+                    break;
+                case "birthPlace":
+                    if (!value) newErrors.birthPlace = "Nơi sinh là bắt buộc";
+                    break;
+                case "phone":
+                    if (!value || !/^[0-9]{10}$/.test(value)) newErrors.phone = "Số điện thoại phải nhập đủ 10 số.";
+                    break;
+                // case "email":
+                //     if (!value || !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value))
+                //         newErrors.email = "Email không hợp lệ.";
+                //     break;
+                case "idNumber":
+                    if (!value || !/^[0-9]{9,12}$/.test(value))
+                        newErrors.idNumber = "CMND/CCCD phải là số từ 9 đến 12 ký tự.";
+                    break;
+                case "idIssueDate":
+                    if (!value) newErrors.idIssueDate = "Ngày cấp CMND/CCCD là bắt buộc.";
+                    break;
+                case "idIssuePlace":
+                    if (!value) newErrors.idIssuePlace = "Nơi cấp CMND/CCCD là bắt buộc.";
+                    break;
+                case "province":
+                    if (!value) newErrors.province = "Tỉnh/Thành phố là bắt buộc.";
+                    break;
+                case "district":
+                    if (!value) newErrors.district = "Huyện/Quận là bắt buộc.";
+                    break;
+                case "commune":
+                    if (!value) newErrors.commune = "Xã/Phường là bắt buộc.";
+                    break;
+                case "houseNumber":
+                    if (!value) newErrors.houseNumber = "Số nhà là bắt buộc.";
+                    break;
+                case "streetName":
+                    if (!value) newErrors.streetName = "Tên đường là bắt buộc.";
+                    break;
+                default:
+                    break;
+            }
+        });
+
+        setErrors(newErrors); // Cập nhật các lỗi
+
+        // Kiểm tra nếu không có lỗi
+        try {
+            if (user) {
+                // Gửi yêu cầu cập nhật
+                const updateResponse = await axios.put(`http://localhost:8080/api/adis/update/${user._id}`, formData);
+                // Thông báo thành công
+                alert(updateResponse.data.message || "Data updated successfully!");
+            } else {
+                alert("No data available.");
+            }
+        } catch (error) {
+            console.error("Error while submitting data:", error.response?.data?.message || error.message);
+            alert(error.response?.data?.message || "Failed to update data. Please try again.");
+        }
+    };
+    const formatDate = (date) => {
+        const d = new Date(date);
+        return d.toISOString().split("T")[0]; // Lấy phần trước "T", tạo ra định dạng "YYYY-MM-DD"
+    };
+    const isFormValid = () => {
+        // Kiểm tra xem tất cả giá trị trong formData có phải là chuỗi không rỗng
+        return Object.values(formData).every((value) => value.trim() !== "");
+    };
     return (
         <div className="flex-1 p-6">
             <section className="mb-8">
@@ -254,20 +442,6 @@ const AdmissionInformation = () => {
                             {errors.idIssueDate && <p className="text-red-500 text-sm">{errors.idIssueDate}</p>}
                         </div>
 
-                        {/* <div>
-              <label className="block text-gray-700 font-medium mb-2">Nơi cấp CMND/CCCD</label>
-              <input
-                type="text"
-                name="idIssuePlace"
-                value={formData.idIssuePlace}
-                onChange={handleInputChange}
-                onKeyDown={handleKeyDown}
-                className="border border-gray-300 rounded-lg w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Nhập nơi cấp"
-              />
-              {errors.idIssuePlace && <p className="text-red-500 text-sm">{errors.idIssuePlace}</p>}
-            </div> */}
-
                         <div>
                             <label className="block text-gray-700 font-medium mb-2">Nơi cấp CMND/CCCD</label>
                             <select
@@ -277,8 +451,11 @@ const AdmissionInformation = () => {
                                 onChange={handleInputChange}
                                 onKeyDown={handleKeyDown}
                                 className="border border-gray-300 rounded-lg  p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="Nhập nơi cấp"
+                                //placeholder="Nhập nơi cấp"
                             >
+                                <option value="" disabled>
+                                    Nhập nơi cấp
+                                </option>
                                 <option>CỤC TRƯỞNG CỤC CẢNH SÁT QUẢN LÝ HÀNH CHÍNH VỀ TRẬT TỰ XÃ HỘI</option>
                                 <option>BỘ CÔNG AN</option>
                             </select>
@@ -375,7 +552,7 @@ const AdmissionInformation = () => {
                         type="submit"
                         className="w-full bg-blue-500 text-white py-3 rounded-lg text-lg font-medium hover:bg-blue-600 transition duration-200"
                     >
-                        Gửi thông tin
+                        {isFormValid() ? "Cập nhật" : "Gửi thông tin"}
                     </button>
                 </form>
             </section>
