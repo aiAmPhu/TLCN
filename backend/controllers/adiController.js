@@ -57,8 +57,12 @@ export const addAdInfomation = async (req, res) => {
 export const updateAdInfomation = async (req, res) => {
     try {
         const { id } = req.params; // Lấy id từ URL
-        const updatedData = req.body; // Dữ liệu mới từ body request
+        let updatedData = req.body; // Dữ liệu mới từ body request
 
+        // Kiểm tra nếu `status` là `rejected`, đổi thành `waiting`
+        if (updatedData.status === "rejected") {
+            updatedData.status = "waiting";
+        }
         // Cập nhật tài liệu theo id
         const updatedAdInfomation = await AdInfomation.findByIdAndUpdate(
             id,

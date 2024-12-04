@@ -22,12 +22,17 @@ const AdmissionInformation = () => {
         commune: "",
         houseNumber: "",
         streetName: "",
+        status: "",
         address: "",
     });
 
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
+        if (!token || tokenUser?.role !== "user") {
+            // If no token or role is not admin, redirect to login
+            window.location.href = "/404";
+        }
         const fetchData = async () => {
             try {
                 // Gọi API để lấy danh sách thông tin từ cơ sở dữ liệu
@@ -59,6 +64,7 @@ const AdmissionInformation = () => {
                         houseNumber: userAdInfo.houseNumber,
                         streetName: userAdInfo.streetName,
                         address: userAdInfo.address,
+                        status: userAdInfo.status,
                     });
                     setIsEditing(true);
                 } else {
@@ -292,7 +298,7 @@ const AdmissionInformation = () => {
             }
         } catch (error) {
             console.error("Error while submitting data:", error.response?.data?.message || error.message);
-            alert(error.response?.data?.message || "Failed to update data. Please try again.");
+            alert("Failed to update data. Please try again.");
         }
     };
     const formatDate = (date) => {
@@ -306,7 +312,8 @@ const AdmissionInformation = () => {
     return (
         <div className="flex-1 p-6">
             <section className="mb-8">
-                <h1 className="text-3xl font-bold mb-6 text-center text-blue-600">Thông tin xét tuyển</h1>
+                <h1 className="text-3xl font-bold text-center text-blue-600 flex-grow">Thông tin xét tuyển</h1>
+
                 <form className="bg-white shadow-md rounded-lg p-6 space-y-6" onSubmit={handleSubmit}>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>

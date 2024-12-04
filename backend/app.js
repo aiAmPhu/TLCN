@@ -13,6 +13,7 @@ import adoRoutes from "./routes/adoRoutes.js";
 import adqRoutes from "./routes/adqRoutes.js";
 import jwtRoutes from "./routes/jwtRoutes.js";
 import adiRoutes from "./routes/adiRoutes.js";
+import learningPRoutes from "./routes/learningPRoutes.js";
 import cors from "cors";
 
 dotenv.config();
@@ -32,5 +33,6 @@ app.use("/api/adrs", adrRoutes);
 app.use("/api/ados", adoRoutes);
 app.use("/api/adqs", adqRoutes);
 app.use("/api/adis", adiRoutes);
+app.use("/api/learning", learningPRoutes);
 app.use("/api/jwt", jwtRoutes);
 export default app;
