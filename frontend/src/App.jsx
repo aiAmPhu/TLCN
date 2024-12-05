@@ -16,6 +16,7 @@ import HomePage from "./pages/HomePage";
 import ChangePasswordPage from "./pages/PasswordPages/ChangePasswordPage";
 import ForgotPasswordPage from "./pages/PasswordPages/ForgotPasswordPage";
 import ForgotPasswordNextPage from "./pages/PasswordPages/ForgotPasswordNextPage";
+import OverViewMajors from "./pages/OverviewPages/OverViewMajors";
 import NotFoundPage from "./pages/ErrorPage";
 //import GraduateListPage from "./pages/GraduateListPage"; // Trang quản lý Tuyển sinh
 
@@ -39,7 +40,6 @@ function App() {
                         <Route path="object" element={<AdoListPage />} />
                         <Route path="permission" element={<PermissionListPage />} />
                         <Route path="quantity" element={<AdqListPage />} />
-
                         <Route path="option1" element={<AdyListPage />} />
                         <Route path="option2" element={<h1 className="text-2xl font-bold">Hello World 2</h1>} />
                         <Route path="option3" element={<h1 className="text-2xl font-bold">Hello World 3</h1>} />
@@ -68,6 +68,7 @@ function App() {
                 <Route path="/forgotpassword" element={<ForgotPasswordPage />} />
                 <Route path="/sidebar/*" element={<SidebarLayout />} />
                 <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/overviewMajors" element={<OverViewMajors />} />
             </Routes>
 
             {/* Main Content */}
