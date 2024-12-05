@@ -93,7 +93,7 @@ const TranscriptReviewer = () => {
                         data.data.status === "accepted"
                             ? "bg-green-100"
                             : data.data.status === "waiting"
-                            ? "bg-yellow-100"
+                            ? "bg-yellow-50"
                             : data.data.status === "rejected"
                             ? "bg-red-100"
                             : "bg-white" // Màu nền mặc định nếu không có status

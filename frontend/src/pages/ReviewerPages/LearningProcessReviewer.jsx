@@ -96,7 +96,7 @@ const LearningProcessReviewer = () => {
     return (
         <div className="min-h-screen bg-gray-100">
             <Navbar />
-            <div className="container  mx-auto px-4 py-8 ">
+            <div className="container max-w-md mx-auto px-4 py-8 ">
                 <h1 className="text-3xl font-bold text-center text-blue-600 mb-6">Quá trình học tập</h1>
 
                 {/* Hiển thị dữ liệu trả về từ API */}
@@ -105,7 +105,7 @@ const LearningProcessReviewer = () => {
                         data.data.status === "accepted"
                             ? "bg-green-100"
                             : data.data.status === "waiting"
-                            ? "bg-yellow-100"
+                            ? "bg-yellow-50"
                             : data.data.status === "rejected"
                             ? "bg-red-100"
                             : "bg-white" // Màu nền mặc định nếu không có status

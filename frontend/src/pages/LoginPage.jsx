@@ -65,6 +65,8 @@ const LoginPage = () => {
                         window.location.href = "/home"; // Chuyển hướng đến trang home cho user
                     } else if (role === "admin") {
                         window.location.href = "/sidebar";
+                    } else if (role === "reviewer") {
+                        window.location.href = "/reviewer";
                     }
                 } else {
                     console.log("No token found.");

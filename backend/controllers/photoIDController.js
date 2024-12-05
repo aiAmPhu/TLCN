@@ -13,11 +13,62 @@ export const addPhotoID = async (req, res) => {
             grade12Pic,
             email,
             status: "waiting",
+            feedback: "",
         });
         await newPhotoID.save();
         res.status(201).json({ message: "Photo ID added successfully", data: newPhotoID });
     } catch (error) {
         console.error("Error adding admission infomation:", error);
+        res.status(500).json({ message: error.message });
+    }
+};
+export const acceptPhotoID = async (req, res) => {
+    try {
+        const { id } = req.params; // Lấy id từ URL
+        let updatedData = req.body; // Dữ liệu mới từ body request
+
+        // Kiểm tra nếu `status` là `rejected`, đổi thành `waiting`
+        updatedData.status = "accepted";
+        updatedData.feedback = "";
+        // Cập nhật tài liệu theo id
+        const updatedAdInfomation = await PhotoID.findByIdAndUpdate(
+            id,
+            updatedData,
+            { new: true, runValidators: true } // Trả về tài liệu đã cập nhật và kiểm tra tính hợp lệ
+        );
+
+        if (!updatedAdInfomation) {
+            return res.status(400).json({ message: "AdInfomation not found" });
+        }
+
+        res.status(200).json({ message: "Updated successfully", data: updatedAdInfomation });
+    } catch (error) {
+        console.error("Error updating admission infomation:", error);
+        res.status(500).json({ message: error.message });
+    }
+};
+export const rejectPhotoID = async (req, res) => {
+    try {
+        const { id } = req.params; // Lấy id từ URL
+        let updatedData = req.body; // Dữ liệu mới từ body request
+
+        // Kiểm tra nếu `status` là `rejected`, đổi thành `waiting`
+        updatedData.status = "rejected"; // Cập nhật tài liệu theo id
+        updatedData.feedback = updatedData.rejectionReason;
+        console.log(updatedData);
+        const updatedAdInfomation = await PhotoID.findByIdAndUpdate(
+            id,
+            updatedData,
+            { new: true, runValidators: true } // Trả về tài liệu đã cập nhật và kiểm tra tính hợp lệ
+        );
+
+        if (!updatedAdInfomation) {
+            return res.status(400).json({ message: "AdInfomation not found" });
+        }
+
+        res.status(200).json({ message: "Updated successfully", data: updatedAdInfomation });
+    } catch (error) {
+        console.error("Error updating admission infomation:", error);
         res.status(500).json({ message: error.message });
     }
 };

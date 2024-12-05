@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 const Navbar = () => {
     const handleLogout = () => {
         // Xóa thông tin người dùng (ví dụ xóa token)
-        localStorage.removeItem("token"); // Hoặc sessionStorage.removeItem('token') nếu bạn lưu token ở đó
-        window.location.href = "/login"; // Điều hướng đến trang đăng nhập (có thể thay đổi tùy vào ứng dụng)
+        //localStorage.removeItem("token"); // Hoặc sessionStorage.removeItem('token') nếu bạn lưu token ở đó
+        window.location.href = "/reviewer"; // Điều hướng đến trang đăng nhập (có thể thay đổi tùy vào ứng dụng)
     };
     return (
         <nav className="bg-blue-600 p-4">
@@ -25,7 +25,7 @@ const Navbar = () => {
 
                 {/* Thêm các liên kết khác nếu cần */}
                 <button onClick={handleLogout} className="text-white text-lg bg-red-400 px-4  rounded-md">
-                    Đăng xuất
+                    Về trang chủ
                 </button>
             </div>
         </nav>
