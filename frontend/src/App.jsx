@@ -13,9 +13,9 @@ import AdqListPage from "./pages/QuantityPage/AdqListPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import HomePage from "./pages/HomePage";
-import ChangePasswordPage from "./pages/ChangePasswordPage";
-import ForgotPasswordPage from "./pages/ForgotPasswordPage";
-import ForgotPasswordNextPage from "./pages/ForgotPasswordNextPage";
+import ChangePasswordPage from "./pages/PasswordPages/ChangePasswordPage";
+import ForgotPasswordPage from "./pages/PasswordPages/ForgotPasswordPage";
+import ForgotPasswordNextPage from "./pages/PasswordPages/ForgotPasswordNextPage";
 import NotFoundPage from "./pages/ErrorPage";
 //import GraduateListPage from "./pages/GraduateListPage"; // Trang quản lý Tuyển sinh
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "font-awesome/css/font-awesome.min.css";
-import backgroundImage from "../assets/backgroundhcmute.jpg";
+import backgroundImage from "../../assets/backgroundhcmute.jpg";
 
 import axios from "axios";
 const ChangePasswordPage = () => {

@@ -138,12 +138,12 @@ const UserList = ({ users, setUsers }) => {
                         >
                             {user.email} {/* ({user.email}) */}
                             <div className="flex ml-auto">
-                            <button
-                                onClick={() => handleEdit(user)}
-                                className="bg-yellow-500 text-white py-1 px-3 rounded hover:bg-yellow-600 mr-2"
-                            >
-                                Cập nhật
-                            </button>
+                                <button
+                                    onClick={() => handleEdit(user)}
+                                    className="bg-yellow-500 text-white py-1 px-3 rounded hover:bg-yellow-600 mr-2"
+                                >
+                                    Cập nhật
+                                </button>
                                 {/* <button
                                     onClick={() => handleDelete(user)}
                                     className="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 mr-2"

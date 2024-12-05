@@ -1,22 +1,15 @@
 import { useState, useEffect } from "react";
 import "font-awesome/css/font-awesome.min.css";
-import backgroundImage from "../assets/backgroundhcmute.jpg";
+import backgroundImage from "../../assets/backgroundhcmute.jpg";
 
 import axios from "axios";
-const ForgotPasswordNextPage = () => {
-    const email = localStorage.getItem("email");
-
-    const [password, setPassword] = useState("");
-    const [newPassword, setNewpassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+const ForgotPasswordPage = () => {
+    const [email, setEmail] = useState("");
     const [countdown, setCountdown] = useState(0);
     const [errors, setErrors] = useState([]);
-
-    const [userId, setUserId] = useState([]);
-
-    const handleNewPasswordChange = (e) => setNewpassword(e.target.value);
-    const handleConfirmPasswordChange = (e) => setConfirmPassword(e.target.value);
-
+    const [otp, setOtp] = useState("");
+    const handleEmailChange = (e) => setEmail(e.target.value);
+    const handleOtpChange = (e) => setOtp(e.target.value);
     const handleSendOtp = async () => {
         try {
             if (!email) {
@@ -37,20 +30,21 @@ const ForgotPasswordNextPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const newErrors = [];
-        if (!newPassword) newErrors.push("New password is required");
-        if (!confirmPassword) newErrors.push("Confirm password is required");
-        if (newPassword !== confirmPassword) newErrors.push("New passwords do not match");
+
+        if (!email) newErrors.push("Email is required");
+        if (!otp) newErrors.push("OTP is required");
         if (newErrors.length > 0) {
             setErrors(newErrors);
         } else {
             try {
                 // Xác minh OTP và thêm user
-                const response = await axios.put(`http://localhost:8080/api/users/update/${userId}`, {
-                    password: newPassword,
+                const response = await axios.post(`http://localhost:8080/api/users/verify`, {
+                    email,
+                    otp,
                 });
                 alert(response.data.message);
-                localStorage.removeItem("email"); // Xóa token khi đăng xuất
-                window.location.href = "/login";
+                localStorage.setItem("email", email);
+                window.location.href = "/forgotpasswordnextpage";
             } catch (error) {
                 setErrors([error.response?.data?.message || "Failed to register."]);
             }
@@ -63,18 +57,16 @@ const ForgotPasswordNextPage = () => {
         return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
     };
     useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const response = await axios.get(`http://localhost:8080/api/users/getall`);
-                const userTid = response.data.find((user) => user.email === email)?._id;
-                setUserId(userTid);
-            } catch (error) {
-                console.error("Lỗi khi tải dữ liệu", error);
-            }
-        };
-
-        fetchUser();
-    }, []);
+        let timer;
+        if (countdown > 0) {
+            timer = setInterval(() => {
+                setCountdown((prev) => prev - 1);
+            }, 1000);
+        } else {
+            clearInterval(timer);
+        }
+        return () => clearInterval(timer);
+    }, [countdown]);
 
     return (
         <div
@@ -109,27 +101,39 @@ const ForgotPasswordNextPage = () => {
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <input
-                            type="password"
+                            type="text"
                             className="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:border-[#005A8E]" // HCMUTE Blue
-                            placeholder="New password"
-                            value={newPassword}
-                            onChange={handleNewPasswordChange}
+                            placeholder="Email"
+                            value={email}
+                            onChange={handleEmailChange}
                         />
                     </div>
-                    <div className="mb-4">
+                    <div className="mb-4 flex items-center space-x-2">
+                        {/* Input OTP */}
                         <input
-                            type="password"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:border-[#005A8E]" // HCMUTE Blue
-                            placeholder="Confirm password"
-                            value={confirmPassword}
-                            onChange={handleConfirmPasswordChange}
+                            type="text"
+                            className="flex-grow px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:border-[#005A8E]"
+                            placeholder="Nhập OTP"
+                            value={otp}
+                            onChange={handleOtpChange}
+                            //disabled={countdown > 0} // Không cho nhập nếu đang đếm ngược
                         />
+                        {/* Gửi OTP button */}
+                        <button
+                            type="button"
+                            onClick={handleSendOtp}
+                            className="px-4 py-2 bg-[#005A8E] text-white font-semibold rounded-md hover:bg-[#004d7a] transition duration-200"
+                            disabled={countdown > 0} // Không cho gửi nếu đang đếm ngược
+                        >
+                            {countdown > 0 ? formatCountdown() : "Gửi OTP"}
+                        </button>
                     </div>
+
                     <button
                         type="submit"
                         className="w-full bg-[#005A8E] hover:bg-[#004d7a] text-white font-semibold py-2 px-4 rounded-md transition duration-200" // HCMUTE Blue
                     >
-                        Đổi mật khẩu
+                        Xác minh
                     </button>
                 </form>
             </div>
@@ -137,4 +141,4 @@ const ForgotPasswordNextPage = () => {
     );
 };
 
-export default ForgotPasswordNextPage;
+export default ForgotPasswordPage;
