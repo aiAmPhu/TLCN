@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import axios from "axios";
 
 const HighSchoolTranscript = () => {
   const subjects = [
@@ -27,17 +28,15 @@ const HighSchoolTranscript = () => {
   const inputsRef = useRef([]);
 
   const handleInputChange = (subjectIndex, yearIndex, field, value) => {
-    const newGrades = { ...grades };
-    const newErrors = { ...errors };
+    const newGrades = grades ? { ...grades } : {};
+    const newErrors = errors ? { ...errors } : {};
 
-    // Kiểm tra lỗi (chỉ cho phép giá trị từ 0 đến 10)
     if (value < 0 || value > 10) {
       newErrors[`${subjectIndex}-${yearIndex}-${field}`] = "Điểm phải từ 0 đến 10";
     } else {
       delete newErrors[`${subjectIndex}-${yearIndex}-${field}`];
     }
 
-    // Lưu giá trị nhập vào
     if (!newGrades[subjectIndex]) newGrades[subjectIndex] = {};
     if (!newGrades[subjectIndex][yearIndex]) newGrades[subjectIndex][yearIndex] = {};
     newGrades[subjectIndex][yearIndex][field] = parseFloat(value) || "";
@@ -56,23 +55,41 @@ const HighSchoolTranscript = () => {
   };
 
   const calculateAverage5Semesters = (subjectIndex) => {
+    if (!grades) return "0.0";
+
     let totalScore = 0;
     let count = 0;
 
     years.forEach((year, yearIndex) => {
-      if (year.fields.includes("học kỳ 1")) {
-        const hk1 = grades[subjectIndex]?.[yearIndex]?.["học kỳ 1"] || 0;
-        totalScore += hk1;
+      year.fields.forEach((field) => {
+        const score = grades[subjectIndex]?.[yearIndex]?.[field] || 0;
+        totalScore += score;
         count++;
-      }
-      if (year.fields.includes("học kỳ 2")) {
-        const hk2 = grades[subjectIndex]?.[yearIndex]?.["học kỳ 2"] || 0;
-        totalScore += hk2;
-        count++;
-      }
+      });
     });
 
     return count > 0 ? (totalScore / count).toFixed(2) : "0.0";
+  };
+
+  const handleSaveTranscript = async () => {
+    try {
+      const data = subjects.map((subject, subjectIndex) => ({
+        subject,
+        scores: years.flatMap((year, yearIndex) =>
+          year.fields.map((field) => ({
+            year: year.label,
+            semester: field,
+            score: grades[subjectIndex]?.[yearIndex]?.[field] || 0,
+          }))
+        ),
+      }));
+      const response = await axios.post("http://localhost:8080/api/save", data);
+      alert("Lưu học bạ thành công!");
+      console.log("Response:", response.data);
+    } catch (error) {
+      console.error("Lỗi khi lưu học bạ:", error);
+      alert("Có lỗi xảy ra khi lưu học bạ.");
+    }
   };
 
   return (
@@ -81,7 +98,7 @@ const HighSchoolTranscript = () => {
         <thead>
           <tr>
             <th className="border border-gray-300 p-2">STT</th>
-            <th className="border border-gray-300 p-2">Môn học/các hoạt động giáo dục</th>
+            <th className="border border-gray-300 p-2">Môn học</th>
             {years.map((year, yearIndex) =>
               year.fields.map((field, fieldIndex) => (
                 <th
@@ -111,7 +128,7 @@ const HighSchoolTranscript = () => {
                       step="0.1"
                       className="w-full border border-gray-300 rounded p-1 text-center"
                       value={
-                        grades[subjectIndex]?.[yearIndex]?.[field] ?? ""
+                        grades?.[subjectIndex]?.[yearIndex]?.[field] ?? ""
                       }
                       onChange={(e) =>
                         handleInputChange(
@@ -135,7 +152,7 @@ const HighSchoolTranscript = () => {
                         )
                       }
                     />
-                    {errors[`${subjectIndex}-${yearIndex}-${field}`] && (
+                    {errors?.[`${subjectIndex}-${yearIndex}-${field}`] && (
                       <div className="text-red-500 text-xs mt-1">
                         {errors[`${subjectIndex}-${yearIndex}-${field}`]}
                       </div>
@@ -153,7 +170,7 @@ const HighSchoolTranscript = () => {
       <div className="mt-4 text-right">
         <button
           className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-          onClick={() => console.log("Thông tin học bạ:", grades)}
+          onClick={handleSaveTranscript}
         >
           Lưu thông tin học bạ
         </button>
