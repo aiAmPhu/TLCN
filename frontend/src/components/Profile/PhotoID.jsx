@@ -191,35 +191,60 @@
 
 // export default PhotoID;
 
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 const PhotoID = () => {
+    const token = localStorage.getItem("token");
+    const tokenUser = token ? JSON.parse(atob(token.split(".")[1])) : null;
     const [personalPic, setPersonalPic] = useState(null);
     const [frontCCCD, setFrontCCCD] = useState(null);
     const [backCCCD, setBackCCCD] = useState(null);
     const [grade10Pic, setGrade10Pic] = useState(null);
     const [grade11Pic, setGrade11Pic] = useState(null);
     const [grade12Pic, setGrade12Pic] = useState(null);
+    const [isEditing, setIsEditing] = useState(false);
+    const [user, setUser] = useState(null);
 
-    const handleFileChange = (e, setImage) => {
-        const file = e.target.files[0];
-        if (file) {
-            setImage(file); // Lưu file thay vì URL
+    useEffect(() => {
+        let isFetched = false;
+        if (!token || tokenUser?.role !== "user") {
+            // If no token or role is not admin, redirect to login
+            window.location.href = "/404";
         }
-    };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+        const fetchData = async () => {
+            try {
+                // Gọi API để lấy danh sách thông tin từ cơ sở dữ liệu
+                const response = await axios.get("http://localhost:8080/api/photo/getAll");
 
-        // Tạo đối tượng FormData để gửi ảnh lên server
+                // Tìm kiếm thông tin dựa trên tokenUser.email
+                const userPhoto = response.data.data.find((item) => item.email === tokenUser.email);
+                setUser(userPhoto);
+                //const userAdInfo = response.data.items?.find((item) => item.email === tokenUser.email);
+
+                if (!isFetched && userPhoto) {
+                    // Nếu tìm thấy, cập nhật formData
+                    setPersonalPic(userPhoto.personalPic);
+                    setFrontCCCD(userPhoto.frontCCCD);
+                    setBackCCCD(userPhoto.backCCCD);
+                    setGrade10Pic(userPhoto.grade10Pic);
+                    setGrade11Pic(userPhoto.grade11Pic);
+                    setGrade12Pic(userPhoto.grade12Pic);
+                    setIsEditing(true);
+                }
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+        fetchData();
+        return () => {
+            isFetched = true; // Hủy bỏ nếu component bị unmount
+        };
+    }, [tokenUser.email]);
+    const handleUpload = async (fieldName, file, setFileUrl) => {
         const formData = new FormData();
-        if (personalPic) formData.append("personalPic", personalPic);
-        if (frontCCCD) formData.append("frontCCCD", frontCCCD);
-        if (backCCCD) formData.append("backCCCD", backCCCD);
-        if (grade10Pic) formData.append("grade10Pic", grade10Pic);
-        if (grade11Pic) formData.append("grade11Pic", grade11Pic);
-        if (grade12Pic) formData.append("grade12Pic", grade12Pic);
+        formData.append("image", file);
 
         try {
             const res = await axios.post("http://localhost:8080/api/upload", formData, {
@@ -227,118 +252,121 @@ const PhotoID = () => {
                     "Content-Type": "multipart/form-data",
                 },
             });
-            console.log("Image uploaded successfully:", res.data);
-
-            // Nếu bạn nhận được URL của ảnh từ server, bạn có thể lưu lại
-            if (res.data.imageUrls) {
-                // Giả sử server trả về URL cho từng ảnh
-                setPersonalPic(res.data.imageUrls.personalPic);
-                setFrontCCCD(res.data.imageUrls.frontCCCD);
-                setBackCCCD(res.data.imageUrls.backCCCD);
-                setGrade10Pic(res.data.imageUrls.grade10Pic);
-                setGrade11Pic(res.data.imageUrls.grade11Pic);
-                setGrade12Pic(res.data.imageUrls.grade12Pic);
-            }
+            setFileUrl(res.data.imageUrl); // Cập nhật URL ảnh trả về từ server
+            console.log(`${fieldName} uploaded successfully:`, res.data.imageUrl);
         } catch (err) {
-            console.log("Error uploading image:", err);
+            console.error(`Error uploading ${fieldName}:`, err);
         }
     };
+    const handleSubmit = async () => {
+        if (isEditing) {
+            updateInformation();
+        } else {
+            submitInformation();
+        }
+    };
+    const submitInformation = async () => {
+        const data = {
+            personalPic,
+            frontCCCD,
+            backCCCD,
+            grade10Pic,
+            grade11Pic,
+            grade12Pic,
+            email: tokenUser.email,
+        };
 
+        // Kiểm tra nếu có bất kỳ giá trị nào là null hoặc undefined
+        const missingFields = Object.entries(data)
+            .filter(([key, value]) => !value) // Lọc các trường có giá trị null, undefined hoặc falsey
+            .map(([key]) => key); // Lấy tên các trường bị thiếu
+
+        if (missingFields.length > 0) {
+            alert(`Please upload the following images: ${missingFields.join(", ")}`);
+            return;
+        }
+
+        console.log("All images uploaded:", data);
+        try {
+            // Make a POST request with the form data
+            await axios.post("http://localhost:8080/api/photo/add", data);
+            alert("Data added successfully!");
+            setIsEditing(false);
+        } catch (error) {
+            console.error("Error while submitting data:", error.message);
+            alert(error.message || "Failed to add data. Please try again.");
+        }
+    };
+    const updateInformation = async () => {
+        try {
+            if (user) {
+                const data = {
+                    personalPic,
+                    frontCCCD,
+                    backCCCD,
+                    grade10Pic,
+                    grade11Pic,
+                    grade12Pic,
+                    email: tokenUser.email,
+                };
+                // Gửi yêu cầu cập nhật
+                const updateResponse = await axios.put(`http://localhost:8080/api/photo/update/${user._id}`, data);
+                // Thông báo thành công
+                alert(updateResponse.data.message || "Data updated successfully!");
+            } else {
+                alert("No data available.");
+            }
+        } catch (error) {
+            console.error("Error while submitting data:", error.response?.data?.message || error.message);
+            alert("Failed to update data. Please try again.");
+        }
+    };
     return (
-        <div className="container">
-            <h2 className="text-center">Upload Images</h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
-                {/* Upload Personal Pic */}
-                <div>
-                    <label htmlFor="personalPic" className="block text-sm font-medium">
-                        Personal Picture
-                    </label>
-                    <input
-                        type="file"
-                        id="personalPic"
-                        accept="image/*"
-                        onChange={(e) => handleFileChange(e, setPersonalPic)}
-                        className="block w-full text-sm text-gray-500 border border-gray-300 rounded"
-                    />
-                </div>
-
-                {/* Upload Front CCCD */}
-                <div>
-                    <label htmlFor="frontCCCD" className="block text-sm font-medium">
-                        Front CCCD
-                    </label>
-                    <input
-                        type="file"
-                        id="frontCCCD"
-                        accept="image/*"
-                        onChange={(e) => handleFileChange(e, setFrontCCCD)}
-                        className="block w-full text-sm text-gray-500 border border-gray-300 rounded"
-                    />
-                </div>
-
-                {/* Upload Back CCCD */}
-                <div>
-                    <label htmlFor="backCCCD" className="block text-sm font-medium">
-                        Back CCCD
-                    </label>
-                    <input
-                        type="file"
-                        id="backCCCD"
-                        accept="image/*"
-                        onChange={(e) => handleFileChange(e, setBackCCCD)}
-                        className="block w-full text-sm text-gray-500 border border-gray-300 rounded"
-                    />
-                </div>
-
-                {/* Upload Grade 10 Pic */}
-                <div>
-                    <label htmlFor="grade10Pic" className="block text-sm font-medium">
-                        Grade 10 Picture
-                    </label>
-                    <input
-                        type="file"
-                        id="grade10Pic"
-                        accept="image/*"
-                        onChange={(e) => handleFileChange(e, setGrade10Pic)}
-                        className="block w-full text-sm text-gray-500 border border-gray-300 rounded"
-                    />
-                </div>
-
-                {/* Upload Grade 11 Pic */}
-                <div>
-                    <label htmlFor="grade11Pic" className="block text-sm font-medium">
-                        Grade 11 Picture
-                    </label>
-                    <input
-                        type="file"
-                        id="grade11Pic"
-                        accept="image/*"
-                        onChange={(e) => handleFileChange(e, setGrade11Pic)}
-                        className="block w-full text-sm text-gray-500 border border-gray-300 rounded"
-                    />
-                </div>
-
-                {/* Upload Grade 12 Pic */}
-                <div>
-                    <label htmlFor="grade12Pic" className="block text-sm font-medium">
-                        Grade 12 Picture
-                    </label>
-                    <input
-                        type="file"
-                        id="grade12Pic"
-                        accept="image/*"
-                        onChange={(e) => handleFileChange(e, setGrade12Pic)}
-                        className="block w-full text-sm text-gray-500 border border-gray-300 rounded"
-                    />
-                </div>
-
-                {/* Submit Button */}
-                <div className="mt-4 text-center">
-                    <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                        Upload Images
-                    </button>
-                </div>
-            </form>
+        <div className="p-6 bg-gray-100 min-h-screen flex flex-col items-center">
+            <h2 className="text-3xl font-bold mb-6 text-blue-600">Upload Images</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-4xl">
+                {[
+                    { label: "Personal Picture", file: personalPic, setFile: setPersonalPic },
+                    { label: "Front CCCD", file: frontCCCD, setFile: setFrontCCCD },
+                    { label: "Back CCCD", file: backCCCD, setFile: setBackCCCD },
+                    { label: "Grade 10 Picture", file: grade10Pic, setFile: setGrade10Pic },
+                    { label: "Grade 11 Picture", file: grade11Pic, setFile: setGrade11Pic },
+                    { label: "Grade 12 Picture", file: grade12Pic, setFile: setGrade12Pic },
+                ].map(({ label, file, setFile }, index) => (
+                    <div key={index} className="p-4 bg-white shadow-md rounded-lg flex flex-col items-center gap-4">
+                        <label className="font-semibold text-gray-700">{label}</label>
+                        <div className="flex flex-col items-center gap-2 w-full">
+                            <input
+                                type="file"
+                                onChange={(e) => setFile(e.target.files[0])}
+                                accept="image/*"
+                                className="text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => handleUpload(label, file, setFile)}
+                                className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
+                            >
+                                Upload
+                            </button>
+                        </div>
+                        {file && (
+                            <div className="mt-4">
+                                <img src={file} alt={label} className="w-32 h-32 rounded-lg shadow-md object-cover" />
+                            </div>
+                        )}
+                    </div>
+                ))}
+            </div>
+            <div className="mt-8">
+                <button
+                    type="button"
+                    onClick={handleSubmit}
+                    className="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition"
+                >
+                    {isEditing ? "Cập nhật" : "Lưu thông tin"}
+                </button>
+            </div>
         </div>
     );
 };
