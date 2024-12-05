@@ -10,7 +10,7 @@
 //     const token = localStorage.getItem("token");
 //     const tokenUser = token ? JSON.parse(atob(token.split(".")[1])) : null;
 //     const [user, setUser] = useState({});
-    
+
 //     const handleClick = (section) => {
 //         // Khi nhấn vào liên kết, thay đổi giá trị activeSection
 //         setActiveSection(section);
@@ -40,7 +40,7 @@
 //             <Header />
 
 //             <div className="flex flex-1" style={{ paddingTop: "72px" }}>
-                
+
 //                 <aside className="w-1/4 bg-gray-900 text-white p-4">
 //                     <div className="mb-6">
 //                         <img
@@ -116,7 +116,7 @@
 //                     )}
 //                 </div>
 //             </div>
-            
+
 //         </div>
 //     );
 // };
@@ -136,6 +136,7 @@ const ProjfilePage = () => {
     const token = localStorage.getItem("token");
     const tokenUser = token ? JSON.parse(atob(token.split(".")[1])) : null;
     const [user, setUser] = useState({}); // Thông tin người dùng
+    const [account, setAccount] = useState({});
 
     const handleClick = (section) => {
         // Khi nhấn vào liên kết, thay đổi giá trị activeSection
@@ -168,7 +169,6 @@ const ProjfilePage = () => {
             <Header />
 
             <div className="flex flex-1" style={{ paddingTop: "72px" }}>
-                
                 <aside className="w-1/4 bg-gray-800 text-white p-6 rounded-lg shadow-lg">
                     {/* <div className="mb-6 flex flex-col items-center">
                         <img
@@ -180,7 +180,11 @@ const ProjfilePage = () => {
                         <p className="text-center text-xl font-semibold">{user.name}</p>
                     </div> */}
                     <span className="inline-block w-full">
-                        <img src="../../../public/myUTE_Tuyensinh.png" alt="Logo" className="w-full h-auto object-contain" />
+                        <img
+                            src="../../../public/myUTE_Tuyensinh.png"
+                            alt="Logo"
+                            className="w-full h-auto object-contain"
+                        />
                     </span>
                     <nav>
                         <ul className="space-y-4">
@@ -239,7 +243,11 @@ const ProjfilePage = () => {
                             <div className="mt-6 text-left grid grid-cols-2 gap-6">
                                 <div className="flex items-center">
                                     <strong className="w-32">Ảnh thẻ:</strong>
-                                    <img src={user?.pic} alt="Profile" className="w-32 h-40 object-cover rounded-lg shadow-md" />
+                                    <img
+                                        src={user?.pic}
+                                        alt="Profile"
+                                        className="w-32 h-40 object-cover rounded-lg shadow-md"
+                                    />
                                 </div>
                                 <div className="flex items-center">
                                     <strong className="w-32">Họ và tên:</strong>
