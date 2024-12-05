@@ -19,6 +19,7 @@ const adISchema = new mongoose.Schema({
     houseNumber: { type: String, required: true },
     streetName: { type: String, required: true },
     status: { type: String, required: true },
+    feedback: { type: String, required: false },
 });
 
 const adInfomation = mongoose.model("admissionInfomation", adISchema);

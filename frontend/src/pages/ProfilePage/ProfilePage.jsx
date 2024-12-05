@@ -137,7 +137,7 @@ const ProjfilePage = () => {
     const tokenUser = token ? JSON.parse(atob(token.split(".")[1])) : null;
     const [user, setUser] = useState({}); // Thông tin người dùng
     const [account, setAccount] = useState({});
-
+    const [status, setStatus] = useState("");
     const handleClick = (section) => {
         // Khi nhấn vào liên kết, thay đổi giá trị activeSection
         setActiveSection(section);
@@ -154,15 +154,34 @@ const ProjfilePage = () => {
                 // Gọi API để lấy danh sách thông tin từ cơ sở dữ liệu
                 const response = await axios.get("http://localhost:8080/api/users/getAll");
                 // Tìm kiếm thông tin dựa trên tokenUser.email
-                const userAdInfo = response.data.find((item) => item.email === tokenUser.email);
+                const accountAdInfo = response.data.find((item) => item.email === tokenUser.email);
+                setAccount(accountAdInfo); // Cập nhật thông tin người dùng
+                const response2 = await axios.get("http://localhost:8080/api/adis/getAll");
+                // Tìm kiếm thông tin dựa trên tokenUser.email
+                const userAdInfo = response2.data.data.find((item) => item.email === tokenUser.email);
                 setUser(userAdInfo); // Cập nhật thông tin người dùng
+                const status1 = await axios.get(`http://localhost:8080/api/adis/getStatus/${tokenUser.email}`);
+                const status2 = await axios.get(`http://localhost:8080/api/learning/getStatus/${tokenUser.email}`);
+                const status3 = await axios.get(`http://localhost:8080/api/transcripts/getStatus/${tokenUser.email}`);
+                const status4 = await axios.get(`http://localhost:8080/api/photo/getStatus/${tokenUser.email}`);
+                if (
+                    status1.data.data[0].status === "accepted" &&
+                    status2.data.data[0].status === "accepted" &&
+                    status3.data.data[0].status === "accepted" &&
+                    status4.data.data[0].status === "accepted"
+                ) {
+                    setStatus("accepted");
+                } else {
+                    // Xử lý khi không phải tất cả đều bằng "accept"
+                    setStatus("waiting");
+                }
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         };
 
         fetchData();
-    }, [token, tokenUser]);
+    }, [token, tokenUser.email]);
 
     return (
         <div className="min-h-screen flex flex-col bg-gray-50">
@@ -233,7 +252,7 @@ const ProjfilePage = () => {
                         <div className="text-center text-gray-600">
                             <h2 className="text-2xl font-semibold text-gray-800">Trạng thái hồ sơ</h2>
                             <p className="mb-6 text-lg">
-                                {user?.profileStatus === "approved" ? "Hồ sơ đã duyệt" : "Hồ sơ chưa duyệt"}
+                                {status === "accepted" ? "Hồ sơ đã duyệt" : "Hồ sơ chưa duyệt"}
                             </p>
                             {user?.profileStatus === "rejected" && (
                                 <div className="text-red-500 font-medium">
@@ -244,19 +263,24 @@ const ProjfilePage = () => {
                                 <div className="flex items-center">
                                     <strong className="w-32">Ảnh thẻ:</strong>
                                     <img
-                                        src={user?.pic}
+                                        src={account?.pic}
                                         alt="Profile"
                                         className="w-32 h-40 object-cover rounded-lg shadow-md"
                                     />
                                 </div>
                                 <div className="flex items-center">
                                     <strong className="w-32">Họ và tên:</strong>
-                                    <p>{user?.name || "Chưa cập nhật"}</p>
+                                    <p>{account?.name || "Chưa cập nhật"}</p>
                                 </div>
                                 <div className="flex items-center">
                                     <strong className="w-32">Ngày sinh:</strong>
-                                    <p>{user?.dob || "Chưa cập nhật"}</p>
+                                    <p>
+                                        {user?.birthDate
+                                            ? new Date(user.birthDate).toLocaleDateString("vi-VN")
+                                            : "Chưa cập nhật"}
+                                    </p>
                                 </div>
+
                                 <div className="flex items-center">
                                     <strong className="w-32">Giới tính:</strong>
                                     <p>{user?.gender || "Chưa cập nhật"}</p>
@@ -267,11 +291,11 @@ const ProjfilePage = () => {
                                 </div>
                                 <div className="flex items-center">
                                     <strong className="w-32">Email:</strong>
-                                    <p>{user?.email || "Chưa cập nhật"}</p>
+                                    <p>{account?.email || "Chưa cập nhật"}</p>
                                 </div>
                                 <div className="flex items-center">
                                     <strong className="w-32">CCCD:</strong>
-                                    <p>{user?.cccd || "Chưa cập nhật"}</p>
+                                    <p>{user?.idNumber || "Chưa cập nhật"}</p>
                                 </div>
                             </div>
                         </div>

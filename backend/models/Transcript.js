@@ -15,6 +15,7 @@ const transcriptSchema = new mongoose.Schema({
     ],
     email: { type: String, required: true },
     status: { type: String, required: true },
+    feedback: { type: String, required: false },
 });
 
 const Transcript = mongoose.model("Transcript", transcriptSchema);

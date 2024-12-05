@@ -54,3 +54,44 @@ export const getAllPhotos = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+export const getPhotoStatusByEmail = async (req, res) => {
+    try {
+        const { email } = req.params; // Lấy email từ tham số URL
+
+        // Tìm kiếm tài liệu theo email và chỉ lấy trường 'status'
+        const photoStatus = await PhotoID.find({ email }).select("status");
+
+        // Kiểm tra nếu không có dữ liệu
+        if (!photoStatus.length) {
+            return res.status(404).json({ message: `No learning process found for email: ${email}` });
+        }
+
+        // Trả về dữ liệu status của học bạ tương ứng với email
+        res.status(200).json({ message: "Success", data: photoStatus });
+    } catch (error) {
+        console.error("Error fetching learning process status by email:", error);
+        res.status(500).json({ message: error.message });
+    }
+};
+export const getPhotoByEmail = async (req, res) => {
+    try {
+        const { email } = req.params; // Lấy email từ URL
+
+        if (!email) {
+            return res.status(400).json({ message: "Email is required" });
+        }
+
+        // Tìm tài liệu trong cơ sở dữ liệu dựa trên email
+        const photo = await PhotoID.findOne({ email });
+
+        if (!photo) {
+            return res.status(404).json({ message: `No transcript found for email: ${email}` });
+        }
+
+        // Trả về dữ liệu tìm được
+        res.status(200).json({ message: "Success", data: photo });
+    } catch (error) {
+        console.error("Error fetching transcript by email:", error);
+        res.status(500).json({ message: error.message });
+    }
+};

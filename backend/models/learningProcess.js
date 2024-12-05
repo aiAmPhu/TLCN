@@ -21,6 +21,7 @@ const learningprocessSchema = new mongoose.Schema({
     priorityGroup: { type: String, required: true },
     email: { type: String, required: true },
     status: { type: String, required: true },
+    feedback: { type: String, required: false },
 });
 
 // Tạo model từ schema
