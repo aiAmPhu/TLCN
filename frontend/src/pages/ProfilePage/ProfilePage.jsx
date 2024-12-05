@@ -3,6 +3,7 @@ import Header from "../../components/Header";
 import AdmissionInformation from "../../components/Profile/AdmissionInformation";
 import LearningProcess from "../../components/Profile/LearningProcess";
 import PhotoID from "../../components/Profile/PhotoID";
+import HighSchoolTranscript from "../../components/Profile/HighSchoolTranscript";
 import axios from "axios";
 const ProjfilePage = () => {
     const [activeSection, setActiveSection] = useState(null); // State để theo dõi phần nội dung được chọn
@@ -67,6 +68,14 @@ const ProjfilePage = () => {
                             </li>
                             <li
                                 className={`hover:bg-blue-700 rounded-md px-3 py-2 cursor-pointer ${
+                                    activeSection === "highschooltranscript" && "bg-blue-600"
+                                }`}
+                                onClick={() => handleClick("highschooltranscript")}
+                            >
+                                Học bạ THPT
+                            </li>
+                            <li
+                                className={`hover:bg-blue-700 rounded-md px-3 py-2 cursor-pointer ${
                                     activeSection === "photo" && "bg-blue-600"
                                 }`}
                                 onClick={() => handleClick("photoid")}
@@ -81,6 +90,7 @@ const ProjfilePage = () => {
                     {activeSection === "admissioninformation" && <AdmissionInformation />}
                     {activeSection === "learningprocess" && <LearningProcess />}
                     {activeSection === "photoid" && <PhotoID />}
+                    {activeSection === "highschooltranscript" && <HighSchoolTranscript />}
                 </div>
             </div>
         </div>
