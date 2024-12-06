@@ -72,14 +72,13 @@ const ProjfilePage = () => {
     return (
         <div className="min-h-screen flex flex-col bg-white">
             <Header />
-
             <div className="flex flex-1 pt-20">
                 <aside className="w-1/4 bg-[#222d32] text-white p-6 rounded-xl shadow-xl space-y-6">
                     <div className="text-center">
                         <img
                             src="../../../public/myUTE_Tuyensinh.png"
                             alt="Logo"
-                            className="w-32 h-auto mx-auto mb-6"
+                            className="w-43 h-auto mx-auto mb-6"
                         />
                     </div>
                     <nav>
