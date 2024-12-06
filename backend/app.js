@@ -16,7 +16,8 @@ import adiRoutes from "./routes/adiRoutes.js";
 import photoRoutes from "./routes/photoRoutes.js";
 import learningPRoutes from "./routes/learningPRoutes.js";
 import cors from "cors";
-import transcriptRoutes from './routes/transcriptRoutes.js';
+import transcriptRoutes from "./routes/transcriptRoutes.js";
+import adwRoutes from "./routes/adwRoutes.js";
 
 dotenv.config();
 connectDB();
@@ -38,5 +39,6 @@ app.use("/api/adis", adiRoutes);
 app.use("/api/learning", learningPRoutes);
 app.use("/api/photo", photoRoutes);
 app.use("/api/jwt", jwtRoutes);
-app.use('/api/transcripts', transcriptRoutes);
+app.use("/api/transcripts", transcriptRoutes);
+app.use("/api/wish", adwRoutes);
 export default app;

@@ -44,6 +44,29 @@ export const getAllAdBlocks = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+export const getAllSubjectsByAdmissionBlockId = async (req, res) => {
+    const { admissionBlockId } = req.params; // Lấy admissionBlockId từ params
+
+    try {
+        // Giả sử bạn có model Subject liên kết với AdBlock
+        const subjects = await AdBlock.find({ admissionBlockId }); // Tìm các môn học dựa trên admissionBlockId
+        if (!subjects || subjects.length === 0) {
+            return res.status(404).json({ message: "Không tìm thấy môn học nào cho khối xét tuyển này." });
+        }
+
+        res.status(200).json(
+            subjects.map((subject) => ({
+                subject1: subject.admissionBlockSubject1,
+                subject2: subject.admissionBlockSubject2,
+                subject3: subject.admissionBlockSubject3,
+            }))
+        ); // Trả về danh sách môn học
+    } catch (error) {
+        console.error("Lỗi khi lấy danh sách môn học:", error);
+        res.status(500).json({ message: "Đã xảy ra lỗi khi lấy danh sách môn học." });
+    }
+};
+
 // Cập nhật Admission Block
 export const updateAdBlock = async (req, res) => {
     try {

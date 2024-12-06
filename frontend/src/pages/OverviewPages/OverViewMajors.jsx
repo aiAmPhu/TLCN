@@ -44,10 +44,10 @@ const AdmsList = () => {
                             <div key={index} className="border p-4 rounded shadow hover:shadow-md transition">
                                 <h2 className="font-semibold text-lg mb-2">{item.majorName || "No Name"}</h2>
                                 <p>
-                                    <strong>ID:</strong> {item.majorId || "N/A"}
+                                    <strong>Mã ngành:</strong> {item.majorId || "N/A"}
                                 </p>
                                 <p>
-                                    <strong>Description:</strong> {item.majorDescription || "No Description"}
+                                    <strong>Mô tả:</strong> {item.majorDescription || "No Description"}
                                 </p>
                             </div>
                         ))}

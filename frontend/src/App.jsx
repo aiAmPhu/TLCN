@@ -24,6 +24,8 @@ import InfoAdmission from "./pages/ReviewerPages/InfoAdmissionReviewer";
 import LearningProcessReviewer from "./pages/ReviewerPages/LearningProcessReviewer";
 import TranscriptReviewer from "./pages/ReviewerPages/TranscriptReviewer";
 import PhotoReviewer from "./pages/ReviewerPages/PhotoReviewer";
+import OverviewRegisterMajor from "./pages/OverviewPages/OverviewRegisterMajors";
+import OverviewRegisterMajorP2 from "./pages/OverviewPages/OverviewRegisterMajorPage2";
 function App() {
     function SidebarLayout() {
         return (
@@ -71,6 +73,8 @@ function App() {
                 <Route path="/sidebar/*" element={<SidebarLayout />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/overviewMajors" element={<OverViewMajors />} />
+                <Route path="/overviewRegisterMajors" element={<OverviewRegisterMajor />} />
+                <Route path="/overviewRegisterMajorsP2" element={<OverviewRegisterMajorP2 />} />
                 <Route path="/reviewer" element={<ReviewerPage />} />
                 <Route path="/infoAdmissionReviewer" element={<InfoAdmission />} />{" "}
                 {/* Sử dụng element thay vì component */}

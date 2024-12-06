@@ -39,7 +39,24 @@ export const getAllAdMajors = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+export const getMajorCombinationByName = async (req, res) => {
+    const { majorId } = req.params; // Lấy majorName từ tham số URL
 
+    try {
+        // Tìm kiếm major theo majorName
+        const major = await AdMajor.findOne({ majorId: majorId });
+
+        if (!major) {
+            return res.status(404).json({ message: "Major not found" });
+        }
+
+        // Trả về majorCombination
+        res.status(200).json({ majorCombination: major.majorCombination });
+    } catch (error) {
+        // Xử lý lỗi
+        res.status(500).json({ message: error.message });
+    }
+};
 // Cập nhật Major
 export const updateAdMajor = async (req, res) => {
     try {

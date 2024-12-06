@@ -199,3 +199,35 @@ export const getTranscriptStatusByEmail = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+export const getAverageScoreByEmailAndSubject = async (req, res) => {
+    const { email, subject } = req.params; // Nhận email và môn học từ URL
+    try {
+        // Tìm các bảng điểm của người dùng dựa trên email
+        const transcript = await Transcript.findOne({ email });
+
+        // Kiểm tra xem bảng điểm có tồn tại không
+        if (!transcript) {
+            return res.status(400).json({ message: "Transcript not found for the given email" });
+        }
+
+        // Tìm môn học trong bảng điểm
+        const subjectData = transcript.subjects.find((score) => score.subject === subject);
+
+        // Nếu môn học không được tìm thấy
+        if (!subjectData) {
+            return res.status(400).json({ message: `Subject '${subject}' not found in the transcript` });
+        }
+        console.log(subjectData);
+        // Trả về điểm trung bình của môn học
+        res.status(200).json({
+            message: "Success",
+            data: {
+                subject: subjectData.subject,
+                averageScore: subjectData.averageScore,
+            },
+        });
+    } catch (error) {
+        console.error("Error fetching average score:", error);
+        res.status(500).json({ message: error.message });
+    }
+};
