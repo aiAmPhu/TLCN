@@ -65,9 +65,6 @@ export const updateAdQuantity = async (req, res) => {
 
         const existingQuantity = await AdQuantity.findOne({ majorId, criteriaId });
 
-        if (existingQuantity) {
-            return res.status(400).json({ message: "Chỉ tiêu này đã được thiết lập" });
-        }
         // Cập nhật thông tin Quantity
         const updatedQuantity = await AdQuantity.findByIdAndUpdate(
             id,

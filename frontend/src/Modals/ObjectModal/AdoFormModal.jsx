@@ -36,6 +36,8 @@ const AdoFormModal = ({ adoId, adoToEdit, setAdos, onClose, isEditing }) => {
 
         try {
             if (isEditing && adoId) {
+                console.log(adoId);
+                console.log(isEditing);
                 // Cập nhật user
                 await axios.put(`http://localhost:8080/api/ados/update/${adoId}`, newAdo);
             } else {

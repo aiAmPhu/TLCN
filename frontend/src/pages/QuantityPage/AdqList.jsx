@@ -51,7 +51,7 @@ const AdqList = ({ adqs, setAdqs }) => {
         const query = e.target.value.toLowerCase();
         setSearchQuery(query);
 
-        const filtered = adqs.filter((adq) => adq.objectId.toLowerCase().includes(query));
+        const filtered = adqs.filter((adq) => adq.majorId.toLowerCase().includes(query));
         setFilteredAdqs(filtered);
     };
     useEffect(() => {
