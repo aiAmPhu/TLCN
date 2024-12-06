@@ -73,7 +73,15 @@ const ResultPage = () => {
                                         <td className="px-4 py-2 border">{wish.criteriaId}</td>
                                         <td className="px-4 py-2 border">{wish.admissionBlockId}</td>
                                         <td className="px-4 py-2 border">{wish.scores}</td>
-                                        <td className="px-4 py-2 border">{wish.status}</td>
+                                        <td className="px-4 py-2 border">
+                                            {wish.status === "waiting"
+                                                ? "Đang chờ"
+                                                : wish.status === "accepted"
+                                                ? "Trúng tuyển"
+                                                : wish.status === "rejected"
+                                                ? "Trượt"
+                                                : wish.status}
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>

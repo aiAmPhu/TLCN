@@ -7,7 +7,6 @@ const FilterPage = () => {
     const [loading, setLoading] = useState(false); // State kiểm tra trạng thái loading
     const [error, setError] = useState(""); // State lưu thông báo lỗi
     const [filterText, setFilterText] = useState(""); // State để lưu giá trị lọc
-
     // Gọi API khi component được mount
     useEffect(() => {
         const fetchEmails = async () => {
@@ -43,14 +42,41 @@ const FilterPage = () => {
         try {
             //console.log(filteredEmails);
             // Gọi API song song cho tất cả email
-            const results = await Promise.all(
-                emails.map((email) => axios.get(`http://localhost:8080/api/wish/getAll/${email}`))
-            );
+            const results = await axios.get(`http://localhost:8080/api/wish/getByStatus`);
+
             //console.log(results);
-            const wishes = results.map((response) => response.data.data);
+            const wishes = results.data.data;
             console.log("All wishes fetched:", wishes);
-            console.log(results);
-            return wishes; // Trả về mảng dữ liệu của tất cả các email
+            let emailChecked = [];
+            for (const wish of wishes) {
+                const { _id, major, criteriaId, email, scores, priority } = wish; // Lấy majorId và criteriaId từ wish
+                if (!emailChecked.includes(email)) {
+                    //emailChecked !== "" &&
+                    // Thực hiện hành động nếu emailCheck không rỗng và khác email
+                    //console.log(_id);
+                    // Bước 3: Gọi API getQuantityByCriteriaIdAndMajorId
+                    const quantityResponse = await axios.get(
+                        `http://localhost:8080/api/adqs/getQuantityByCriteriaIdAndMajorId/${criteriaId}/${major}`
+                    );
+                    console.log(quantityResponse.data.data);
+                    // Kiểm tra và in ra kết quả
+                    if (quantityResponse.data.data.length > 0) {
+                        const quantity = quantityResponse.data.data[0].quantity; // Lấy quantity
+                        if (scores >= quantity) {
+                            await axios.put(`http://localhost:8080/api/wish/accept/${_id}`);
+                            //await axios.put(`http://localhost:8080/api/wish/waiting/${_id}`);
+                            emailChecked.push(email);
+                        } else await axios.put(`http://localhost:8080/api/wish/reject/${_id}`);
+                        //console.log(`Major: ${major}, CriteriaId: ${criteriaId}, Quantity: ${quantity}`);
+                    } else {
+                        console.log(`Không có số lượng cho Major: ${major}, CriteriaId: ${criteriaId}`);
+                    }
+                } else {
+                    await axios.put(`http://localhost:8080/api/wish/reject/${_id}`);
+                    //await axios.put(`http://localhost:8080/api/wish/waiting/${_id}`);
+                }
+            }
+            alert("Lọc thành công");
         } catch (error) {
             console.error("Error fetching wishes:", error);
             throw error;

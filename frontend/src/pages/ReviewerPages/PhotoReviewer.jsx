@@ -90,7 +90,7 @@ const PhotoReviewer = () => {
         <div className="min-h-screen bg-gray-100">
             <Navbar />
             <div className="container  mx-auto  max-w-md px-4 py-8 ">
-                <h1 className="text-3xl font-bold text-center text-blue-600 mb-6">Quá trình học tập</h1>
+                <h1 className="text-3xl font-bold text-center text-blue-600 mb-6">Ảnh hồ sơ</h1>
 
                 {/* Hiển thị dữ liệu trả về từ API */}
                 <div

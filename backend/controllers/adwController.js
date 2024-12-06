@@ -76,3 +76,91 @@ export const getAllUniqueEmails = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+export const getByStatus = async (req, res) => {
+    try {
+        // const { status } = req.params; // Lấy status từ tham số URL
+
+        // Tìm tất cả các Admission Wish với status tương ứng và chỉ lấy các trường cần thiết
+        const admissionWishes = await AdmissionWish.find().select("priority criteriaId major scores email"); //{ status }
+
+        if (admissionWishes.length === 0) {
+            return res.status(404).json({ message: `No admission wishes found with status:` });
+        }
+
+        // Trả về danh sách Admission Wishes với các trường cụ thể
+        res.status(200).json({ message: `Admission wishes with status: `, data: admissionWishes });
+    } catch (error) {
+        console.error("Error finding admission wishes by status:", error); // Log chi tiết lỗi
+        res.status(500).json({ message: error.message });
+    }
+};
+export const acceptWish = async (req, res) => {
+    try {
+        const { id } = req.params; // Lấy id từ URL
+        let updatedData = req.body; // Dữ liệu mới từ body request
+
+        // Kiểm tra nếu `status` là `rejected`, đổi thành `waiting`
+        updatedData.status = "accepted";
+        // Cập nhật tài liệu theo id
+        const updatedAdInfomation = await AdmissionWish.findByIdAndUpdate(
+            id,
+            updatedData,
+            { new: true, runValidators: true } // Trả về tài liệu đã cập nhật và kiểm tra tính hợp lệ
+        );
+
+        if (!updatedAdInfomation) {
+            return res.status(400).json({ message: "AdInfomation not found" });
+        }
+
+        res.status(200).json({ message: "Updated successfully", data: updatedAdInfomation });
+    } catch (error) {
+        console.error("Error updating admission infomation:", error);
+        res.status(500).json({ message: error.message });
+    }
+};
+export const rejectWish = async (req, res) => {
+    try {
+        const { id } = req.params; // Lấy id từ URL
+        let updatedData = req.body; // Dữ liệu mới từ body request
+
+        // Kiểm tra nếu `status` là `rejected`, đổi thành `waiting`
+        updatedData.status = "rejected"; // Cập nhật tài liệu theo id
+        const updatedAdInfomation = await AdmissionWish.findByIdAndUpdate(
+            id,
+            updatedData,
+            { new: true, runValidators: true } // Trả về tài liệu đã cập nhật và kiểm tra tính hợp lệ
+        );
+
+        if (!updatedAdInfomation) {
+            return res.status(400).json({ message: "AdInfomation not found" });
+        }
+
+        res.status(200).json({ message: "Updated successfully", data: updatedAdInfomation });
+    } catch (error) {
+        console.error("Error updating admission infomation:", error);
+        res.status(500).json({ message: error.message });
+    }
+};
+export const waitingtWish = async (req, res) => {
+    try {
+        const { id } = req.params; // Lấy id từ URL
+        let updatedData = req.body; // Dữ liệu mới từ body request
+
+        // Kiểm tra nếu `status` là `rejected`, đổi thành `waiting`
+        updatedData.status = "waiting"; // Cập nhật tài liệu theo id
+        const updatedAdInfomation = await AdmissionWish.findByIdAndUpdate(
+            id,
+            updatedData,
+            { new: true, runValidators: true } // Trả về tài liệu đã cập nhật và kiểm tra tính hợp lệ
+        );
+
+        if (!updatedAdInfomation) {
+            return res.status(400).json({ message: "AdInfomation not found" });
+        }
+
+        res.status(200).json({ message: "Updated successfully", data: updatedAdInfomation });
+    } catch (error) {
+        console.error("Error updating admission infomation:", error);
+        res.status(500).json({ message: error.message });
+    }
+};

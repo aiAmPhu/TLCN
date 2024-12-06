@@ -26,6 +26,26 @@ export const addAdQuantity = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+export const getQuantityByCriteriaIdAndMajorId = async (req, res) => {
+    try {
+        const { criteriaId, majorId } = req.params; // Lấy criteriaId và majorId từ tham số URL
+
+        // Tìm các bản ghi trong AdQuantity với criteriaId và majorId tương ứng
+        const quantities = await AdQuantity.find({ criteriaId, majorId }).select("quantity");
+
+        if (quantities.length === 0) {
+            return res.status(404).json({
+                message: `No quantities found for criteriaId: ${criteriaId} and majorId: ${majorId}`,
+            });
+        }
+
+        // Trả về các quantities tìm được
+        res.status(200).json({ message: "Quantities found", data: quantities });
+    } catch (error) {
+        console.error("Error finding quantities by criteriaId and majorId:", error); // Log lỗi chi tiết
+        res.status(500).json({ message: error.message });
+    }
+};
 
 // Lấy toàn bộ Quantitys
 export const getAllAdQuantities = async (req, res) => {

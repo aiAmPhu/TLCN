@@ -98,47 +98,53 @@ const OverviewRegisterMajorP2 = () => {
         localStorage.setItem("selectedCombination", selectedCombination);
         const combination = await axios.get(`http://localhost:8080/api/adbs/getSubjects/${selectedCombination}`);
 
-        const score1 = await axios.get(
-            `http://localhost:8080/api/transcripts/getScoreByEmailandSubject/${email}/${combination.data[0].subject1}`
-        );
-        const score2 = await axios.get(
-            `http://localhost:8080/api/transcripts/getScoreByEmailandSubject/${email}/${combination.data[0].subject2}`
-        );
-        const score3 = await axios.get(
-            `http://localhost:8080/api/transcripts/getScoreByEmailandSubject/${email}/${combination.data[0].subject3}`
-        );
-        const temptScore4 = await axios.get(`http://localhost:8080/api/learning/getPriorityGroup/${email}`);
-        const score4 = await axios.get(
-            `http://localhost:8080/api/ados/getScoreByID/${temptScore4.data.data[0].priorityGroup}`
-        );
-        //console.log(score4.data.score);
-        // console.log(combination.data[0].subject1);
-        // console.log(score1.data.data.averageScore);
-        // console.log(score2.data.data.averageScore);
-        // console.log(score3.data.data.averageScore);
-        const finalScore =
-            safeParseFloat(score1.data.data.averageScore) +
-            safeParseFloat(score2.data.data.averageScore) +
-            safeParseFloat(score3.data.data.averageScore) +
-            safeParseFloat(score4.data.score);
-        const newWish = {
-            priority: priority + 1,
-            criteriaId: criteriaId,
-            admissionBlockId: selectedCombination,
-            major: selectedValue,
-            email: email,
-            scores: finalScore,
-        };
-        console.log(newWish);
         try {
-            // Cập nhật danh sách người dùng sau khi thêm hoặc sửa
-            await axios.post("http://localhost:8080/api/wish/add", newWish);
-        } catch (error) {
-            alert("Failed to add wish. Please try again.");
-        }
+            const score1 = await axios.get(
+                `http://localhost:8080/api/transcripts/getScoreByEmailandSubject/${email}/${combination.data[0].subject1}`
+            );
+            const score2 = await axios.get(
+                `http://localhost:8080/api/transcripts/getScoreByEmailandSubject/${email}/${combination.data[0].subject2}`
+            );
+            const score3 = await axios.get(
+                `http://localhost:8080/api/transcripts/getScoreByEmailandSubject/${email}/${combination.data[0].subject3}`
+            );
+            const temptScore4 = await axios.get(`http://localhost:8080/api/learning/getPriorityGroup/${email}`);
+            const score4 = await axios.get(
+                `http://localhost:8080/api/ados/getScoreByID/${temptScore4.data.data[0].priorityGroup}`
+            );
+            //console.log(score4.data.score);
+            // console.log(combination.data[0].subject1);
+            // console.log(score1.data.data.averageScore);
+            // console.log(score2.data.data.averageScore);
+            // console.log(score3.data.data.averageScore);
+            const finalScore =
+                safeParseFloat(score1.data.data.averageScore) +
+                safeParseFloat(score2.data.data.averageScore) +
+                safeParseFloat(score3.data.data.averageScore) +
+                safeParseFloat(score4.data.score);
+            const newWish = {
+                priority: priority + 1,
+                criteriaId: criteriaId,
+                admissionBlockId: selectedCombination,
+                major: selectedValue,
+                email: email,
+                scores: finalScore,
+            };
+            console.log(newWish);
+            try {
+                // Cập nhật danh sách người dùng sau khi thêm hoặc sửa
+                await axios.post("http://localhost:8080/api/wish/add", newWish);
+            } catch (error) {
+                alert("Failed to add wish. Please try again.");
+            }
 
-        // Thông báo lưu thành công
-        alert("Thông tin đã được lưu!");
+            // Thông báo lưu thành công
+            alert("Thông tin đã được lưu!");
+        } catch (error) {
+            // Nếu có lỗi ở bất kỳ API nào, sẽ hiển thị thông báo lỗi
+            alert("Vui lòng thiết lập hồ sơ trước");
+            console.error(error); // In ra lỗi chi tiết cho dễ debug
+        }
     };
 
     return (
