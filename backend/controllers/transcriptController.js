@@ -185,7 +185,7 @@ export const getTranscriptStatusByEmail = async (req, res) => {
         const { email } = req.params; // Lấy email từ tham số URL
 
         // Tìm kiếm tài liệu theo email và chỉ lấy trường 'status'
-        const transcriptStatus = await Transcript.find({ email }).select("status");
+        const transcriptStatus = await Transcript.find({ email }).select("status feedback");
 
         // Kiểm tra nếu không có dữ liệu
         if (!transcriptStatus.length) {

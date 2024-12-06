@@ -39,8 +39,22 @@ const FilterPage = () => {
     };
 
     // Hàm xử lý nút Lọc
-    const handleFilter = () => {
-        console.log("Danh sách email đã lọc:", filteredEmails);
+    const handleFilter = async () => {
+        try {
+            //console.log(filteredEmails);
+            // Gọi API song song cho tất cả email
+            const results = await Promise.all(
+                emails.map((email) => axios.get(`http://localhost:8080/api/wish/getAll/${email}`))
+            );
+            //console.log(results);
+            const wishes = results.map((response) => response.data.data);
+            console.log("All wishes fetched:", wishes);
+            console.log(results);
+            return wishes; // Trả về mảng dữ liệu của tất cả các email
+        } catch (error) {
+            console.error("Error fetching wishes:", error);
+            throw error;
+        }
     };
 
     return (

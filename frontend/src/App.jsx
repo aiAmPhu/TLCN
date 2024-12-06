@@ -28,6 +28,8 @@ import OverviewRegisterMajor from "./pages/OverviewPages/OverviewRegisterMajors"
 import OverviewRegisterMajorP2 from "./pages/OverviewPages/OverviewRegisterMajorPage2";
 import OverviewMethods from "./pages/OverviewPages/OverviewMethods";
 import OverviewBlocks from "./pages/OverviewPages/OverviewBlocks";
+import FilterPage from "./pages/FilterPage/FilterPage";
+import ResultPage from "./pages/OverviewPages/ResultsPage";
 function App() {
     function SidebarLayout() {
         return (
