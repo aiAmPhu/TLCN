@@ -79,7 +79,7 @@ const Header = () => {
                         </Link>
                     </nav>
                     {/* Search Icon */}
-                    <div className="relative">
+                    {/* <div className="relative">
                         <FiSearch
                             className="text-xl cursor-pointer hover:text-blue-500 ml-4"
                             onClick={() => setShowSearch(!showSearch)}
@@ -93,7 +93,7 @@ const Header = () => {
                                 />
                             </div>
                         )}
-                    </div>
+                    </div> */}
                     {/* Buttons */}
                     <div className="flex items-center space-x-4">
                         {token ? (
@@ -109,13 +109,8 @@ const Header = () => {
                                     />
                                     <span className="ml-2 text-white">{user?.name || "User"}</span>
                                     {menuOpen && (
-                                        <div className="absolute right-0 mt-40 w-48 bg-white text-black rounded-md shadow-lg z-10">
+                                        <div className="absolute right-0 mt-32 w-48 bg-white text-black rounded-md shadow-lg z-10">
                                             <ul>
-                                                <li>
-                                                    <Link to="/settings" className="block px-4 py-2 hover:bg-gray-200">
-                                                        Cài đặt
-                                                    </Link>
-                                                </li>
                                                 <li>
                                                     <Link
                                                         to="/changepassword"

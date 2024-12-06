@@ -176,7 +176,7 @@ const Sidebar = () => {
                                         Lọc hồ sơ
                                     </Link>
                                 </li>
-                                <li>
+                                {/* <li>
                                     <Link
                                         to="option3"
                                         className={`p-2 rounded block ${
@@ -186,7 +186,7 @@ const Sidebar = () => {
                                     >
                                         Thống kê
                                     </Link>
-                                </li>
+                                </li> */}
                             </ul>
                         </div>
                     )}
