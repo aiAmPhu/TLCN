@@ -72,7 +72,9 @@ function App() {
                 <Route path="/forgotpassword" element={<ForgotPasswordPage />} />
                 <Route path="/sidebar/*" element={<SidebarLayout />} />
                 <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/overviewMajors" element={<OverViewMajors />} />
+                <Route path="/overviewMajors" element={<OverViewMajors />}>
+                    <Route path=":majorId" element={<OverViewMajors />} />
+                </Route>
                 <Route path="/overviewRegisterMajors" element={<OverviewRegisterMajor />} />
                 <Route path="/overviewRegisterMajorsP2" element={<OverviewRegisterMajorP2 />} />
                 <Route path="/reviewer" element={<ReviewerPage />} />
