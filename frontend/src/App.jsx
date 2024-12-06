@@ -26,6 +26,8 @@ import TranscriptReviewer from "./pages/ReviewerPages/TranscriptReviewer";
 import PhotoReviewer from "./pages/ReviewerPages/PhotoReviewer";
 import OverviewRegisterMajor from "./pages/OverviewPages/OverviewRegisterMajors";
 import OverviewRegisterMajorP2 from "./pages/OverviewPages/OverviewRegisterMajorPage2";
+import OverviewMethods from "./pages/OverviewPages/OverviewMethods";
+import OverviewBlocks from "./pages/OverviewPages/OverviewBlocks";
 function App() {
     function SidebarLayout() {
         return (
@@ -75,6 +77,8 @@ function App() {
                 <Route path="/overviewMajors" element={<OverViewMajors />}>
                     <Route path=":majorId" element={<OverViewMajors />} />
                 </Route>
+                <Route path="/overviewMethods" element={<OverviewMethods />} />
+                <Route path="/overviewBlocks" element={<OverviewBlocks />} />
                 <Route path="/overviewRegisterMajors" element={<OverviewRegisterMajor />} />
                 <Route path="/overviewRegisterMajorsP2" element={<OverviewRegisterMajorP2 />} />
                 <Route path="/reviewer" element={<ReviewerPage />} />
