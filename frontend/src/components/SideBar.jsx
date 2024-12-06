@@ -173,7 +173,7 @@ const Sidebar = () => {
                                         }`}
                                         onClick={() => handleOptionClick("option2")}
                                     >
-                                        Quản lý ngành tuyển sinh
+                                        Lọc hồ sơ
                                     </Link>
                                 </li>
                                 <li>

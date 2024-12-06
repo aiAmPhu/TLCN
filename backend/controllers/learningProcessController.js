@@ -36,6 +36,7 @@ export const addLearningProcess = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
 export const updateLearningProcess = async (req, res) => {
     try {
         const { id } = req.params; // Lấy id từ URL
@@ -125,6 +126,25 @@ export const getAllLearningProcess = async (req, res) => {
         res.status(200).json({ message: "Success", data: learningprocess });
     } catch (error) {
         console.error("Error fetching learning process:", error);
+        res.status(500).json({ message: error.message });
+    }
+};
+export const getPriorityGroupStatusByEmail = async (req, res) => {
+    try {
+        const { email } = req.params; // Lấy email từ tham số URL
+
+        // Tìm kiếm tài liệu theo email và chỉ lấy trường 'status'
+        const learningprocessStatus = await LearningProcess.find({ email }).select("priorityGroup");
+
+        // Kiểm tra nếu không có dữ liệu
+        if (!learningprocessStatus.length) {
+            return res.status(404).json({ message: `No learning process found for email: ${email}` });
+        }
+
+        // Trả về dữ liệu status của học bạ tương ứng với email
+        res.status(200).json({ message: "Success", data: learningprocessStatus });
+    } catch (error) {
+        console.error("Error fetching learning process status by email:", error);
         res.status(500).json({ message: error.message });
     }
 };

@@ -38,7 +38,24 @@ export const getAllAdObjects = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+export const getScoreByID = async (req, res) => {
+    try {
+        const { objectId } = req.params; // Lấy ID từ tham số URL (id sẽ được truyền từ client)
 
+        // Tìm đối tượng theo ID
+        const adObject = await AdObject.findOne({ objectId }); // Tìm đối tượng trong cơ sở dữ liệu
+
+        if (!adObject) {
+            return res.status(404).json({ message: "Ad Object not found" }); // Nếu không tìm thấy đối tượng
+        }
+
+        // Trả về điểm của đối tượng tìm được
+        res.status(200).json({ score: adObject.objectScored }); // Giả sử `score` là trường lưu trữ điểm của đối tượng
+    } catch (error) {
+        console.error("Error fetching score:", error); // Log lỗi chi tiết
+        res.status(500).json({ message: error.message }); // Trả về lỗi nếu có
+    }
+};
 // Cập nhật Object
 export const updateAdObject = async (req, res) => {
     try {

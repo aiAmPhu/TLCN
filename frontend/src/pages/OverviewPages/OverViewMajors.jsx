@@ -12,7 +12,6 @@ const OverViewMajors = () => {
     const [selectedMajor, setSelectedMajor] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
     const itemsPerPage = 6;
-  
 
     useEffect(() => {
         const fetchData = async () => {
@@ -54,10 +53,7 @@ const OverViewMajors = () => {
         setCurrentPage(0);
     };
 
-    const displayedData = filteredData.slice(
-        currentPage * itemsPerPage,
-        (currentPage + 1) * itemsPerPage
-    );
+    const displayedData = filteredData.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
 
     if (loading) {
         return (
@@ -68,20 +64,14 @@ const OverViewMajors = () => {
     }
 
     if (error) {
-        return (
-            <div className="text-red-500 flex justify-center items-center min-h-screen">
-                {error}
-            </div>
-        );
+        return <div className="text-red-500 flex justify-center items-center min-h-screen">{error}</div>;
     }
 
     return (
         <div className="min-h-screen flex flex-col bg-gradient-to-b from-blue-50 to-blue-100">
             <Header />
             <div className="container mx-auto p-6 mt-16">
-                <h1 className="text-4xl font-bold text-center text-blue-800 mb-8">
-                    Danh sách ngành học
-                </h1>
+                <h1 className="text-4xl font-bold text-center text-blue-800 mb-8">Danh sách ngành học</h1>
                 <div className="flex justify-between items-center mb-8">
                     <input
                         type="text"

@@ -107,14 +107,20 @@ const OverviewRegisterMajorP2 = () => {
         const score3 = await axios.get(
             `http://localhost:8080/api/transcripts/getScoreByEmailandSubject/${email}/${combination.data[0].subject3}`
         );
-        console.log(combination.data[0].subject1);
-        console.log(score1.data.data.averageScore);
-        console.log(score2.data.data.averageScore);
-        console.log(score3.data.data.averageScore);
+        const temptScore4 = await axios.get(`http://localhost:8080/api/learning/getPriorityGroup/${email}`);
+        const score4 = await axios.get(
+            `http://localhost:8080/api/ados/getScoreByID/${temptScore4.data.data[0].priorityGroup}`
+        );
+        //console.log(score4.data.score);
+        // console.log(combination.data[0].subject1);
+        // console.log(score1.data.data.averageScore);
+        // console.log(score2.data.data.averageScore);
+        // console.log(score3.data.data.averageScore);
         const finalScore =
             safeParseFloat(score1.data.data.averageScore) +
             safeParseFloat(score2.data.data.averageScore) +
-            safeParseFloat(score3.data.data.averageScore);
+            safeParseFloat(score3.data.data.averageScore) +
+            safeParseFloat(score4.data.score);
         const newWish = {
             priority: priority + 1,
             criteriaId: criteriaId,

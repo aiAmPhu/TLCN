@@ -94,7 +94,7 @@ const AdqList = ({ adqs, setAdqs }) => {
                             key={adq._id}
                             className="flex justify-between items-center p-4 border border-gray-200 rounded shadqw-sm"
                         >
-                            {adq.majorId} || {adq.criteriaId} || {adq.quantity}
+                            Mã ngành: {adq.majorId} || Diện tuyển sinh: {adq.criteriaId} || Điểm chuẩn: {adq.quantity}{" "}
                             <div className="flex ml-auto">
                                 <button
                                     onClick={() => handleEdit(adq)}

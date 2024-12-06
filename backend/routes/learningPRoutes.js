@@ -7,6 +7,7 @@ import {
     getLearningProcessByEmail,
     acceptLearningProcess,
     rejectLearningProcess,
+    getPriorityGroupStatusByEmail,
 } from "../controllers/learningProcessController.js";
 
 const router = express.Router();
@@ -17,5 +18,6 @@ router.put("/accept/:id", acceptLearningProcess);
 router.put("/reject/:id", rejectLearningProcess);
 router.get("/getall", getAllLearningProcess);
 router.get("/getStatus/:email", getLearningProcessStatusByEmail);
+router.get("/getPriorityGroup/:email", getPriorityGroupStatusByEmail);
 router.get("/getLPByE/:email", getLearningProcessByEmail);
 export default router;

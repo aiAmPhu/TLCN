@@ -47,7 +47,7 @@ function App() {
                         <Route path="permission" element={<PermissionListPage />} />
                         <Route path="quantity" element={<AdqListPage />} />
                         <Route path="option1" element={<AdyListPage />} />
-                        <Route path="option2" element={<h1 className="text-2xl font-bold">Hello World 2</h1>} />
+                        <Route path="option2" element={<FilterPage />} />
                         <Route path="option3" element={<h1 className="text-2xl font-bold">Hello World 3</h1>} />
                     </Routes>
                 </div>
@@ -56,12 +56,6 @@ function App() {
     }
     return (
         <Router>
-            {/* className="flex" */}
-            {/* Sidebar */}
-            {/* <LoginPage /> */}
-            {/* <RegisterPage /> */}
-            {/* <HomePage /> */}
-            {/* <Sidebar /> */}
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/login" element={<LoginPage />} />
@@ -87,6 +81,7 @@ function App() {
                 <Route path="/learningReviewer" element={<LearningProcessReviewer />} />
                 <Route path="/transcriptReviewer" element={<TranscriptReviewer />} />
                 <Route path="/photoReviewer" element={<PhotoReviewer />} />
+                <Route path="/results" element={<ResultPage />} />
             </Routes>
 
             {/* Main Content */}

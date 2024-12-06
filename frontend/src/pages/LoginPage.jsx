@@ -55,7 +55,9 @@ const LoginPage = () => {
 
             if (response.data?.token) {
                 // Lưu token vào localStorage để sử dụng cho các request tiếp theo
+                const tokenUser = response.data.token ? JSON.parse(atob(response.data.token.split(".")[1])) : null;
                 localStorage.setItem("token", response.data.token);
+                localStorage.setItem("email", tokenUser.email);
                 console.log("Token saved:", localStorage.getItem("token"));
                 if (response.data?.token) {
                     // const user = response.data.token ? JSON.parse(atob(response.data.token.split(".")[1])) : null;

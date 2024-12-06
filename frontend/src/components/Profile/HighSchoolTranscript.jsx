@@ -43,7 +43,7 @@ const HighSchoolTranscript = () => {
                     //const userTranscript = transcripts.find((item) => item.email === tokenUser.email);
                     const userTranscript = transcripts.data.find((item) => item.email === tokenUser.email);
                     setUser(userTranscript);
-                    setIsEditing(true);
+
                     if (userTranscript) {
                         // Đổ dữ liệu học bạ vào state grades
                         const initialGrades = {};
@@ -61,7 +61,7 @@ const HighSchoolTranscript = () => {
                                 initialGrades[subjectIndex][yearIndex][semesterField] = score.score;
                             });
                         });
-
+                        setIsEditing(true);
                         setGrades(initialGrades);
                     }
                 }
