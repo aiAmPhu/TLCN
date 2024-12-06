@@ -34,6 +34,27 @@ export const addUser = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+export const addUserNoOTP = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name, email, password, role, pic } = req.body;
+
+        // Kiểm tra xem email có trùng với bất kỳ người dùng nào ngoài người dùng hiện tại không
+        const existingUser = await User.findOne({ email });
+
+        if (existingUser && existingUser._id.toString() !== id) {
+            // Nếu email đã tồn tại và không phải là của người dùng hiện tại
+            return res.status(400).json({ message: "Email already exists" });
+        }
+        const user = new User({ name, email, password, role, pic });
+        await user.save();
+        res.status(201).json({ message: "User created successfully" });
+        delete otps[email];
+    } catch (error) {
+        console.error("Error adding user:", error); // Log chi tiết lỗi
+        res.status(500).json({ message: error.message });
+    }
+};
 export const sendOTP = async (req, res) => {
     const { email } = req.body;
     if (!email) return res.status(400).json({ message: "Email is required" });

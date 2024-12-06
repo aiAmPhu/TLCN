@@ -53,7 +53,7 @@ const UserFormModal = ({ userId, userToEdit, setUsers, onClose, isEditing }) => 
                 await axios.put(`http://localhost:8080/api/users/update/${userId}`, newUser);
             } else {
                 // Thêm user mới
-                await axios.post("http://localhost:8080/api/users/add", newUser);
+                await axios.post("http://localhost:8080/api/users/addNoOTP", newUser);
             }
 
             // Cập nhật danh sách người dùng sau khi thêm hoặc sửa
