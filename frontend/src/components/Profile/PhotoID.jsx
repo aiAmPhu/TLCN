@@ -323,15 +323,15 @@ const PhotoID = () => {
     };
     return (
         <div className="p-6 bg-gray-100 min-h-screen flex flex-col items-center">
-            <h2 className="text-3xl font-bold mb-6 text-blue-600">Upload Images</h2>
+            <h2 className="text-3xl font-bold mb-6 text-blue-600">Hồ sơ ảnh</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-4xl">
                 {[
-                    { label: "Personal Picture", file: personalPic, setFile: setPersonalPic },
-                    { label: "Front CCCD", file: frontCCCD, setFile: setFrontCCCD },
-                    { label: "Back CCCD", file: backCCCD, setFile: setBackCCCD },
-                    { label: "Grade 10 Picture", file: grade10Pic, setFile: setGrade10Pic },
-                    { label: "Grade 11 Picture", file: grade11Pic, setFile: setGrade11Pic },
-                    { label: "Grade 12 Picture", file: grade12Pic, setFile: setGrade12Pic },
+                    { label: "Ảnh thẻ 3x4", file: personalPic, setFile: setPersonalPic },
+                    { label: "Mặt trước CCCD", file: frontCCCD, setFile: setFrontCCCD },
+                    { label: "Mặt sau CCCD", file: backCCCD, setFile: setBackCCCD },
+                    { label: "Điểm học bạ lớp 10", file: grade10Pic, setFile: setGrade10Pic },
+                    { label: "Điểm học bạ lớp 11", file: grade11Pic, setFile: setGrade11Pic },
+                    { label: "Điểm học bạ lớp 12", file: grade12Pic, setFile: setGrade12Pic },
                 ].map(({ label, file, setFile }, index) => (
                     <div key={index} className="p-4 bg-white shadow-md rounded-lg flex flex-col items-center gap-4">
                         <label className="font-semibold text-gray-700">{label}</label>
@@ -347,7 +347,7 @@ const PhotoID = () => {
                                 onClick={() => handleUpload(label, file, setFile)}
                                 className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
                             >
-                                Upload
+                                Tải lên
                             </button>
                         </div>
                         {file && (
