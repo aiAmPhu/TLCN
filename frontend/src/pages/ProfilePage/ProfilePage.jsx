@@ -5,6 +5,8 @@ import LearningProcess from "../../components/Profile/LearningProcess";
 import PhotoID from "../../components/Profile/PhotoID";
 import HighSchoolTranscript from "../../components/Profile/HighSchoolTranscript";
 import axios from "axios";
+import { FaUserCheck, FaInfoCircle, FaGraduationCap, FaFileAlt, FaImage } from "react-icons/fa";
+import { MdFeedback } from "react-icons/md";
 
 const ProjfilePage = () => {
     const [activeSection, setActiveSection] = useState(null);
@@ -84,47 +86,52 @@ const ProjfilePage = () => {
                     <nav>
                         <ul className="space-y-4">
                             <li
-                                className={`cursor-pointer px-4 py-3 rounded-md ${
+                                className={`flex items-center gap-3 cursor-pointer px-4 py-3 rounded-md ${
                                     activeSection === null ? "bg-blue-700 text-white" : "hover:bg-blue-600"
                                 }`}
                                 onClick={() => handleClick(null)}
                             >
+                                <FaUserCheck className="text-lg" />
                                 Trạng thái hồ sơ
                             </li>
                             <li
-                                className={`cursor-pointer px-4 py-3 rounded-md ${
+                                className={`flex items-center gap-3 cursor-pointer px-4 py-3 rounded-md ${
                                     activeSection === "admissioninformation"
                                         ? "bg-blue-700 text-white"
                                         : "hover:bg-blue-600"
                                 }`}
                                 onClick={() => handleClick("admissioninformation")}
                             >
+                                <FaInfoCircle className="text-lg" />
                                 Thông tin xét tuyển
                             </li>
                             <li
-                                className={`cursor-pointer px-4 py-3 rounded-md ${
+                                className={`flex items-center gap-3 cursor-pointer px-4 py-3 rounded-md ${
                                     activeSection === "learningprocess" ? "bg-blue-700 text-white" : "hover:bg-blue-600"
                                 }`}
                                 onClick={() => handleClick("learningprocess")}
                             >
+                                <FaGraduationCap className="text-lg" />
                                 Quá trình học tập
                             </li>
                             <li
-                                className={`cursor-pointer px-4 py-3 rounded-md ${
+                                className={`flex items-center gap-3 cursor-pointer px-4 py-3 rounded-md ${
                                     activeSection === "highschooltranscript"
                                         ? "bg-blue-700 text-white"
                                         : "hover:bg-blue-600"
                                 }`}
                                 onClick={() => handleClick("highschooltranscript")}
                             >
+                                <FaFileAlt className="text-lg" />
                                 Học bạ THPT
                             </li>
                             <li
-                                className={`cursor-pointer px-4 py-3 rounded-md ${
+                                className={`flex items-center gap-3 cursor-pointer px-4 py-3 rounded-md ${
                                     activeSection === "photoid" ? "bg-blue-700 text-white" : "hover:bg-blue-600"
                                 }`}
                                 onClick={() => handleClick("photoid")}
                             >
+                                <FaImage className="text-lg" />
                                 Hồ sơ ảnh
                             </li>
                         </ul>
