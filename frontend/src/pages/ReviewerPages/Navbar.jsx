@@ -1,30 +1,114 @@
-import React from "react";
+// import { Link } from "react-router-dom";
+
+// const Navbar = () => {
+//     const handleLogout = () => {
+//         // Xóa thông tin người dùng (ví dụ xóa token)
+//         // localStorage.removeItem("token"); // Hoặc sessionStorage.removeItem('token') nếu bạn lưu token ở đó
+//         window.location.href = "/reviewer"; // Điều hướng đến trang đăng nhập
+//     };
+
+//     return (
+//         <nav className="bg-[#222d32] shadow-md">
+//             <div className="container mx-auto px-4 py-3 flex justify-between items-center">
+//                 <span className="inline-block">
+//                     <img src="../../../public/myUTE_Reviewer.png" alt="Logo" className="w-full h-auto object-contain" />
+//                 </span>
+
+//                 {/* Links */}
+//                 <div className="flex space-x-6">
+//                     <Link
+//                         to="/infoAdmissionReviewer"
+//                         className="text-white text-lg hover:text-gray-300 transition-colors"
+//                     >
+//                         Thông tin
+//                     </Link>
+//                     <Link
+//                         to="/learningReviewer"
+//                         className="text-white text-lg hover:text-gray-300 transition-colors"
+//                     >
+//                         Quá trình học tập
+//                     </Link>
+//                     <Link
+//                         to="/transcriptReviewer"
+//                         className="text-white text-lg hover:text-gray-300 transition-colors"
+//                     >
+//                         Học bạ
+//                     </Link>
+//                     <Link
+//                         to="/photoReviewer"
+//                         className="text-white text-lg hover:text-gray-300 transition-colors"
+//                     >
+//                         Ảnh hồ sơ
+//                     </Link>
+//                 </div>
+
+//                 {/* Logout Button */}
+//                 <button
+//                     onClick={handleLogout}
+//                     className="bg-red-500 hover:bg-red-600 text-white text-lg px-4 py-2 rounded-lg shadow-md transition-all"
+//                 >
+//                     Về trang chủ
+//                 </button>
+//             </div>
+//         </nav>
+//     );
+// };
+
+// export default Navbar;
+
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
     const handleLogout = () => {
         // Xóa thông tin người dùng (ví dụ xóa token)
-        //localStorage.removeItem("token"); // Hoặc sessionStorage.removeItem('token') nếu bạn lưu token ở đó
-        window.location.href = "/reviewer"; // Điều hướng đến trang đăng nhập (có thể thay đổi tùy vào ứng dụng)
+        // localStorage.removeItem("token"); // Hoặc sessionStorage.removeItem('token') nếu bạn lưu token ở đó
+        window.location.href = "/reviewer"; // Điều hướng đến trang đăng nhập
     };
-    return (
-        <nav className="bg-blue-600 p-4">
-            <div className="flex justify-around">
-                <Link to="/infoAdmissionReviewer" className="text-white text-lg">
-                    Thông tin
-                </Link>
-                <Link to="/learningReviewer" className="text-white text-lg">
-                    Quá trình học tập
-                </Link>
-                <Link to="/transcriptReviewer" className="text-white text-lg">
-                    Học bạ
-                </Link>
-                <Link to="/photoReviewer" className="text-white text-lg">
-                    Ảnh hồ sơ
-                </Link>
 
-                {/* Thêm các liên kết khác nếu cần */}
-                <button onClick={handleLogout} className="text-white text-lg bg-red-400 px-4  rounded-md">
+    return (
+        <nav className="bg-[#222d32] shadow-md">
+            <div className="container mx-auto px-4 py-3 flex justify-between items-center">
+                {/* Logo */}
+                <span className="inline-block lg:w-22 lg:h-22 ">
+                    <img 
+                        src="../../../public/myUTE_Reviewer.png" 
+                        alt="Logo" 
+                        className="w-full h-full object-contain"
+                    />
+                </span>
+                {/* Links */}
+                <div className="flex space-x-6">
+                    <Link
+                        to="/infoAdmissionReviewer"
+                        className="text-white text-lg hover:text-gray-300 transition-colors"
+                    >
+                        Thông tin
+                    </Link>
+                    <Link
+                        to="/learningReviewer"
+                        className="text-white text-lg hover:text-gray-300 transition-colors"
+                    >
+                        Quá trình học tập
+                    </Link>
+                    <Link
+                        to="/transcriptReviewer"
+                        className="text-white text-lg hover:text-gray-300 transition-colors"
+                    >
+                        Học bạ
+                    </Link>
+                    <Link
+                        to="/photoReviewer"
+                        className="text-white text-lg hover:text-gray-300 transition-colors"
+                    >
+                        Ảnh hồ sơ
+                    </Link>
+                </div>
+
+                {/* Logout Button */}
+                <button
+                    onClick={handleLogout}
+                    className="bg-red-500 hover:bg-red-600 text-white text-lg px-4 py-2 rounded-lg shadow-md transition-all"
+                >
                     Về trang chủ
                 </button>
             </div>
