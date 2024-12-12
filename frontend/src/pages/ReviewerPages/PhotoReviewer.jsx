@@ -234,11 +234,12 @@ const PhotoReviewer = () => {
                         //         </button>
                         //     </div>
                         // </div>
+                        //---------------------------------------------------------------------------------------
                         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
                             <div className="relative">
                                 <div
                                     className={`transition-transform duration-300 ${
-                                        isZoomed ? "scale-250" : "scale-250"
+                                        isZoomed ? "scale-100" : "scale-100"
                                     }`}
                                     onClick={toggleZoom}
                                 >

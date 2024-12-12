@@ -11,9 +11,8 @@ const storage = new CloudinaryStorage({
         allowed_formats: ["jpg", "jpeg", "png"], // Các định dạng ảnh cho phép
         transformation: [
             {
-                width: 200, // Chiều rộng mong muốn
-                height: 200, // Chiều cao mong muốn
-                crop: "fill", // Phương pháp crop: "fill" để resize và crop vừa khung
+                crop: "limit", // Giới hạn kích thước tối đa nhưng giữ nguyên tỷ lệ
+                quality: "auto", // Tự động điều chỉnh chất lượng
             },
         ],
     },
