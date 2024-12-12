@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "./Navbar"; // Giả sử Navbar của bạn nằm ở đây
+import Zoom from "react-medium-image-zoom";
 
 const PhotoReviewer = () => {
     // State để lưu dữ liệu từ API
@@ -12,6 +13,8 @@ const PhotoReviewer = () => {
     const [showForm, setShowForm] = useState(false); // State để hiển thị form
     const [rejectionReason, setRejectionReason] = useState("");
     const [selectedImage, setSelectedImage] = useState(null);
+    const [isZoomed, setIsZoomed] = useState(false);
+    const toggleZoom = () => setIsZoomed(!isZoomed);
     // useEffect để gọi API khi component được render
     useEffect(() => {
         const fetchData = async () => {
@@ -220,9 +223,31 @@ const PhotoReviewer = () => {
                         </tbody>
                     </table>
                     {selectedImage && (
+                        // <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+                        //     <div className="relative">
+                        //         <img src={selectedImage} alt="Large View" className="max-w-full max-h-screen rounded" />
+                        //         <button
+                        //             onClick={handleCloseModal}
+                        //             className="absolute top-4 right-4 text-white text-xl bg-black bg-opacity-50 px-3 py-1 rounded"
+                        //         >
+                        //             ×
+                        //         </button>
+                        //     </div>
+                        // </div>
                         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
                             <div className="relative">
-                                <img src={selectedImage} alt="Large View" className="max-w-full max-h-screen rounded" />
+                                <div
+                                    className={`transition-transform duration-300 ${
+                                        isZoomed ? "scale-250" : "scale-250"
+                                    }`}
+                                    onClick={toggleZoom}
+                                >
+                                    <img
+                                        src={selectedImage}
+                                        alt="Large View"
+                                        className="max-w-full max-h-screen rounded cursor-pointer"
+                                    />
+                                </div>
                                 <button
                                     onClick={handleCloseModal}
                                     className="absolute top-4 right-4 text-white text-xl bg-black bg-opacity-50 px-3 py-1 rounded"
