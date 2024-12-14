@@ -85,8 +85,7 @@ const FilterPage = () => {
 
     return (
         <div className="container mx-auto p-6">
-            <h1 className="text-2xl font-bold text-center text-gray-800 mb-8">Danh sách Hồ sơ</h1>
-
+            <h1 className="text-3xl font-bold text-center text-blue-600 flex-grow mb-6">Danh sách Hồ sơ</h1>
             {loading && <div className="text-center text-gray-700">Đang tải...</div>}
 
             {error && <div className="text-center text-red-600">{error}</div>}
