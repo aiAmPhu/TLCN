@@ -102,12 +102,12 @@ const AdqList = ({ adqs, setAdqs }) => {
                                 >
                                     Cập nhật
                                 </button>
-                                {/* <button
+                                <button
                                     onClick={() => handleDelete(adq)}
                                     className="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 mr-2"
                                 >
-                                    Delete
-                                </button> */}
+                                    Xoá
+                                </button>
                                 <button
                                     onClick={() => handleMoreClick(adq)}
                                     className="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600"

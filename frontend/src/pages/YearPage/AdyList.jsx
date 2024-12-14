@@ -145,7 +145,7 @@ const AdyList = ({ adys, setAdys }) => {
                                     >
                                         Cập nhật
                                     </button>
-                                    {/* <button
+                                    <button
                                         onClick={() => handleDelete(ady)}
                                         disabled={!isActive} // Vô hiệu hóa nếu không Active
                                         className={`py-1 px-3 rounded mr-2 ${
@@ -154,8 +154,8 @@ const AdyList = ({ adys, setAdys }) => {
                                                 : "bg-gray-300 text-gray-500 cursor-not-allowed"
                                         }`}
                                     >
-                                        Delete
-                                    </button> */}
+                                        Xoá
+                                    </button>
                                     <button
                                         onClick={() => handleMoreClick(ady)}
                                         className="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600"

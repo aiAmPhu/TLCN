@@ -161,12 +161,12 @@ const AdbList = ({ adbs, setAdbs }) => {
                                 >
                                     Cập nhật
                                 </button>
-                                {/* <button
+                                <button
                                     onClick={() => handleDelete(adb)}
                                     className="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 mr-2"
                                 >
-                                    Delete
-                                </button> */}
+                                    Xoá
+                                </button>
                                 <button
                                     onClick={() => handleMoreClick(adb)}
                                     className="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600"
