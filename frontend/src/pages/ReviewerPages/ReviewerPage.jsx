@@ -299,7 +299,7 @@ const Review = () => {
                     className="mb-4 px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded"
                     onClick={() => window.location.reload()}
                 >
-                    Refresh Data
+                    Tải lại dữ liệu
                 </button>
                 <button
                     className="mb-4 px-4 py-2 bg-red-500 hover:bg-red-600 rounded"
