@@ -173,7 +173,7 @@ const Sidebar = () => {
                                         }`}
                                         onClick={() => handleOptionClick("option1")}
                                     >
-                                        Quản lý cổng tuyển sinh
+                                        Kết quả xét tuyển
                                     </Link>
                                 </li>
 
