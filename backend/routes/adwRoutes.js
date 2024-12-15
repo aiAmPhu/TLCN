@@ -8,6 +8,7 @@ import {
     acceptWish,
     rejectWish,
     waitingtWish,
+    getAcceptedWish,
 } from "../controllers/adwController.js";
 
 const router = express.Router();
@@ -20,6 +21,7 @@ router.get("/getByStatus", getByStatus);
 router.put("/accept/:id", acceptWish);
 router.put("/reject/:id", rejectWish);
 router.put("/waiting/:id", waitingtWish);
+router.get("/getAccepted", getAcceptedWish);
 // router.get("/getall", getAllAdRegions);
 // router.put("/update/:id", updateAdRegion);
 // router.delete("/delete/:id", deleteAdRegion);

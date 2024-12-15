@@ -16,7 +16,7 @@ const InfoAdqModal = ({ adq, onClose }) => {
                         <strong>Diện tuyển sinh:</strong> {adq.criteriaId}
                     </p>
                     <p>
-                        <strong>Số lượng:</strong> {adq.quantity}
+                        <strong>Điểm chuẩn:</strong> {adq.quantity}
                     </p>
                 </div>
                 <div className="mt-4 flex justify-end">

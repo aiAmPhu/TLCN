@@ -164,3 +164,21 @@ export const waitingtWish = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+export const getAcceptedWish = async (req, res) => {
+    try {
+        // Tìm tất cả các Admission Wish có status là "accepted" và chỉ lấy các trường cần thiết
+        const admissionWishes = await AdmissionWish.find({ status: "accepted" });
+        if (admissionWishes.length === 0) {
+            return res.status(404).json({ message: "No admission wishes found with status: accepted" });
+        }
+
+        // Trả về danh sách Admission Wishes với các trường cụ thể
+        res.status(200).json({
+            message: "Admission wishes with status: accepted",
+            data: admissionWishes,
+        });
+    } catch (error) {
+        console.error("Error finding admission wishes by status:", error); // Log chi tiết lỗi
+        res.status(500).json({ message: error.message });
+    }
+};

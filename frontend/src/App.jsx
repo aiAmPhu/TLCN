@@ -30,6 +30,7 @@ import OverviewMethods from "./pages/OverviewPages/OverviewMethods";
 import OverviewBlocks from "./pages/OverviewPages/OverviewBlocks";
 import FilterPage from "./pages/FilterPage/FilterPage";
 import ResultPage from "./pages/OverviewPages/ResultsPage";
+import ListAcceptedPage from "./pages/ListAcceptedPage/ListAcceptedPage";
 function App() {
     function SidebarLayout() {
         return (
@@ -48,7 +49,8 @@ function App() {
                         <Route path="object" element={<AdoListPage />} />
                         <Route path="permission" element={<PermissionListPage />} />
                         <Route path="quantity" element={<AdqListPage />} />
-                        <Route path="option1" element={<AdyListPage />} />
+                        {/* <Route path="option1" element={<AdyListPage />} /> */}
+                        <Route path="option1" element={<ListAcceptedPage />} />
                         <Route path="option2" element={<FilterPage />} />
                         <Route path="option3" element={<h1 className="text-2xl font-bold">Hello World 3</h1>} />
                     </Routes>

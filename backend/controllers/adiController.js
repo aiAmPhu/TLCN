@@ -188,3 +188,28 @@ export const getAdmissionInformationByEmail = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+export const getFirstAndLastNameByEmail = async (req, res) => {
+    try {
+        const { email } = req.params; // Lấy email từ tham số URL
+
+        // Tìm thông tin đầu tiên khớp với email và chỉ chọn các trường firstName và lastName
+        const adInformation = await AdInfomation.findOne({ email }).select("firstName lastName");
+
+        // Kiểm tra nếu không tìm thấy thông tin
+        if (!adInformation) {
+            return res.status(404).json({ message: `No admission information found for email: ${email}` });
+        }
+
+        // Trả về thông tin firstName và lastName
+        res.status(200).json({
+            message: "Success",
+            data: {
+                firstName: adInformation.firstName,
+                lastName: adInformation.lastName,
+            },
+        });
+    } catch (error) {
+        console.error("Error fetching firstName and lastName by email:", error);
+        res.status(500).json({ message: error.message });
+    }
+};

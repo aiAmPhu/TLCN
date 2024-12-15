@@ -156,17 +156,6 @@ const Sidebar = () => {
                             <ul className="space-y-2">
                                 <li>
                                     <Link
-                                        to="option1"
-                                        className={`p-2 rounded block ${
-                                            activeOption === "option1" ? "bg-gray-600" : "hover:bg-gray-600"
-                                        }`}
-                                        onClick={() => handleOptionClick("option1")}
-                                    >
-                                        Quản lý cổng tuyển sinh
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
                                         to="option2"
                                         className={`p-2 rounded block ${
                                             activeOption === "option2" ? "bg-gray-600" : "hover:bg-gray-600"
@@ -176,6 +165,18 @@ const Sidebar = () => {
                                         Lọc hồ sơ
                                     </Link>
                                 </li>
+                                <li>
+                                    <Link
+                                        to="option1"
+                                        className={`p-2 rounded block ${
+                                            activeOption === "option1" ? "bg-gray-600" : "hover:bg-gray-600"
+                                        }`}
+                                        onClick={() => handleOptionClick("option1")}
+                                    >
+                                        Quản lý cổng tuyển sinh
+                                    </Link>
+                                </li>
+
                                 {/* <li>
                                     <Link
                                         to="option3"

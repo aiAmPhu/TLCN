@@ -128,7 +128,7 @@ export const rejectTranscript = async (req, res) => {
         // Kiểm tra nếu `status` là `rejected`, đổi thành `waiting`
         updatedData.status = "rejected"; // Cập nhật tài liệu theo id
         updatedData.feedback = updatedData.rejectionReason;
-        console.log(updatedData);
+
         const updatedAdInfomation = await Transcript.findByIdAndUpdate(
             id,
             updatedData,
@@ -217,7 +217,7 @@ export const getAverageScoreByEmailAndSubject = async (req, res) => {
         if (!subjectData) {
             return res.status(400).json({ message: `Subject '${subject}' not found in the transcript` });
         }
-        console.log(subjectData);
+
         // Trả về điểm trung bình của môn học
         res.status(200).json({
             message: "Success",
