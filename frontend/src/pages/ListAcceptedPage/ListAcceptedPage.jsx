@@ -14,18 +14,51 @@ const ListAcceptedPage = () => {
             try {
                 // Gọi API
                 const response = await axios.get("http://localhost:8080/api/wish/getAccepted");
-                setWishes(response.data.data); // Lưu dữ liệu nhận được vào state
-                const response1 = await axios.get(
-                    `http://localhost:8080/api/adis/getFaLNameByE/${response.data.data[0].email}`
+                const wishes = response.data.data;
+                //setWishes(wishes); // Lưu dữ liệu nhận được vào state
+                //console.log(wishes);
+
+                // Sử dụng Promise.all để xử lý tất cả dữ liệu song song
+                const nameResponses = await Promise.all(
+                    wishes.map((wish) => axios.get(`http://localhost:8080/api/adis/getFaLNameByE/${wish.email}`))
                 );
-                const response2 = await axios.get(
-                    `http://localhost:8080/api/adqs/getQuantityByCriteriaIdAndMajorId/${response.data.data[0].criteriaId}/${response.data.data[0].major}`
+                const names = nameResponses.map((res) => {
+                    const { firstName, lastName } = res.data.data;
+                    return `${firstName} ${lastName}`;
+                });
+                const wishesWithName = wishes.map((wish, index) => ({
+                    ...wish,
+                    name: names[index], // Thêm tên vào từng đối tượng wish
+                }));
+                const quantityResponses = await Promise.all(
+                    wishes.map((wish) =>
+                        axios.get(
+                            `http://localhost:8080/api/adqs/getQuantityByCriteriaIdAndMajorId/${wish.criteriaId}/${wish.major}`
+                        )
+                    )
                 );
-                console.log(response2.data.data[0].quantity);
-                const name = response1.data.data.firstName + " " + response1.data.data.lastName;
-                setName(name); // Lưu dữ liệu nhận được vào state
-                setAcceptedScore(response2.data.data[0].quantity);
+
+                // Xử lý kết quả trả về
+                // const names = nameResponses.map((res) => {
+                //     const { firstName, lastName } = res.data.data;
+                //     return `${firstName} ${lastName}`;
+                // });
+
+                //const quantities = quantityResponses.map((res) => res.data.data[0].quantity);
+                const acceptedScores = quantityResponses.map((res) => res.data.data[0]?.quantity || "");
+                const finalWishes = wishesWithName.map((wish, index) => ({
+                    ...wish,
+                    acceptedScore: acceptedScores[index], // Thêm điểm trúng tuyển
+                }));
+                setWishes(finalWishes);
+                // Cập nhật state
+                // setName(names); // Lưu danh sách tên vào state
+                // setAcceptedScore(quantities); // Lưu danh sách điểm số vào state
                 setLoading(false); // Tắt trạng thái loading
+
+                // In ra kết quả để kiểm tra
+                // console.log("Names:", names);
+                // console.log("Quantities:", quantities);
             } catch (err) {
                 setError("Lỗi khi tải dữ liệu"); // Lưu lỗi vào state
                 setLoading(false);
@@ -44,11 +77,11 @@ const ListAcceptedPage = () => {
         const csvData = Papa.unparse(
             wishes.map((wish) => ({
                 Email: wish.email,
-                "Họ và Tên": name, // Ghép họ và tên nếu có
+                "Họ và Tên": wish.name, // Ghép họ và tên nếu có
                 "Diện Xét Tuyển": wish.criteriaId,
                 "Ngành Xét Tuyển": wish.major,
                 "Điểm Xét Tuyển": wish.scores,
-                "Điểm Trúng Tuyển": acceptedScore || "", // Điểm trúng tuyển nếu có
+                "Điểm Trúng Tuyển": wish.acceptedScore || "", // Điểm trúng tuyển nếu có
             }))
         );
         const csvWithBom = "\uFEFF" + csvData;
@@ -109,11 +142,11 @@ const ListAcceptedPage = () => {
                         <tr key={index} className="hover:bg-gray-100">
                             <td className="px-4 py-2 border">{index + 1}</td>
                             <td className="px-4 py-2 border">{wish.email}</td>
-                            <td className="px-4 py-2 border">{name}</td>
+                            <td className="px-4 py-2 border">{wish.name}</td>
                             <td className="px-4 py-2 border">{wish.criteriaId}</td>
                             <td className="px-4 py-2 border">{wish.major}</td>
                             <td className="px-4 py-2 border">{wish.scores}</td>
-                            <td className="px-4 py-2 border">{acceptedScore}</td>
+                            <td className="px-4 py-2 border">{wish.acceptedScore}</td>
                         </tr>
                     ))}
                 </tbody>

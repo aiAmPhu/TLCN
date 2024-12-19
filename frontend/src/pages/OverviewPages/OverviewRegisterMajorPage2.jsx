@@ -102,12 +102,16 @@ const OverviewRegisterMajorP2 = () => {
             const score1 = await axios.get(
                 `http://localhost:8080/api/transcripts/getScoreByEmailandSubject/${email}/${combination.data[0].subject1}`
             );
+            // console.log(combination.data[0].subject1);
+
             const score2 = await axios.get(
                 `http://localhost:8080/api/transcripts/getScoreByEmailandSubject/${email}/${combination.data[0].subject2}`
             );
+            // console.log(combination.data[0].subject2);
             const score3 = await axios.get(
                 `http://localhost:8080/api/transcripts/getScoreByEmailandSubject/${email}/${combination.data[0].subject3}`
             );
+            // console.log(combination.data[0].subject3);
             const temptScore4 = await axios.get(`http://localhost:8080/api/learning/getPriorityGroup/${email}`);
             const score4 = await axios.get(
                 `http://localhost:8080/api/ados/getScoreByID/${temptScore4.data.data[0].priorityGroup}`

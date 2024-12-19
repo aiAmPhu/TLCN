@@ -83,8 +83,11 @@ export const updateTranscript = async (req, res) => {
         }
 
         // Cập nhật dữ liệu
-        if (subjects) transcript.subjects = subjects;
-        if (status && typeof status === "string") transcript.status = status;
+        if (subjects) {
+            transcript.subjects = subjects;
+            transcript.status = "waiting";
+            transcript.feedback = "";
+        }
 
         // Lưu thay đổi vào cơ sở dữ liệu
         await transcript.save();
