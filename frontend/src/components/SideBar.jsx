@@ -126,7 +126,7 @@ const Sidebar = () => {
                         Quản lý đối tượng ưu tiên
                     </Link>
                 </li>
-                <li>
+                {/* <li>
                     <Link
                         to="permission"
                         className={`flex items-center p-2 hover:bg-gray-700 rounded ${
@@ -137,7 +137,7 @@ const Sidebar = () => {
                         <UsersIcon className="w-5 h-5 mr-4" />
                         Quản lý phân quyền
                     </Link>
-                </li>
+                </li> */}
 
                 {/* Quản lý Tuyển Sinh (Dropdown) */}
                 <li>

@@ -29,7 +29,7 @@ const RegisterPage = () => {
             const response = await axios.post("http://localhost:8080/api/users/sendOTP", { email });
             if (response.status === 200) {
                 alert("OTP has been sent to your email.");
-                setCountdown(30);
+                setCountdown(300);
             }
         } catch (error) {
             console.error("Error sending OTP:", error);

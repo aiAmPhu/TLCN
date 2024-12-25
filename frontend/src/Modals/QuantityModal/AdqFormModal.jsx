@@ -148,10 +148,10 @@ const AdqFormModal = ({ adqId, adqToEdit, setAdqs, onClose, isEditing }) => {
                             </select>
                         </div>
                     </div>
-                    <label className="block font-semibold mb-2">Số lượng</label>
+                    <label className="block font-semibold mb-2">Điểm chuẩn</label>
                     <input
                         type="number"
-                        placeholder="Số lượng"
+                        placeholder="Điểm chuẩn"
                         value={quantity}
                         onChange={(e) => setQuantity(e.target.value)}
                         required

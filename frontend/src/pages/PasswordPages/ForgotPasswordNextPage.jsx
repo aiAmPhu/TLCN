@@ -71,7 +71,7 @@ const ForgotPasswordNextPage = () => {
                 <h2 className="text-3xl font-semibold text-center text-[#005A8E] mb-4">
                     {" "}
                     {/* HCMUTE Blue Color */}
-                    Xác minh email
+                    Đổi mật khẩu
                 </h2>
                 {errors.length > 0 && (
                     <div className="bg-red-100 text-red-700 p-4 rounded mb-4">
