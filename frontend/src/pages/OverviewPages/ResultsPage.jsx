@@ -14,7 +14,8 @@ const ResultPage = () => {
                 const response = await axios.get(`http://localhost:8080/api/wish/getAll/${email}`); // Gọi API
                 setAdmissionWishes(response.data.data); // Lưu dữ liệu vào state
             } catch (err) {
-                setError("Không thể tải dữ liệu"); // Xử lý lỗi nếu API gọi không thành công
+                //setError("Không thể tải dữ liệu"); // Xử lý lỗi nếu API gọi không thành công
+                window.location.href = "/404";
             } finally {
                 setLoading(false); // Kết thúc trạng thái tải
             }
